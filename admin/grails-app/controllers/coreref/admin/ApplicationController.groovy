@@ -51,6 +51,7 @@ class ApplicationController {
 		def app = new Application(params)
 		if (!app.errors) {
 			apps.add(app)
+			flash.message = "Application ${app.appId} created"
 			redirect action: 'list'
 		} else {
 			flash.message = 'Application has errors'
