@@ -1,0 +1,13 @@
+.DS_Store
+**/target
+**/.classpath
+**/.project
+**/.settings
+plugins/**/target
+plugins/**/.classpath
+plugins/**/.project
+plugins/**/.settings
+env
+*.swp
+*.ser
+stacktrace.log
