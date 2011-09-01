@@ -5,7 +5,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 class Application {
 	def mongoService = ApplicationHolder.application.mainContext.getBean('mongoService')
 
-	def _id
+	def id
 	String appId
 	boolean enabled = true
 	boolean limited = false
@@ -13,7 +13,7 @@ class Application {
 	String site
 
 	Application(Map map = [:]) {
-		_id = map.'_id'
+		id = map._id ?: map.id
 		appId = map.appId
 		enabled = DomainUtils.coerceBoolean(map.enabled, true)
 		limited = DomainUtils.coerceBoolean(map.limited, false)

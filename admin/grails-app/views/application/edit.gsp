@@ -19,7 +19,7 @@
             </g:if>
 			<g:set var="errors" value="${app.errors}"/>
             <g:form method="post" >
-                <g:hiddenField name="_id" value="${app?.'_id'}" />
+                <g:hiddenField name="id" value="${app.id}" />
                 <div class="dialog">
                     <table>
                         <tbody>

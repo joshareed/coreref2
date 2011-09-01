@@ -32,14 +32,6 @@
                             </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="enabled"><g:message code="application.enabled.label" default="Enabled" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:checkBox name="enabled" value="${app?.enabled}" />
-                                </td>
-                            </tr>
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                     <label for="contact"><g:message code="application.contact.label" default="Contact" /></label>
                                 </td>
                                 <td valign="top" class="value ${errors.contact ? 'errors' : ''}">

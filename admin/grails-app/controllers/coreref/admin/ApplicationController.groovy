@@ -10,12 +10,6 @@ class ApplicationController {
 
 	private getApps() { mongoService.getCollection(Application.mongo.collection) }
 	private def withApp = { Map map, closure ->
-		if (map['_id']) {
-			def app = apps.get(map['_id'])
-			if (app) {
-				return closure.call(app)
-			}
-		}
 		def id = map.id
 		if (!id) {
 			flash.message = "No application id specified"
@@ -23,7 +17,7 @@ class ApplicationController {
 			return
 		}
 
-		def app = apps.find(appId: id)
+		def app = apps.get(id)
 		if (!app) {
 			flash.message = "No application with id '${id}'"
 			redirect action: 'list'
@@ -34,7 +28,7 @@ class ApplicationController {
 	}
 
 	def list = {
-		[list: apps.list()]
+		[list: apps.list().collect { new Application(it) }]
 	}
 
 	def show = {
@@ -71,7 +65,7 @@ class ApplicationController {
 			if (!update.errors) {
 				apps.update(app, update.save())
 				flash.message = "Application '${update.appId}' updated"
-				redirect action: 'show', id: update.appId
+				redirect action: 'show', id: app._id
 			} else {
 				flash.message = 'Application has errors'
 				render view: 'edit', model: [app: update]

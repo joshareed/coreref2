@@ -14,6 +14,6 @@ class DomainUtils {
 	static boolean isUnique(instance, field, collection) {
 		def val = instance."$field"
 		def list = collection.findAll((field): val)
-		!list.find { it['_id']?.toString() != instance['_id']?.toString() }
+		!list.find { it['_id']?.toString() != instance?.id?.toString() }
 	}
 }

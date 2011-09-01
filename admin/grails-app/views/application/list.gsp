@@ -31,7 +31,7 @@
 					<g:each in="${list}" status="i" var="app">
 						<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							<td>
-								<g:link action="edit" id="${app.appId}">${app.appId}</g:link>
+								<g:link action="edit" id="${app.id}">${app.appId}</g:link>
 							</td>
 							<td><g:formatBoolean boolean="${app.enabled}" /></td>
 							<td><g:formatBoolean boolean="${app.limited}" /></td>
