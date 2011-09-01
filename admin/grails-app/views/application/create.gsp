@@ -14,13 +14,9 @@
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            	<div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${app}">
-            <div class="errors">
-                <g:renderErrors bean="${app}" as="list" />
-            </div>
-            </g:hasErrors>
+            <g:set var="errors" value="${app.errors}"/>
             <g:form action="save" >
                 <div class="dialog">
                     <table>
@@ -29,7 +25,7 @@
                                 <td valign="top" class="name">
                                     <label for="appId"><g:message code="application.appId.label" default="App Id" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: app, field: 'appId', 'errors')}">
+                                <td valign="top" class="value ${errors.appId ? 'errors' : ''}">
                                     <g:textField name="appId" value="${app?.appId ?: uuid}" />
                                 </td>
                             </tr>
@@ -37,7 +33,7 @@
                                 <td valign="top" class="name">
                                     <label for="enabled"><g:message code="application.enabled.label" default="Enabled" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: app, field: 'enabled', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:checkBox name="enabled" value="${app?.enabled}" />
                                 </td>
                             </tr>
@@ -45,7 +41,7 @@
                                 <td valign="top" class="name">
                                     <label for="contact"><g:message code="application.contact.label" default="Contact" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: app, field: 'contact', 'errors')}">
+                                <td valign="top" class="value ${errors.contact ? 'errors' : ''}">
                                     <g:textField name="contact" value="${app?.contact}" />
                                 </td>
                             </tr>
@@ -53,7 +49,7 @@
                                 <td valign="top" class="name">
                                     <label for="site"><g:message code="application.site.label" default="Site" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: app, field: 'site', 'errors')}">
+                                <td valign="top" class="value">
                                     <g:textField name="site" value="${app?.site}" />
                                 </td>
                             </tr>

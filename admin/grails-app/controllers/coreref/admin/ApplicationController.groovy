@@ -1,14 +1,14 @@
 package coreref.admin
 
-import coreref.common.*
+import coreref.common.Application
 
 class ApplicationController {
 	static defaultAction = 'list'
+	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	def mongoService
 
-	private getApps() { mongoService.'_apps' }
-
+	private getApps() { mongoService.getCollection(Application.mongo.collection) }
 	private def withApp = { Map map, closure ->
 		def id = map.id
 		if (!id) {
@@ -27,12 +27,6 @@ class ApplicationController {
 		return closure.call(app)
 	}
 
-	private Map t(Map map) {
-		map.enabled = (map.enabled && map.enabled == 'on')
-		map.limited = (map.limited && map.limited == 'on')
-		map
-	}
-
 	def list = {
 		[list: apps.list()]
 	}
@@ -44,16 +38,16 @@ class ApplicationController {
 	}
 
 	def create = {
-		[app: new Application(), uuid: UUID.randomUUID().toString()[0..7]]
+		[app: new Application(), uuid: Application.randomId()]
 	}
 
 	def save = {
-		def app = new Application(t(params))
-		if (app.isValid()) {
+		def app = new Application(params)
+		if (!app.errors) {
 			apps.add(app)
 			redirect action: 'list'
 		} else {
-			flash.message = 'Application must specify an appId'
+			flash.message = 'Application has errors'
 			render view: 'create', model: [app: app]
 		}
 	}
@@ -66,14 +60,14 @@ class ApplicationController {
 
 	def update = {
 		withApp(params) { app ->
-			def update = new Application(t(params))
-			if (update.isValid()) {
+			def update = new Application(params)
+			if (!update.errors) {
 				apps.update(app, update.save())
 				flash.message = "Application '${update.appId}' updated"
 				redirect action: 'show', id: update.appId
 			} else {
-				flash.message = 'Application must specify an appId'
-				render view: 'edit', model: [app: new Application(app)]
+				flash.message = 'Application has errors'
+				render view: 'edit', model: [app: update]
 			}
 		}
 	}

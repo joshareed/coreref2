@@ -9,8 +9,8 @@ class Application {
 
 	Application(Map map = [:]) {
 		appId = map.appId
-		enabled = map.containsKey('enabled') ? map.enabled : true
-		limited = map.containsKey('limited') ? map.limited : false
+		enabled = DomainUtils.coerceBoolean(map.enabled, true)
+		limited = DomainUtils.coerceBoolean(map.limited, false)
 		contact = map.contact
 		site = map.site
 	}
@@ -28,8 +28,26 @@ class Application {
 		appId != null && appId?.trim() != ''
 	}
 
+	def getErrors() {
+		def errors = [:]
+		['appId', 'contact'].each { field ->
+			if (!DomainUtils.isSet(this, field)) {
+				errors[field] = 'Required field'
+			}
+		}
+		errors
+	}
+
+	String toString() {
+		"${appId} (${contact})"
+	}
+
 	static mongo = [
 		collection: '_apps',
 		index: ['appId']
 	]
+
+	static String randomId() {
+		UUID.randomUUID().toString()[0..7]
+	}
 }

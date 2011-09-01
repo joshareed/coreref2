@@ -22,7 +22,7 @@
                     <tbody>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="application.appId.label" default="App Id" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: app, field: "appId")}</td>
+                            <td valign="top" class="value">${app.appId}</td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="application.enabled.label" default="Enabled" /></td>
@@ -34,11 +34,11 @@
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="application.contact.label" default="Contact" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: app, field: "contact")}</td>
+                            <td valign="top" class="value">${app.contact}</td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="application.site.label" default="Site" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: app, field: "site")}</td>
+                            <td valign="top" class="value">${app.site}</td>
                         </tr>
                     </tbody>
                 </table>
