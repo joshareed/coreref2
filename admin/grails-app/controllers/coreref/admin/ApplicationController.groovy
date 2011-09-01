@@ -10,6 +10,12 @@ class ApplicationController {
 
 	private getApps() { mongoService.getCollection(Application.mongo.collection) }
 	private def withApp = { Map map, closure ->
+		if (map['_id']) {
+			def app = apps.get(map['_id'])
+			if (app) {
+				return closure.call(app)
+			}
+		}
 		def id = map.id
 		if (!id) {
 			flash.message = "No application id specified"
@@ -78,13 +84,5 @@ class ApplicationController {
 			flash.message = "Deleted application '${app.appId}'"
 			redirect action: 'list'
 		}
-	}
-
-	def cleanup = {
-		apps.findAll(appId:null).each {
-			apps.remove(it)
-		}
-		flash.message = 'Removed invalid applications'
-		redirect action: 'list'
 	}
 }

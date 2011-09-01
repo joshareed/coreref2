@@ -27,6 +27,7 @@
                                 </td>
                                 <td valign="top" class="value ${errors.appId ? 'errors' : ''}">
                                     <g:textField name="appId" value="${app?.appId ?: uuid}" />
+									<span class="error">${errors.appId}</span>
                                 </td>
                             </tr>
                             <tr class="prop">
@@ -43,6 +44,7 @@
                                 </td>
                                 <td valign="top" class="value ${errors.contact ? 'errors' : ''}">
                                     <g:textField name="contact" value="${app?.contact}" />
+									<span class="error">${errors.contact}</span>
                                 </td>
                             </tr>
 							<tr class="prop">

@@ -18,10 +18,6 @@ class MongoServiceTests extends GrailsUnitTestCase {
         super.tearDown()
     }
 
-    void testSomething() {
-		assert null != mongoService
-    }
-
 	void testGetCollection() {
 		mongo.collections.test = []
 		def coll = mongoService.getCollection('test')

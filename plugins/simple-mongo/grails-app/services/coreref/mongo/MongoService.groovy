@@ -3,6 +3,7 @@ package coreref.mongo
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 import com.mongodb.*
+import org.bson.types.ObjectId
 
 /**
  * A simple service for accessing a MongoDB instance.
@@ -15,11 +16,12 @@ class MongoService {
 		// some convenience methods
 		DBCollection.metaClass {
 			count << { LinkedHashMap query -> delegate.count(query as BasicDBObject) }
+			get << { String id -> delegate.find(['_id': new ObjectId(id)] as BasicDBObject).find { true } }
 			list << {  -> delegate.find() }
 			findAll << { LinkedHashMap query -> delegate.find(query as BasicDBObject) }
 			findAll << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject) }
 			find << { LinkedHashMap query -> delegate.find(query as BasicDBObject).find {true} }
-			find << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject).find {true} }
+			find << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject).find { true } }
 			add << { LinkedHashMap doc -> delegate.insert(doc as BasicDBObject) }
 			add << { Object obj -> delegate.insert(obj.save() as BasicDBObject) }
 			update << { BasicDBObject doc, LinkedHashMap op -> delegate.update(doc, op as BasicDBObject) }
