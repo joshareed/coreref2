@@ -9,7 +9,7 @@ import org.bson.types.ObjectId
  * A simple service for accessing a MongoDB instance.
  */
 class MongoService {
-	private def mongo
+	private def _mongo
 	boolean transactional = false
 
 	static {
@@ -59,17 +59,21 @@ class MongoService {
 		return collection
 	}
 
+	def getMongo() {
+		if (!_mongo) {
+			// create our Mongo instance if needed
+			def host = ApplicationHolder?.application?.config?.mongo?.host ?: 'localhost'
+			def servers = host.split(',').collect { new ServerAddress(it) }
+			_mongo = new Mongo(servers)
+		}
+		_mongo
+	}
+
 	/**
 	 * Get a collection by name.  If the collection doesn't exist, this method returns null.
 	 */
 	def getCollection(name) {
 		if (!name) { return null }
-		if (!mongo) {
-			// create our Mongo instance if needed
-			def host = ApplicationHolder?.application?.config?.mongo?.host ?: 'localhost'
-			def servers = host.split(',').collect { new ServerAddress(it) }
-			mongo = new Mongo(servers)
-		}
 
 		// get our database and collection
 		def db = mongo.getDB(ApplicationHolder?.application?.config?.mongo?.db ?: 'coreref')
@@ -81,6 +85,19 @@ class MongoService {
 	}
 
 	def map(Class clazz) {
-		println clazz.mongo
+		// map the class
+		def settings = clazz.mongo
+		def db = mongo.getDB(ApplicationHolder?.application?.config?.mongo?.db ?: 'coreref')
+		if (db && settings && settings.collection) {
+			def name = settings.collection
+			if (!db.collectionExists(name)) {
+				def collection = db.createCollection(name, [:] as BasicDBObject)
+				if (settings.index) {
+					settings.index.each { f ->
+						collection.ensureIndex([(f): true] as BasicDBObject)
+					}
+				}
+			}
+		}
 	}
 }

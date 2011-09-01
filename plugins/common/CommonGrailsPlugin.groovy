@@ -34,7 +34,12 @@ Contains all of the common models and functionality for CoreRef
 	}
 
 	def doWithApplicationContext = { applicationContext ->
-		// TODO Implement post initialization spring config (optional)
+		// register our classes
+		def mongoService = applicationContext.getBean('mongoService')
+		if (mongoService) {
+			mongoService.map(coreref.common.User)
+			mongoService.map(coreref.common.Application)
+		}
 	}
 
 	def onChange = { event ->
