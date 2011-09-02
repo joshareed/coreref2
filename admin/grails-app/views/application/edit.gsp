@@ -3,76 +3,52 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'application.label', default: 'Application')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
+        <title>Application :: New</title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-			<g:set var="errors" value="${app.errors}"/>
-            <g:form method="post" >
-                <g:hiddenField name="id" value="${app.id}" />
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-									<label for="appId"><g:message code="application.appId.label" default="App Id" /></label>
-                                </td>
-                                <td valign="top" class="value  ${errors.appId ? 'errors' : ''}">
-                                    <g:textField name="appId" value="${app?.appId}" />
-									<span class="error">${errors.appId}</span>
-                                </td>
-                            </tr>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-									<label for="contact"><g:message code="application.contact.label" default="Contact" /></label>
-                                </td>
-                                <td valign="top" class="value  ${errors.contact ? 'errors' : ''}">
-                                    <g:textField name="contact" value="${app?.contact}" />
-									<span class="error">${errors.contact}</span>
-                                </td>
-                            </tr>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-									<label for="site"><g:message code="application.site.label" default="Site" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:textField name="site" value="${app?.site}" />
-                                </td>
-                            </tr>
-							<tr class="prop">
-                                <td valign="top" class="name">
-									<label for="enabled"><g:message code="application.enabled.label" default="Enabled" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:checkBox name="enabled" value="${app?.enabled}" />
-                                </td>
-                            </tr>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-									<label for="limited"><g:message code="application.limited.label" default="Limited" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:checkBox name="limited" value="${app?.limited}" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </div>
-            </g:form>
-        </div>
+		<h1>Edit Application</h1>
+		<g:form action="update">
+			<g:hiddenField name="id" value="${app.id}"/>
+			<fieldset>
+				<div class="clearfix <g:if test="${errors?.appId}">error</g:if>">
+					<label for="appId">App Id</label>
+					<div class="input">
+						<g:textField name="appId" value="${app?.appId ?: uuid}" />
+						<span class="help-inline">${errors.appId}</span>
+					</div>
+				</div>
+				<div class="clearfix <g:if test="${errors?.contact}">error</g:if>">
+					<label for="contact">Contact</label>
+					<div class="input">
+						<g:textField name="contact" value="${app?.contact}" />
+						<span class="help-inline">${errors.contact}</span>
+					</div>
+				</div>
+				<div class="clearfix <g:if test="${errors?.site}">error</g:if>">
+					<label for="site">Site</label>
+					<div class="input">
+						<g:textField name="site" value="${app?.site}" />
+						<span class="help-inline">${errors.site}</span>
+					</div>
+				</div>
+				<div class="clearfix">
+					<label id="status">Status</label>
+					<div class="input">
+						<ul class="inputs-list">
+							<li>
+								<label>
+									<input type="checkbox" name="enabled" <g:if test="${app.enabled}">checked="checked"</g:if> />
+									<span>Enabled</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="actions">
+					<g:submitButton name="create" class="btn primary" value="Update" />
+					<g:link action="show" id="${app.id}" class="btn">Cancel</g:link>
+				</div>
+			</fieldset>
+		</g:form>
     </body>
 </html>

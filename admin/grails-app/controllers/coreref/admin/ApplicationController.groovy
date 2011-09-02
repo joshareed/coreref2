@@ -38,37 +38,39 @@ class ApplicationController {
 	}
 
 	def create = {
-		[app: new Application(), uuid: Application.randomId()]
+		[app: new Application(), errors: [:], uuid: Application.randomId()]
 	}
 
 	def save = {
 		def app = new Application(params)
-		if (!app.errors) {
+		def errors = app.errors
+		if (!errors) {
 			apps.add(app)
 			flash.message = "Application ${app.appId} created"
 			redirect action: 'list'
 		} else {
 			flash.message = 'Application has errors'
-			render view: 'create', model: [app: app]
+			render view: 'create', model: [app: app, errors: errors]
 		}
 	}
 
 	def edit = {
 		withApp(params) { app ->
-			[app: new Application(app)]
+			[app: new Application(app), errors: [:]]
 		}
 	}
 
 	def update = {
 		withApp(params) { app ->
 			def update = new Application(params)
-			if (!update.errors) {
+			def errors = app.errors
+			if (!errors) {
 				apps.update(app, update.save())
 				flash.message = "Application '${update.appId}' updated"
 				redirect action: 'show', id: app._id
 			} else {
 				flash.message = 'Application has errors'
-				render view: 'edit', model: [app: update]
+				render view: 'edit', model: [app: update, errors: errors]
 			}
 		}
 	}

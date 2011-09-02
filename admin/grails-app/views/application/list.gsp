@@ -3,45 +3,57 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="layout" content="main" />
-		<g:set var="entityName" value="${message(code: 'application.label', default: 'Application')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
+		<title>CoreRef: Admin :: Applications</title>
+		<script type="text/javascript" charset="utf-8">
+			$(function() {
+				$('.buttons').hide();
+				$('tbody tr').hover(
+					function() { $('.buttons', this).show(); },
+					function() { $('.buttons', this).hide(); }
+				).css('height', '48px');
+			});
+		</script>
 	</head>
 	<body>
-		<div class="nav">
-			<span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-			<span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-		</div>
-		<div class="body">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message">${flash.message}</div>
-			</g:if>
-			<div class="list">
-				<table>
-					<thead>
-						<tr>
-							<th>${message(code: 'application.appId.label', default: 'App Id')}</th>
-							<th>${message(code: 'application.enabled.label', default: 'Enabled')}</th>
-							<th>${message(code: 'application.limited.label', default: 'Limited')}</th>
-							<th>${message(code: 'application.contact.label', default: 'Contact')}</th>
-							<th>${message(code: 'application.site.label', default: 'Site')}</th>
-						</tr>
-					</thead>
-					<tbody>
-					<g:each in="${list}" status="i" var="app">
-						<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							<td>
-								<g:link action="edit" id="${app.id}">${app.appId}</g:link>
-							</td>
-							<td><g:formatBoolean boolean="${app.enabled}" /></td>
-							<td><g:formatBoolean boolean="${app.limited}" /></td>
-							<td>${app.contact}</td>
-							<td>${app.site}</td>
-						</tr>
-					</g:each>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<h1>Applications</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>App Id</th>
+					<th>Contact</th>
+					<th>Site</th>
+					<th>Status</th>
+					<th class="actions-col">
+						<g:link class="btn primary right" action="create">New</g:link>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			<g:each in="${list}" status="i" var="app">
+				<tr>
+					<td>
+						<g:link action="show" id="${app.id}">${app.appId}</g:link>
+					</td>
+					<td>${app.contact}</td>
+					<td>
+						<g:if test="${app.site}">
+							<a href="${app.site}">${app.site}</a>
+						</g:if>
+					</td>
+					<td>${app.enabled ? 'Enabled' : 'Disabled'}</td>
+					<td>
+						<div class="buttons right">
+							<g:link class="btn" action="edit" id="${app.id}">Edit</g:link>
+							<g:form style="margin: 0; padding: 0; display: inline">
+			                    <g:hiddenField name="id" value="${app.id}" />
+			                    <g:actionSubmit class="btn danger" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+									onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+			                </g:form>
+						</div>
+					</td>
+				</tr>
+			</g:each>
+			</tbody>
+		</table>
 	</body>
 </html>
