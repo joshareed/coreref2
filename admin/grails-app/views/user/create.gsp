@@ -53,6 +53,14 @@
                                     <g:passwordField name="password" value="" />
                                 </td>
                             </tr>
+							<tr class="prop">
+                                <td valign="top" class="name">
+									<label for="enabled"><g:message code="user.enabled.label" default="Enabled" /></label>
+                                </td>
+                                <td valign="top" class="value">
+                                    <g:checkBox name="enabled" value="${true}" />
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

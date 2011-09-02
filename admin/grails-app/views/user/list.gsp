@@ -30,7 +30,9 @@
                     <tbody>
                     <g:each in="${list}" status="i" var="user">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td>${user.firstName}</td>
+                            <td>
+								<g:link action="edit" id="${user.id}">${user.firstName}</g:link>
+							</td>
                             <td>${user.lastName}</td>
                             <td>${user.email}</td>
                             <td><g:formatBoolean boolean="${user.enabled}" /></td>

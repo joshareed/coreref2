@@ -1,28 +1,32 @@
 package coreref.common
 
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+
 class User {
+	def mongoService = ApplicationHolder.application.mainContext.getBean('mongoService')
+
 	// roles
 	public static final String ROLE_ADMIN = "_admin"
 	public static final String ROLE_USER = "_user"
 	public static final String ROLE_MEMBER = "_member_"
 	public static final String ROLE_EDITOR = "_editor_"
 
-	String _id
+	String id
 	String firstName
 	String lastName
 	String email
 	String password
 	List roles
-	boolean enabled = true
+	boolean enabled
 
 	User(Map map = [:]) {
-		_id = map._id
+		id = map._id ?: map.id
 		firstName = map.firstName
 		lastName = map.lastName
 		email = map.email
 		password = map.password
-		roles = map.roles ?: [ ROLE_USER ]
-		enabled = DomainUtils.coerceBoolean(map.enabled, true)
+		roles = map.roles ?: []
+		enabled = DomainUtils.coerceBoolean(map.enabled)
 	}
 
 	Map save(Map map = [:]) {
@@ -66,6 +70,6 @@ class User {
 
 	static mongo = [
 		collection: '_users',
-		index: ['email']
+		index: ['email', 'password', 'roles']
 	]
 }

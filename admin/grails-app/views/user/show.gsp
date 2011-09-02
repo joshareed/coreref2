@@ -1,5 +1,4 @@
-
-<%@ page import="coreref.admin.User" %>
+<%@ page import="coreref.common.User" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -21,62 +20,28 @@
             <div class="dialog">
                 <table>
                     <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.email.label" default="Email" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "email")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.enabled.label" default="Enabled" /></td>
-                            
-                            <td valign="top" class="value"><g:formatBoolean boolean="${userInstance?.enabled}" /></td>
-                            
-                        </tr>
-                    
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="user.firstName.label" default="First Name" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "firstName")}</td>
-                            
+                            <td valign="top" class="value">${user.firstName}</td>
                         </tr>
-                    
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="user.lastName.label" default="Last Name" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "lastName")}</td>
-                            
+                            <td valign="top" class="value">${user.lastName}</td>
                         </tr>
-                    
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.password.label" default="Password" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "password")}</td>
-                            
+                            <td valign="top" class="name"><g:message code="user.email.label" default="Email" /></td>
+                            <td valign="top" class="value">${user.email}</td>
                         </tr>
-                    
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.username.label" default="Username" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: userInstance, field: "username")}</td>
-                            
+                            <td valign="top" class="name"><g:message code="user.enabled.label" default="Enabled" /></td>
+                            <td valign="top" class="value"><g:formatBoolean boolean="${user?.enabled}" /></td>
                         </tr>
-                    
                     </tbody>
                 </table>
             </div>
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${userInstance?.id}" />
+                    <g:hiddenField name="id" value="${user?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
