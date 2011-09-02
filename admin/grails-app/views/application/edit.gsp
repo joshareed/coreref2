@@ -25,7 +25,7 @@
                         <tbody>
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="appId"><g:message code="application.appId.label" default="App Id" /></label>
+									<label for="appId"><g:message code="application.appId.label" default="App Id" /></label>
                                 </td>
                                 <td valign="top" class="value  ${errors.appId ? 'errors' : ''}">
                                     <g:textField name="appId" value="${app?.appId}" />
@@ -34,23 +34,7 @@
                             </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="enabled"><g:message code="application.enabled.label" default="Enabled" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:checkBox name="enabled" value="${app?.enabled}" />
-                                </td>
-                            </tr>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="limited"><g:message code="application.limited.label" default="Limited" /></label>
-                                </td>
-                                <td valign="top" class="value">
-                                    <g:checkBox name="limited" value="${app?.limited}" />
-                                </td>
-                            </tr>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="contact"><g:message code="application.contact.label" default="Contact" /></label>
+									<label for="contact"><g:message code="application.contact.label" default="Contact" /></label>
                                 </td>
                                 <td valign="top" class="value  ${errors.contact ? 'errors' : ''}">
                                     <g:textField name="contact" value="${app?.contact}" />
@@ -59,10 +43,26 @@
                             </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="site"><g:message code="application.site.label" default="Site" /></label>
+									<label for="site"><g:message code="application.site.label" default="Site" /></label>
                                 </td>
                                 <td valign="top" class="value">
                                     <g:textField name="site" value="${app?.site}" />
+                                </td>
+                            </tr>
+							<tr class="prop">
+                                <td valign="top" class="name">
+									<label for="enabled"><g:message code="application.enabled.label" default="Enabled" /></label>
+                                </td>
+                                <td valign="top" class="value">
+                                    <g:checkBox name="enabled" value="${app?.enabled}" />
+                                </td>
+                            </tr>
+                            <tr class="prop">
+                                <td valign="top" class="name">
+									<label for="limited"><g:message code="application.limited.label" default="Limited" /></label>
+                                </td>
+                                <td valign="top" class="value">
+                                    <g:checkBox name="limited" value="${app?.limited}" />
                                 </td>
                             </tr>
                         </tbody>

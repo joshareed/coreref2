@@ -7,16 +7,16 @@ class Application {
 
 	def id
 	String appId
-	boolean enabled = true
-	boolean limited = false
+	boolean enabled
+	boolean limited
 	String contact
 	String site
 
 	Application(Map map = [:]) {
 		id = map._id ?: map.id
 		appId = map.appId
-		enabled = DomainUtils.coerceBoolean(map.enabled, true)
-		limited = DomainUtils.coerceBoolean(map.limited, false)
+		enabled = DomainUtils.coerceBoolean(map.enabled)
+		limited = DomainUtils.coerceBoolean(map.limited)
 		contact = map.contact
 		site = map.site
 	}

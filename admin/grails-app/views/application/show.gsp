@@ -25,20 +25,20 @@
                             <td valign="top" class="value">${app.appId}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="application.enabled.label" default="Enabled" /></td>
-                            <td valign="top" class="value"><g:formatBoolean boolean="${app?.enabled}" /></td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="application.limited.label" default="Limited" /></td>
-                            <td valign="top" class="value"><g:formatBoolean boolean="${app?.limited}" /></td>
-                        </tr>
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="application.contact.label" default="Contact" /></td>
                             <td valign="top" class="value">${app.contact}</td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="application.site.label" default="Site" /></td>
                             <td valign="top" class="value">${app.site}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="application.enabled.label" default="Enabled" /></td>
+                            <td valign="top" class="value"><g:formatBoolean boolean="${app?.enabled}" /></td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="application.limited.label" default="Limited" /></td>
+                            <td valign="top" class="value"><g:formatBoolean boolean="${app?.limited}" /></td>
                         </tr>
                     </tbody>
                 </table>

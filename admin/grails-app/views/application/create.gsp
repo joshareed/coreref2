@@ -47,6 +47,22 @@
                                     <g:textField name="site" value="${app?.site}" />
                                 </td>
                             </tr>
+							<tr class="prop">
+                                <td valign="top" class="name">
+									<label for="enabled"><g:message code="application.enabled.label" default="Enabled" /></label>
+                                </td>
+                                <td valign="top" class="value">
+                                    <g:checkBox name="enabled" value="${true}" />
+                                </td>
+                            </tr>
+                            <tr class="prop">
+                                <td valign="top" class="name">
+									<label for="limited"><g:message code="application.limited.label" default="Limited" /></label>
+                                </td>
+                                <td valign="top" class="value">
+                                    <g:checkBox name="limited" value="${false}" />
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
