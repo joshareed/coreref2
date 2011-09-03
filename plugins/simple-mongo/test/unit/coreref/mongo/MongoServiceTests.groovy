@@ -11,7 +11,7 @@ class MongoServiceTests extends GrailsUnitTestCase {
         super.setUp()
 		mongoService = new MongoService()
 		mongo = new MockMongo()
-		mongoService.mongo = mongo
+		mongoService._mongo = mongo
     }
 
     protected void tearDown() {
@@ -40,13 +40,32 @@ class MongoServiceTests extends GrailsUnitTestCase {
 		assert null != mongoService.test
 		assert null == mongoService.doesnotexist
 	}
+
+	void testMap() {
+		// not set to begin with
+		try {
+			(new TestObject()).mongoService
+			assert false
+		} catch (e) {
+			assert true
+		}
+
+		// map
+		mongoService.map(TestObject)
+
+		def obj = new TestObject()
+		assert mongoService == obj.mongoService
+		assert null != obj.mongoCollection
+	}
 }
 
 class MockMongo {
 	def servers
 	def collections = [:]
 	def db = [
-		getCollection: { name -> collections[name] }
+		getCollection: { name -> collections[name] },
+		collectionExists: { name -> (collections[name] != null) },
+		createCollection: { name, map -> collections[name] = [] }
 	]
 
 	MockMongo(servers) {
@@ -57,4 +76,12 @@ class MockMongo {
 		db.collectionNames = collections.collect { it.key }
 		return db
 	}
+}
+
+class TestObject {
+
+	static mongo = [
+		collection: '_test_object',
+		index: []
+	]
 }

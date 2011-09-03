@@ -77,17 +77,33 @@ class MongoService {
 
 		// get our database and collection
 		def db = mongo.getDB(ApplicationHolder?.application?.config?.mongo?.db ?: 'coreref')
-		if (name in db.collectionNames) {
+		if (db.collectionExists(name)) {
 			return db.getCollection(name)
 		} else {
 			return null
 		}
 	}
 
+	/**
+	 * Map the class to Mongo.
+	 */
 	def map(Class clazz) {
-		// map the class
-		def settings = clazz.mongo
+		// decorate the class
+		clazz.metaClass {
+			getMongoService << { -> return this }
+			getMongoCollection << { -> return this.getCollection(delegate?.mongo?.collection) }
+			getMongoObject << { ->
+				def c = getMongoCollection()
+				if (c && delegate.id) {
+					return c.get(delegate.id)
+				}
+				return null;
+			}
+		}
+
+		// map the class to the database
 		def db = mongo.getDB(ApplicationHolder?.application?.config?.mongo?.db ?: 'coreref')
+		def settings = clazz.mongo
 		if (db && settings && settings.collection) {
 			def name = settings.collection
 			if (!db.collectionExists(name)) {
