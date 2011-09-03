@@ -1,47 +1,57 @@
 <%@ page import="coreref.common.User" %>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <div class="list">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>${message(code: 'user.firstName.label', default: 'First Name')}</th>
-                            <th>${message(code: 'user.lastName.label', default: 'Last Name')}</th>
-                            <th>${message(code: 'user.email.label', default: 'Email')}</th>
-                            <th>${message(code: 'user.enabled.label', default: 'Enabled')}</th>
-							<th>${message(code: 'user.roles.label', default: 'Roles')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <g:each in="${list}" status="i" var="user">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td>
-								<g:link action="edit" id="${user.id}">${user.firstName}</g:link>
-							</td>
-                            <td>${user.lastName}</td>
-                            <td>${user.email}</td>
-                            <td><g:formatBoolean boolean="${user.enabled}" /></td>
-							<td>${user.roles.join(', ')}</td>
-                        </tr>
-                    </g:each>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="layout" content="main" />
+		<title>Users</title>
+		<script type="text/javascript" charset="utf-8">
+			$(function() {
+				$('.buttons').hide();
+				$('tbody tr').hover(
+					function() { $('.buttons', this).show(); },
+					function() { $('.buttons', this).hide(); }
+				).css('height', '48px');
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Users</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+					<th class="actions-col">
+						<g:link class="btn primary right" action="create">New</g:link>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			<g:each in="${list}" status="i" var="user">
+				<tr>
+					<td>
+						<g:link action="show" id="${user.id}">${user.firstName}</g:link>
+					</td>
+					<td>
+						<g:link action="show" id="${user.id}">${user.lastName}</g:link>
+					</td>
+					<td>${user.email}</td>
+					<td>${user.enabled ? 'Enabled' : 'Disabled'}</td>
+					<td>
+						<div class="buttons right">
+							<g:link class="btn" action="edit" id="${user.id}">Edit</g:link>
+							<g:form style="margin: 0; padding: 0; display: inline">
+			                    <g:hiddenField name="id" value="${user.id}" />
+			                    <g:actionSubmit class="btn danger" action="delete" value="Delete"
+									onclick="return confirm('Are you sure?');" />
+			                </g:form>
+						</div>
+					</td>
+				</tr>
+			</g:each>
+			</tbody>
+		</table>
+	</body>
 </html>

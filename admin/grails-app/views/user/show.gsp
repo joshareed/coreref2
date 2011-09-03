@@ -3,49 +3,57 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <title>User :: ${user}</title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <div class="dialog">
-                <table>
-                    <tbody>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.firstName.label" default="First Name" /></td>
-                            <td valign="top" class="value">${user.firstName}</td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.lastName.label" default="Last Name" /></td>
-                            <td valign="top" class="value">${user.lastName}</td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.email.label" default="Email" /></td>
-                            <td valign="top" class="value">${user.email}</td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="user.enabled.label" default="Enabled" /></td>
-                            <td valign="top" class="value"><g:formatBoolean boolean="${user?.enabled}" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${user?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
-            </div>
-        </div>
+		<div class="page-header">
+			<h1>Edit User</h1>
+		</div>
+		<g:form action="update">
+			<g:hiddenField name="id" value="${user.id}"/>
+			<fieldset>
+				<div class="clearfix">
+					<label for="firstName">First Name</label>
+					<div class="input">
+						<span class="uneditable-input">${user.firstName}</span>
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="lastName">Last Name</label>
+					<div class="input">
+						<span class="uneditable-input">${user.lastName}</span>
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="email">Email</label>
+					<div class="input">
+						<span class="uneditable-input">${user.email}</span>
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="password">Password</label>
+					<div class="input">
+						<g:passwordField name="password" value="**********" disabled="disabled" class="uneditable-input" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label id="status">Status</label>
+					<div class="input">
+						<ul class="inputs-list">
+							<li>
+								<label>
+									<input type="checkbox" name="enabled" checked="checked" disabled/>
+									<span>Enabled</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="actions">
+					<g:link class="btn primary" action="edit" id="${user.id}">Edit</g:link>
+					<g:link action="list" class="btn">Users</g:link>
+				</div>
+			</fieldset>
+		</g:form>
     </body>
 </html>

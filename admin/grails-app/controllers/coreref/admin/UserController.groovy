@@ -39,11 +39,12 @@ class UserController {
 	}
 
 	def create = {
-		[user: new User(params)]
+		[user: new User(params), errors: [:]]
 	}
 
 	def save = {
 		def user = new User(params)
+		def errors = user.errors
 		if (params.password) {
 			user.password = authenticationService.encodePassword(params.password)
 		}
@@ -52,31 +53,32 @@ class UserController {
 			redirect action: 'list'
 		} else {
 			flash.message = 'User has errors'
-			render view: 'create', model: [user: user]
+			render view: 'create', model: [user: user, errors: errors]
 		}
 	}
 
 	def edit = {
 		withUser(params) { user ->
-			[user: new User(user)]
+			[user: new User(user), errors: [:]]
 		}
 	}
 
 	def update = {
 		withUser(params) { user ->
 			def update = new User(params)
-			if (params.password) {
+			if (params.updatePassword && params.password) {
 				update.password = authenticationService.encodePassword(params.password)
 			} else {
 				update.password = user.password
 			}
+			def errors = update.errors
 			if (!update.errors) {
 				users.update(user, update.save())
 				flash.message = "${update} updated"
 				redirect action: 'show', id: user._id
 			} else {
 				flash.message = 'User has errors'
-				render view: 'edit', model: [user: update]
+				render view: 'edit', model: [user: update, errors: errors]
 			}
 		}
 	}
