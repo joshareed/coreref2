@@ -6,7 +6,9 @@
         <title>Application :: ${app.appId}</title>
     </head>
     <body>
-		<h1>Application: ${app.appId}</h1>
+		<div class="page-header">
+			<h1>Application: ${app.appId}</h1>
+		</div>
 		<g:form>
 			<fieldset>
 				<div class="clearfix">

@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="layout" content="main" />
-		<title>CoreRef: Admin :: Applications</title>
+		<title>Applications</title>
 		<script type="text/javascript" charset="utf-8">
 			$(function() {
 				$('.buttons').hide();
@@ -46,8 +46,8 @@
 							<g:link class="btn" action="edit" id="${app.id}">Edit</g:link>
 							<g:form style="margin: 0; padding: 0; display: inline">
 			                    <g:hiddenField name="id" value="${app.id}" />
-			                    <g:actionSubmit class="btn danger" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-									onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+			                    <g:actionSubmit class="btn danger" action="delete" value="Delete"
+									onclick="return confirm('Are you sure?');" />
 			                </g:form>
 						</div>
 					</td>

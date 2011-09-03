@@ -3,10 +3,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <title>Application :: New</title>
+        <title>Application :: ${app.appId}</title>
     </head>
     <body>
-		<h1>Edit Application</h1>
+		<div class="page-header">
+			<h1>Edit Application</h1>
+		</div>
 		<g:form action="update">
 			<g:hiddenField name="id" value="${app.id}"/>
 			<fieldset>
@@ -46,7 +48,7 @@
 				</div>
 				<div class="actions">
 					<g:submitButton name="create" class="btn primary" value="Update" />
-					<g:link action="show" id="${app.id}" class="btn">Cancel</g:link>
+					<g:link action="list" class="btn">Cancel</g:link>
 				</div>
 			</fieldset>
 		</g:form>
