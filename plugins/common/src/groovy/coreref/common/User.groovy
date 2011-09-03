@@ -3,8 +3,6 @@ package coreref.common
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class User {
-	def mongoService = ApplicationHolder.application.mainContext.getBean('mongoService')
-
 	// roles
 	public static final String ROLE_ADMIN = "_admin"
 	public static final String ROLE_USER = "_user"
@@ -58,7 +56,7 @@ class User {
 				errors[field] = 'Required field'
 			}
 		}
-		if (!errors.email && !DomainUtils.isUnique(this, 'email', mongoService[mongo.collection])) {
+		if (!errors.email && !DomainUtils.isUnique(this, 'email', mongoCollection)) {
 			errors.email = "'${email}' already in use"
 		}
 		errors

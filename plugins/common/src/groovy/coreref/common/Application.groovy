@@ -3,8 +3,6 @@ package coreref.common
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class Application {
-	def mongoService = ApplicationHolder.application.mainContext.getBean('mongoService')
-
 	def id
 	String appId
 	boolean enabled
@@ -38,7 +36,7 @@ class Application {
 				errors[field] = 'Required field'
 			}
 		}
-		if (!errors.appId && !DomainUtils.isUnique(this, 'appId', mongoService[mongo.collection])) {
+		if (!errors.appId && !DomainUtils.isUnique(this, 'appId', mongoCollection)) {
 			errors.appId = "'${appId}' already in use"
 		}
 		errors

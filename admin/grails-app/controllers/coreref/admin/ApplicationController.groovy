@@ -38,7 +38,7 @@ class ApplicationController {
 	}
 
 	def create = {
-		[app: new Application(), errors: [:], uuid: Application.randomId()]
+		[app: new Application(), errors: [:]]
 	}
 
 	def save = {
