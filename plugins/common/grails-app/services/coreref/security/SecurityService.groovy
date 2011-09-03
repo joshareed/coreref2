@@ -3,12 +3,19 @@ package coreref.security
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
+import coreref.common.User
+
 class SecurityService {
     static transactional = false
+	def mongoService
 
     String encodePassword(String password) {
 		return md5Hex(password)
     }
+
+	User authenticate(String email, String password) {
+		mongoService.getCollection(User.mongo.collection).find(email: email, password: encodePassword(password), enabled: true)
+	}
 
     private String md5Hex(final String s) {
 		MessageDigest digest;
