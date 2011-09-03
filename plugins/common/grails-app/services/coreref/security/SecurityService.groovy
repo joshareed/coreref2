@@ -3,7 +3,7 @@ package coreref.security
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-class AuthenticationService {
+class SecurityService {
     static transactional = false
 
     String encodePassword(String password) {

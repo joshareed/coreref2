@@ -7,7 +7,7 @@ class UserController {
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	def mongoService
-	def authenticationService
+	def securityService
 
 	private getUsers() { mongoService.getCollection(User.mongo.collection) }
 	private def withUser = { Map map, closure ->
@@ -46,7 +46,7 @@ class UserController {
 		def user = new User(params)
 		def errors = user.errors
 		if (params.password) {
-			user.password = authenticationService.encodePassword(params.password)
+			user.password = securityService.encodePassword(params.password)
 		}
 		if (!user.errors) {
 			users.add(user)
@@ -67,7 +67,7 @@ class UserController {
 		withUser(params) { user ->
 			def update = new User(params)
 			if (params.updatePassword && params.password) {
-				update.password = authenticationService.encodePassword(params.password)
+				update.password = securityService.encodePassword(params.password)
 			} else {
 				update.password = user.password
 			}

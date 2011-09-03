@@ -41,7 +41,7 @@ class User {
 
 	// role helpers
 	void addRole(role) {
-		if (!roles.find { it == role} ) {
+		if (!roles.find { it == role }) {
 			roles.add(role)
 		}
 	}

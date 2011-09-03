@@ -35,8 +35,8 @@ Contains all of the common models and functionality for CoreRef
 
 	def doWithApplicationContext = { applicationContext ->
 		// register our classes
-		def mongoService = applicationContext.getBean('mongoService')
-		if (mongoService) {
+		if (applicationContext.containsBean('mongoService')) {
+			def mongoService = applicationContext.getBean('mongoService')
 			mongoService.map(coreref.common.User)
 			mongoService.map(coreref.common.Application)
 		}

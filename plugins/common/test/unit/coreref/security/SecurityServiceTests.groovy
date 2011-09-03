@@ -2,12 +2,12 @@ package coreref.security
 
 import grails.test.*
 
-class AuthenticationServiceTests extends GrailsUnitTestCase {
+class SecurityServiceTests extends GrailsUnitTestCase {
 	def service
 
     protected void setUp() {
         super.setUp()
-		service = new AuthenticationService()
+		service = new SecurityService()
     }
 
     protected void tearDown() {
