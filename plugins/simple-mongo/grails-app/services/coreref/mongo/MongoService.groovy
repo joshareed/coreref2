@@ -16,7 +16,13 @@ class MongoService {
 		// some convenience methods
 		DBCollection.metaClass {
 			count << { LinkedHashMap query -> delegate.count(query as BasicDBObject) }
-			get << { String id -> delegate.find(['_id': new ObjectId(id)] as BasicDBObject).find { true } }
+			get << { String id ->
+				try {
+					return delegate.find([_id: new ObjectId(id)] as BasicDBObject).find { true }
+				} catch (e) {
+					return null
+				}
+			}
 			list << {  -> delegate.find() }
 			findAll << { LinkedHashMap query -> delegate.find(query as BasicDBObject) }
 			findAll << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject) }
@@ -88,16 +94,35 @@ class MongoService {
 	 * Map the class to Mongo.
 	 */
 	def map(Class clazz) {
+		def _mongoService = this
+
 		// decorate the class
 		clazz.metaClass {
-			getMongoService << { -> return this }
-			getMongoCollection << { -> return this.getCollection(delegate?.mongo?.collection) }
+			getMongoService << { -> _mongoService }
+			getMongoCollection << { -> return _mongoService.getCollection(delegate?.mongo?.collection) }
 			getMongoObject << { ->
-				def c = getMongoCollection()
+				def c = delegate.getMongoCollection()
 				if (c && delegate.id) {
 					return c.get(delegate.id)
 				}
 				return null;
+			}
+		}
+		clazz.metaClass.static.getMongoService = { -> return _mongoService }
+		clazz.metaClass.static.getMongoCollection = { -> return _mongoService.getCollection(delegate?.mongo?.collection) }
+		clazz.metaClass.static.getMongoObject = { String id ->
+			try {
+				return getMongoCollection().find([_id: new ObjectId(id)] as BasicDBObject).find { true }
+			} catch (e) {
+				return null
+			}
+		}
+		clazz.metaClass.static.getInstance << { String id ->
+			def instance = getMongoObject(id)
+			if (instance) {
+				clazz.newInstance(instance)
+			} else {
+				return null
 			}
 		}
 

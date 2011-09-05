@@ -21,14 +21,14 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
+}
 
-	// set mongo settings for testing
-	environments {
-	    test {
-			mongo {
-				host = 'localhost'
-				db = 'coreref_test'
-			}
-	    }
-	}
+// set mongo settings for testing
+environments {
+    test {
+		mongo {
+			host = 'localhost'
+			db = 'coreref_test'
+		}
+    }
 }

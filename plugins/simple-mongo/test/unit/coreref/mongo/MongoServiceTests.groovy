@@ -53,9 +53,17 @@ class MongoServiceTests extends GrailsUnitTestCase {
 		// map
 		mongoService.map(TestObject)
 
+		// test static methods are injected
+		assert mongoService == TestObject.mongoService
+		assert null != TestObject.mongoCollection
+		assert null == TestObject.getMongoObject('someid')
+		assert null == TestObject.getInstance('someid')
+
+		// test instance methods are injected
 		def obj = new TestObject()
-		assert mongoService == obj.mongoService
+		assert mongoService == obj.getMongoService()
 		assert null != obj.mongoCollection
+		assert null == obj.mongoObject
 	}
 }
 
@@ -79,6 +87,7 @@ class MockMongo {
 }
 
 class TestObject {
+	String name
 
 	static mongo = [
 		collection: '_test_object',
