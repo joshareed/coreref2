@@ -1,7 +1,9 @@
 package coreref.admin
 
 import coreref.common.Application
+import coreref.security.Secured
 
+@Secured('ADMIN')
 class ApplicationController {
 	static defaultAction = 'list'
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]

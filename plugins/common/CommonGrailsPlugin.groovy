@@ -40,6 +40,11 @@ Contains all of the common models and functionality for CoreRef
 			mongoService.map(coreref.common.User)
 			mongoService.map(coreref.common.Application)
 		}
+
+		// configure the security service
+		if (applicationContext.containsBean('securityService')) {
+			applicationContext.getBean('securityService').initialize()
+		}
 	}
 
 	def onChange = { event ->

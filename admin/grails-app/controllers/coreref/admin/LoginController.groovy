@@ -6,10 +6,7 @@ class LoginController {
     def index = { }
 
 	def auth = {
-
-		if (!session.user) {
-			session.user = securityService.authenticate(params.email, params.password)
-		}
+		session.user = securityService.authenticate(params.email, params.password)
 		if (session.user) {
 			if (session['login-forward-uri']) {
 				redirect url: session['login-forward-uri']
