@@ -49,6 +49,12 @@
 						</ul>
 					</div>
 				</div>
+				<div class="clearfix">
+					<label for="email">Roles</label>
+					<div class="input">
+						<span class="uneditable-input">${user.roles.join(', ')}</span>
+					</div>
+				</div>
 				<div class="actions">
 					<g:link class="btn primary" action="edit" id="${user.id}">Edit</g:link>
 					<g:link action="list" class="btn">Users</g:link>

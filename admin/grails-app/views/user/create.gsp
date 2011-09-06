@@ -52,6 +52,13 @@
 						</ul>
 					</div>
 				</div>
+				<div class="clearfix <g:if test="${errors?.roles}">error</g:if>">
+					<label for="roles">Roles</label>
+					<div class="input">
+						<g:textField name="roles" value="${user?.roles?.join(', ') ?: 'USER'}" />
+						<span class="help-inline">${errors.roles}</span>
+					</div>
+				</div>
 				<div class="actions">
 					<g:submitButton name="create" class="btn primary" value="Create" />
 					<g:link action="list" class="btn">Cancel</g:link>

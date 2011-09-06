@@ -3,12 +3,6 @@ package coreref.common
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class User {
-	// roles
-	public static final String ROLE_ADMIN = "_admin"
-	public static final String ROLE_USER = "_user"
-	public static final String ROLE_MEMBER = "_member_"
-	public static final String ROLE_EDITOR = "_editor_"
-
 	String id
 	String firstName
 	String lastName
@@ -23,7 +17,7 @@ class User {
 		lastName = map.lastName
 		email = map.email
 		password = map.password
-		roles = map.roles ?: []
+		roles = DomainUtils.coerceList(map.roles)
 		enabled = DomainUtils.coerceBoolean(map.enabled)
 	}
 
