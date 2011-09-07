@@ -25,10 +25,6 @@ class Application {
 		map
 	}
 
-	boolean isValid() {
-		appId != null && appId?.trim() != ''
-	}
-
 	def getErrors() {
 		def errors = [:]
 		['appId', 'contact'].each { field ->
