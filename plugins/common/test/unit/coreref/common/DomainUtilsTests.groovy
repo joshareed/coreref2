@@ -2,11 +2,12 @@ package coreref.common
 
 import grails.test.*
 
-class DomainUtilsTests extends GroovyTestCase {
+class DomainUtilsTests extends GrailsUnitTestCase {
 	def mongoService
 
 	protected void setUp() {
 		super.setUp()
+		mongoService = new coreref.mongo.MongoService()
 	}
 
 	protected void tearDown() {
