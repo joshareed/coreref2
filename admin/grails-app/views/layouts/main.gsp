@@ -39,6 +39,9 @@
 						<li class="${params.controller == 'user' ? 'active' : ''}">
 							<g:link controller="user">Users</g:link>
 						</li>
+						<li class="${params.controller == 'project' ? 'active' : ''}">
+							<g:link controller="project">Projects</g:link>
+						</li>
 					</ul>
 					<g:if test="${session.user}">
 						<ul class="secondary-nav">

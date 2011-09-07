@@ -4,6 +4,7 @@ class Project {
 	def id
 	String projectId
 	String ownerId
+	String name
 
 	Project(Map map = [:]) {
 		id = map._id ?: map.id
@@ -12,12 +13,31 @@ class Project {
 			ownerId = map?.owner?.id
 		}
 		ownerId = map.ownerId
+		name = map.name
 	}
 
 	Map save(Map map = [:]) {
 		map.projectId = projectId
 		map.ownerId = ownerId
+		map.name = name
 		map
+	}
+
+	def getErrors() {
+		def errors = [:]
+		['projectId', 'ownerId', 'name'].each { field ->
+			if (!DomainUtils.isSet(this, field)) {
+				errors[field] = 'Required field'
+			}
+		}
+		if (!errors.projectId && !DomainUtils.isUnique(this, 'projectId', mongoCollection)) {
+			errors.projectId = "'${projectId}' already in use"
+		}
+		errors
+	}
+
+	String toString() {
+		"${name} (${projectId})"
 	}
 
 	User getOwner() {
