@@ -57,7 +57,7 @@ class User {
 	}
 
 	String toString() {
-		"${firstName} ${lastName} (${email})"
+		"${firstName} ${lastName}"
 	}
 
 	static mongo = [
