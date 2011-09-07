@@ -15,7 +15,7 @@
 				<div class="clearfix <g:if test="${errors?.appId}">error</g:if>">
 					<label for="appId">App Id</label>
 					<div class="input">
-						<g:textField name="appId" value="${app?.appId ?: uuid}" />
+						<g:textField name="appId" value="${app?.appId ?: Application.randomId()}" />
 						<span class="help-inline">${errors.appId}</span>
 					</div>
 				</div>

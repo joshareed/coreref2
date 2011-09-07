@@ -19,7 +19,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th>App Id</th>
+					<th>Id</th>
 					<th>Contact</th>
 					<th>Site</th>
 					<th>Status</th>
