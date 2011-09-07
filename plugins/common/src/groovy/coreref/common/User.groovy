@@ -1,7 +1,5 @@
 package coreref.common
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-
 class User {
 	String id
 	String firstName

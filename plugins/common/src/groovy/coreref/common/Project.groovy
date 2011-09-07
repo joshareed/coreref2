@@ -1,7 +1,7 @@
 package coreref.common
 
 class Project {
-	def id
+	String id
 	String projectId
 	String ownerId
 	String name

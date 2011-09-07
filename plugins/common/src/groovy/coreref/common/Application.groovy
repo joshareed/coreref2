@@ -1,9 +1,7 @@
 package coreref.common
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-
 class Application {
-	def id
+	String id
 	String appId
 	boolean enabled
 	String contact
