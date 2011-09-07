@@ -17,8 +17,12 @@ class DomainUtils {
 	}
 
 	static boolean isSet(instance, field) {
-		def val = instance."$field"
-		(val != null && !"".equals(val.trim()))
+		if (instance.hasProperty(field)) {
+			def val = instance."$field"
+			return (val != null && !"".equals(val.trim()))
+		} else {
+			return false
+		}
 	}
 
 	static boolean isUnique(instance, field, collection) {
