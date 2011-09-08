@@ -4,7 +4,7 @@ class SecurityFilters {
 	def filters = {
 		loginCheck(controller:'login', invert: true) {
 			before = {
-				def roles = securityService.getRequiredRoles(request.forwardURI - request.contextPath)
+				def roles = securityService.getRequiredRoles(request.forwardURI - request.contextPath) ?: ['USER']
 				if (roles) {
 					def user = session.user
 					if (user) {

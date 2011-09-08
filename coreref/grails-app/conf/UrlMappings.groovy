@@ -2,7 +2,7 @@ class UrlMappings {
 
 	static mappings = {
 		"/" {
-			controller = 'home'
+			controller = { session?.user ? 'home' : 'login' }
 		}
 
 		"/$controller/$action?/$id?" {
