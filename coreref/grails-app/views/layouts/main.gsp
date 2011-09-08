@@ -15,30 +15,7 @@
 		<g:layoutHead />
 	</head>
 	<body>
-		<div class="topbar">
-			<div class="fill">
-				<div class="container">
-					<h3>
-						<g:link uri="/">CoreRef</g:link>
-					</h3>
-					<ul>
-						<li class="${params.controller == 'home' ? 'active' : ''}">
-							<g:link controller="home" action="index">Home</g:link>
-						</li>
-					</ul>
-					<ul class="secondary-nav">
-						<li class="login">
-							<g:if test="${session.user}">
-								<g:link controller="login" action="logout">Logout</g:link>
-							</g:if>
-							<g:else>
-								<g:link controller="login">Login</g:link>
-							</g:else>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		<g:render template="/menu"/>
 		<div class="container">
 			<g:if test="${flash.message}">
 				<div class="alert-message info">
