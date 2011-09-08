@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><g:layoutTitle default="Grails" /></title>
+		<title><g:layoutTitle default="CoreRef: Admin" /></title>
 		<link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap-1.1.1.min.css')}" />
 		<link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
 		<link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
@@ -30,7 +30,7 @@
 						<g:link uri="/">CoreRef: Admin</g:link>
 					</h3>
 					<ul>
-						<li class="${!params.controller ? 'active' : ''}">
+						<li class="${params.controller == 'home' ? 'active' : ''}">
 							<g:link controller="home">Home</g:link>
 						</li>
 						<li class="${params.controller == 'application' ? 'active' : ''}">
