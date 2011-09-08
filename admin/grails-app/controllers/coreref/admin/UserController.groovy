@@ -75,7 +75,7 @@ class UserController {
 			}
 			def errors = update.errors
 			if (!update.errors) {
-				users.update(user, update.save())
+				users.update(user, update)
 				flash.message = "${update} updated"
 				redirect action: 'show', id: user._id
 			} else {

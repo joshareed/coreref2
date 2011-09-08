@@ -65,9 +65,9 @@ class ProjectController {
 	def update = {
 		withProject(params) { project ->
 			def update = new Project(params)
-			def errors = project.errors
+			def errors = update.errors
 			if (!errors) {
-				projects.update(project, update.save())
+				projects.update(project, update)
 				flash.message = "Project '${update.projectId}' updated"
 				redirect action: 'show', id: project._id
 			} else {

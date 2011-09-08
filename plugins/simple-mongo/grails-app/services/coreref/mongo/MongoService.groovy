@@ -31,6 +31,7 @@ class MongoService {
 			add << { LinkedHashMap doc -> delegate.insert(doc as BasicDBObject) }
 			add << { Object obj -> delegate.insert(obj.save() as BasicDBObject) }
 			update << { BasicDBObject doc, LinkedHashMap op -> delegate.update(doc, op as BasicDBObject) }
+			update << { BasicDBObject doc, Object obj -> delegate.update(doc, obj.save() as BasicDBObject) }
 			methodMissing { String name, args ->
 				if (name.startsWith('findBy')) {
 					def p =	 name - 'findBy'

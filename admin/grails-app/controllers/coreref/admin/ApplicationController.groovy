@@ -65,9 +65,9 @@ class ApplicationController {
 	def update = {
 		withApp(params) { app ->
 			def update = new Application(params)
-			def errors = app.errors
+			def errors = update.errors
 			if (!errors) {
-				apps.update(app, update.save())
+				apps.update(app, update)
 				flash.message = "Application '${update.appId}' updated"
 				redirect action: 'show', id: app._id
 			} else {
