@@ -31,7 +31,7 @@
 					</h3>
 					<ul>
 						<li class="${!params.controller ? 'active' : ''}">
-							<g:link uri="/">Home</g:link>
+							<g:link controller="home">Home</g:link>
 						</li>
 						<li class="${params.controller == 'application' ? 'active' : ''}">
 							<g:link controller="application">Applications</g:link>
