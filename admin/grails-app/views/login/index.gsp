@@ -14,7 +14,7 @@
 		<div class="modal" style="position: relative; top: 50px; left: auto; margin: 0 auto; z-index: 1">
 			<g:form action="auth">
 			<div class="modal-header">
-				<h3>Login</h3>
+				<h3>Administrator Login</h3>
 			</div>
 			<div class="modal-body">
 				<div class="clearfix <g:if test="${errors?.email}">error</g:if>">
