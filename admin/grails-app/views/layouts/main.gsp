@@ -14,12 +14,6 @@
 				});
 			});
 		</script>
-		<style type="text/css" media="screen">
-			.secondary-nav .login a {
-				background: url(<g:resource dir="images" file="lock.png"/>) no-repeat left center;
-				padding-left: 20px;
-			}
-		</style>
 		<g:layoutHead />
 	</head>
 	<body>
@@ -72,6 +66,9 @@
 	      		</div>
 			</g:elseif>
 			<g:layoutBody />
+			<div class="footer">
+				<g:render template="/git"/>
+			</div>
 		</div>
 	</body>
 </html>

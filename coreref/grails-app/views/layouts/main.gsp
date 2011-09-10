@@ -7,10 +7,7 @@
 		<link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
 		<g:javascript library="jquery" plugin="jquery"/>
 		<style type="text/css" media="screen">
-			.secondary-nav .login a {
-				background: url(<g:resource dir="images" file="lock.png"/>) no-repeat left center;
-				padding-left: 20px;
-			}
+
 		</style>
 		<g:layoutHead />
 	</head>
@@ -30,6 +27,9 @@
 	      		</div>
 			</g:elseif>
 			<g:layoutBody />
+			<div class="footer">
+				<g:render template="/git"/>
+			</div>
 		</div>
 	</body>
 </html>

@@ -11,3 +11,4 @@ env
 *.swp
 *.ser
 stacktrace.log
+**/grails-app/views/_git.gsp

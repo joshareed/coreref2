@@ -1,6 +1,18 @@
 body {
 	padding-top: 50px;
 }
+.secondary-nav .login a {
+	background: url('../images/lock.png') no-repeat left center;
+	padding-left: 20px;
+}
+.footer {
+	position: relative;
+	border-top: 1px solid #EEE;
+	margin-top: 100px;
+	padding-top: 10px;
+	color: #ccc;
+	text-align: center;
+}
 .right {
 	float: right;
 }
