@@ -26,8 +26,8 @@ class MongoService {
 			list << {  -> delegate.find() }
 			findAll << { LinkedHashMap query -> delegate.find(query as BasicDBObject) }
 			findAll << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject) }
-			find << { LinkedHashMap query -> delegate.find(query as BasicDBObject).find {true} }
-			find << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject).find { true } }
+			find << { LinkedHashMap query -> delegate.findOne(query as BasicDBObject) }
+			find << { LinkedHashMap query, LinkedHashMap filter -> delegate.findOne(query as BasicDBObject, filter as BasicDBObject) }
 			add << { LinkedHashMap doc -> delegate.insert(doc as BasicDBObject) }
 			add << { Object obj -> delegate.insert(obj.save() as BasicDBObject) }
 			update << { BasicDBObject doc, LinkedHashMap op -> delegate.update(doc, op as BasicDBObject) }
