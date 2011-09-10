@@ -25,3 +25,7 @@ label.disabled {
 label.disabled input {
 	cursor: 'default';
 }
+.value {
+	margin-left: 150px;
+	margin-top: 8px;
+}

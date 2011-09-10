@@ -7,46 +7,27 @@
     </head>
     <body>
 		<div class="page-header">
-			<h1>Application: ${app.appId}</h1>
+			<h1>${app.appId}</h1>
 		</div>
-		<g:form>
-			<fieldset>
-				<div class="clearfix">
-					<label for="appId">App Id</label>
-					<div class="input">
-						<span class="uneditable-input">${app.appId}</span>
-					</div>
-				</div>
-				<div class="clearfix">
-					<label for="contact">Contact</label>
-					<div class="input">
-						<span class="uneditable-input">${app.contact}</span>
-					</div>
-				</div>
-				<div class="clearfix">
-					<label for="site">Site</label>
-					<div class="input">
-						<span class="uneditable-input">${app.site}</span>
-					</div>
-				</div>
-				<div class="clearfix">
-					<label id="status">Status</label>
-					<div class="input">
-						<ul class="inputs-list">
-							<li>
-								<label class="disabled">
-									<input type="checkbox" name="enabled" <g:if test="${app.enabled}">checked="checked"</g:if> disabled />
-									<span>Enabled</span>
-								</label>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="actions">
-					<g:link class="btn primary" action="edit" id="${app.id}">Edit</g:link>
-					<g:link action="list" class="btn">Applications</g:link>
-				</div>
-			</fieldset>
-		</g:form>
+		<div class="clearfix">
+			<label for="appId">App Id</label>
+			<div class="value">${app.appId}</div>
+		</div>
+		<div class="clearfix">
+			<label for="contact">Contact</label>
+			<div class="value">${app.contact}</div>
+		</div>
+		<div class="clearfix">
+			<label for="site">Site</label>
+			<div class="value">${app.site}</div>
+		</div>
+		<div class="clearfix">
+			<label id="status">Status</label>
+			<div class="value">${app.enabled ? 'Enabled' : 'Disabled'}</div>
+		</div>
+		<div class="actions">
+			<g:link class="btn primary" action="edit" id="${app.id}">Edit</g:link>
+			<g:link action="list" class="btn">Applications</g:link>
+		</div>
     </body>
 </html>

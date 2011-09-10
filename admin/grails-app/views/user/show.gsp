@@ -7,59 +7,35 @@
     </head>
     <body>
 		<div class="page-header">
-			<h1>Edit User</h1>
+			<h1>${user}</h1>
 		</div>
-		<g:form action="update">
-			<g:hiddenField name="id" value="${user.id}"/>
-			<fieldset>
-				<div class="clearfix">
-					<label for="firstName">First Name</label>
-					<div class="input">
-						<span class="uneditable-input">${user.firstName}</span>
-					</div>
-				</div>
-				<div class="clearfix">
-					<label for="lastName">Last Name</label>
-					<div class="input">
-						<span class="uneditable-input">${user.lastName}</span>
-					</div>
-				</div>
-				<div class="clearfix">
-					<label for="email">Email</label>
-					<div class="input">
-						<span class="uneditable-input">${user.email}</span>
-					</div>
-				</div>
-				<div class="clearfix">
-					<label for="password">Password</label>
-					<div class="input">
-						<g:passwordField name="password" value="**********" disabled="disabled" class="uneditable-input" />
-					</div>
-				</div>
-				<div class="clearfix">
-					<label id="status">Status</label>
-					<div class="input">
-						<ul class="inputs-list">
-							<li>
-								<label>
-									<input type="checkbox" name="enabled" checked="checked" disabled/>
-									<span>Enabled</span>
-								</label>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="clearfix">
-					<label for="email">Roles</label>
-					<div class="input">
-						<span class="uneditable-input">${user.roles.join(', ')}</span>
-					</div>
-				</div>
-				<div class="actions">
-					<g:link class="btn primary" action="edit" id="${user.id}">Edit</g:link>
-					<g:link action="list" class="btn">Users</g:link>
-				</div>
-			</fieldset>
-		</g:form>
+		<div class="clearfix">
+			<label for="firstName">First Name</label>
+			<div class="value">${user.firstName}</div>
+		</div>
+		<div class="clearfix">
+			<label for="lastName">Last Name</label>
+			<div class="value">${user.lastName}</div>
+		</div>
+		<div class="clearfix">
+			<label for="email">Email</label>
+			<div class="value">${user.email}</div>
+		</div>
+		<div class="clearfix">
+			<label for="password">Password</label>
+			<div class="value">********</div>
+		</div>
+		<div class="clearfix">
+			<label id="status">Status</label>
+			<div class="value">${user.enabled ? 'Enabled' : 'Disabled'}</div>
+		</div>
+		<div class="clearfix">
+			<label for="email">Roles</label>
+			<div class="value">${user.roles.join(', ')}</div>
+		</div>
+		<div class="actions">
+			<g:link class="btn primary" action="edit" id="${user.id}">Edit</g:link>
+			<g:link action="list" class="btn">Users</g:link>
+		</div>
     </body>
 </html>
