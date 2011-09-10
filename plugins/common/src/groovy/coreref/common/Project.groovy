@@ -5,6 +5,7 @@ class Project {
 	String projectId
 	String ownerId
 	String name
+	Map metadata
 
 	Project(Map map = [:]) {
 		id = map._id ?: map.id
@@ -14,12 +15,23 @@ class Project {
 		}
 		ownerId = map.ownerId
 		name = map.name
+		if (map.metadata) {
+			metadata = map.metadata
+		} else {
+			metadata = [:]
+			map.each { k, v ->
+				if (k.startsWith('metadata.')) {
+					metadata[k - 'metadata.'] = v
+				}
+			}
+		}
 	}
 
 	Map save(Map map = [:]) {
 		map.projectId = projectId
 		map.ownerId = ownerId
 		map.name = name
+		map.metadata = metadata ?: [:]
 		map
 	}
 
