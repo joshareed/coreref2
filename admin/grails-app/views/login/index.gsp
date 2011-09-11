@@ -35,5 +35,8 @@
 			</div>
 			</g:form>
 		</div>
+		<script type="text/javascript" charset="utf-8">
+			$('#email').focus();
+		</script>
     </body>
 </html>
