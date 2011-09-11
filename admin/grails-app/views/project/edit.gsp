@@ -34,6 +34,22 @@
 					<span class="help-inline">${errors.ownerId}</span>
 				</div>
 			</div>
+			<fieldset class="metadata">
+				<legend>Metadata</legend>
+				<g:each in="${lexicon}" var="l">
+					<g:set var="entry" value="${l.value}" />
+					<g:set var="value" value="${project.metadata[entry.key]}"/>
+					<div class="clearfix js-${entry.key}">
+						<label>${entry.name}</label>
+						<div class="input">
+							<g:textField name="metadata.${entry.key}" value="${value ?: ''}" />
+							<g:if test="${entry.help}">
+								<span class="help-inline">${entry.help}</span>
+							</g:if>
+						</div>
+					</div>
+				</g:each>
+			</fieldset>
 			<div class="actions">
 				<g:submitButton name="create" class="btn primary" value="Update" />
 				<g:link action="show" id="${project.id}" class="btn">Cancel</g:link>

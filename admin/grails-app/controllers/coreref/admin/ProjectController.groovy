@@ -9,6 +9,7 @@ class ProjectController {
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	def mongoService
+	def lexiconService
 
 	private getProjects() { Project.mongoCollection }
 	private def withProject = { Map map, closure ->
@@ -58,7 +59,7 @@ class ProjectController {
 
 	def edit = {
 		withProject(params) { project ->
-			[project: new Project(project), errors: [:]]
+			[project: new Project(project), errors: [:], lexicon: lexiconService.all]
 		}
 	}
 

@@ -26,6 +26,17 @@
 			<label>Owner</label>
 			<div class="value">${project.owner}</div>
 		</div>
+		<g:if test="${project.metadata}">
+			<fieldset class="metadata">
+				<legend>Metadata</legend>
+				<g:each in="${project.metadata}" var="m">
+					<div class="clearfix">
+						<label><l:label key="${m.key}"/></label>
+						<div class="value">${l.value(src: project, key: m.key, value: m.value)}</div>
+					</div>
+				</g:each>
+			</fieldset>
+		</g:if>
 		<div class="actions">
 			<g:link class="btn primary" action="edit" id="${project.id}">Edit</g:link>
 			<g:link action="list" class="btn">Projects</g:link>
