@@ -1,4 +1,4 @@
-grails.plugin.location.common = "../plugins/common"
+grails.plugin.location.common = "../common"
 grails.server.port.http = 8082
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
