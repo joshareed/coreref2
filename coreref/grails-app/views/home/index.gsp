@@ -1,10 +1,9 @@
 <html>
 	<head>
-		<title>CoreRef</title>
+		<title>Index</title>
 		<meta name="layout" content="main" />
 	</head>
 	<body>
-		<h1>CoreRef</h1>
-		<p>Main Content</p>
+		<h1>Index</h1>
 	</body>
 </html>
