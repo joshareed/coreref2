@@ -54,6 +54,10 @@ class User {
 		errors
 	}
 
+	def getProjects() {
+		Project.findAllInstances(ownerId: id)
+	}
+
 	String toString() {
 		"${firstName} ${lastName}"
 	}
