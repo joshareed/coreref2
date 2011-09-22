@@ -126,6 +126,16 @@ class MongoService {
 				return null
 			}
 		}
+		clazz.metaClass.static.list << { -> getMongoCollection().find() }
+		clazz.metaClass.static.listInstances << { ->
+			getMongoCollection().find().collect { clazz.newInstance(it) }
+		}
+		clazz.metaClass.static.findAll << { LinkedHashMap query ->
+			getMongoCollection().find(query as BasicDBObject)
+		}
+		clazz.metaClass.static.findAllInstances << { LinkedHashMap query ->
+			getMongoCollection().find(query as BasicDBObject).collect { clazz.newInstance(it) }
+		}
 
 		// map the class to the database
 		def db = mongo.getDB(ApplicationHolder?.application?.config?.mongo?.db ?: 'coreref')
