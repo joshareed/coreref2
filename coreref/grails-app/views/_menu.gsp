@@ -7,7 +7,7 @@
 			<sec:ifLoggedIn>
 			<ul>
 				<li class="${params.controller == 'home' ? 'active' : ''}">
-					<g:link controller="home" action="index">Home</g:link>
+					<g:link uri="/">Home</g:link>
 				</li>
 			</ul>
 			</sec:ifLoggedIn>
