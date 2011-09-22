@@ -5,6 +5,8 @@ class UrlMappings {
 			controller = { session?.user ? 'home' : 'login' }
 		}
 
+		"/projects/$id/$action?"(controller: 'project')
+
 		"/$controller/$action?/$id?" {
 			constraints {
 				// apply constraints here
