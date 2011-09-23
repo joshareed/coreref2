@@ -4,17 +4,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="layout" content="main" />
 		<title>Users</title>
-		<script type="text/javascript" charset="utf-8">
-			$(function() {
-				$('.buttons').hide();
-				$('tbody tr').hover(
-					function() { $('.buttons', this).show(); },
-					function() { $('.buttons', this).hide(); }
-				).css('height', '48px');
-			});
-		</script>
 	</head>
 	<body>
+		<div class="header-actions">
+			<g:link class="btn primary" action="create">New</g:link>
+		</div>
 		<h1>Users</h1>
 		<table>
 			<thead>
@@ -23,13 +17,18 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Status</th>
-					<th class="actions-col">
-						<g:link class="btn primary right" action="create">New</g:link>
-					</th>
+					<th class="actions-col"></th>
 				</tr>
 			</thead>
 			<tbody>
-			<g:each in="${list}" status="i" var="user">
+				<g:if test="${!list}">
+					<tr>
+						<td colspan="5" class="empty-list">
+							<em>No users</em>
+						</td>
+					</tr>
+				</g:if>
+				<g:each in="${list}" status="i" var="user">
 				<tr>
 					<td>
 						<g:link action="show" id="${user.id}">${user.firstName}</g:link>
@@ -39,7 +38,7 @@
 					</td>
 					<td>${user.email}</td>
 					<td>${user.enabled ? 'Enabled' : 'Disabled'}</td>
-					<td>
+					<td class="actions-col">
 						<div class="buttons right">
 							<g:link class="btn" action="edit" id="${user.id}">Edit</g:link>
 							<g:form style="margin: 0; padding: 0; display: inline">
@@ -50,7 +49,7 @@
 						</div>
 					</td>
 				</tr>
-			</g:each>
+				</g:each>
 			</tbody>
 		</table>
 	</body>

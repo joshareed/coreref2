@@ -12,6 +12,12 @@
 					$(this).parent().hide();
 					e.preventDefault();
 				});
+
+				//$('.buttons').hide();
+				$('tbody tr').hover(
+					function() { $(this).addClass('highlighted'); },
+					function() { $(this).removeClass('highlighted'); }
+				);
 			});
 		</script>
 		<g:layoutHead />

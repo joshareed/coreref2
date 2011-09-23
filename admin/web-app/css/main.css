@@ -5,6 +5,10 @@ body {
 	background: url('../images/lock.png') no-repeat left center;
 	padding-left: 20px;
 }
+.header-actions {
+	float: right;
+	margin-top: 8px;
+}
 .footer {
 	position: relative;
 	border-top: 1px solid #EEE;
@@ -13,19 +17,36 @@ body {
 	color: #ccc;
 	text-align: center;
 }
-.right {
-	float: right;
-}
-.actions-col {
-	width: 125px;
-}
 label.disabled {
 	cursor: 'default';
 }
 label.disabled input {
 	cursor: 'default';
 }
+tbody tr td {
+	padding-top: 15px;
+	height: 21px;
+}
+tbody tr td .buttons {
+	display: none;
+}
+tbody tr.highlighted td .buttons {
+	display: block;
+}
+.empty-list {
+	text-align: center;
+}
+.actions-col {
+	width: 125px;
+	padding-top: 8px;
+}
 .value {
-	margin-left: 150px;
-	margin-top: 8px;
+	display: inline-block;
+	width: 210px;
+	height: 18px;
+	padding: 7px 4px;
+	font-size: 13px;
+	line-height: 18px;
+	color: #808080;
+	border: none;
 }
