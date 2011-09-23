@@ -4,11 +4,16 @@
 		<title><g:layoutTitle default="CoreRef" /></title>
 		<link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap.min.css')}" />
 		<link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
-		<link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
+		<link rel="shortcut icon" href="${resource(dir:'images', file:'favicon.ico')}" type="image/x-icon" />
 		<g:javascript library="jquery" plugin="jquery"/>
-		<style type="text/css" media="screen">
-
-		</style>
+		<script type="text/javascript" charset="utf-8">
+			$(function() {
+				$('a.close').click(function(e) {
+					$(this).parent().hide();
+					e.preventDefault();
+				});
+			});
+		</script>
 		<g:layoutHead />
 	</head>
 	<body>
