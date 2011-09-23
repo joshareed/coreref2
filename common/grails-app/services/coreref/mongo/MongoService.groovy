@@ -18,7 +18,7 @@ class MongoService {
 			count << { LinkedHashMap query -> delegate.count(query as BasicDBObject) }
 			get << { String id ->
 				try {
-					return delegate.find([_id: new ObjectId(id)] as BasicDBObject).find { true }
+					return delegate.findOne([_id: new ObjectId(id)] as BasicDBObject)
 				} catch (e) {
 					return null
 				}
