@@ -8,7 +8,6 @@ class ProjectController {
 	static defaultAction = 'list'
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	def mongoService
 	def lexiconService
 
 	private getProjects() { Project.mongoCollection }

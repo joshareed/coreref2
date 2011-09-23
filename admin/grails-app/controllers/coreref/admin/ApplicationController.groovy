@@ -8,9 +8,7 @@ class ApplicationController {
 	static defaultAction = 'list'
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	def mongoService
-
-	private getApps() { mongoService.getCollection(Application.mongo.collection) }
+	private getApps() { Application.mongoCollection }
 	private def withApp = { Map map, closure ->
 		def id = map.id
 		if (!id) {

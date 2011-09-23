@@ -8,10 +8,9 @@ class UserController {
 	static defaultAction = 'list'
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	def mongoService
 	def securityService
 
-	private getUsers() { mongoService.getCollection(User.mongo.collection) }
+	private getUsers() { User.mongoCollection }
 	private def withUser = { Map map, closure ->
 		def id = map.id
 		if (!id) {
