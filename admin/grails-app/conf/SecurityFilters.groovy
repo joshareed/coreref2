@@ -4,6 +4,9 @@ class SecurityFilters {
 	def filters = {
 		loginCheck(controller:'login', invert: true) {
 			before = {
+				if (coreref.common.User.mongoCollection.count() == 0) {
+					return true
+				}
 				def roles = securityService.getRequiredRoles(request.forwardURI - request.contextPath)
 				if (roles) {
 					def user = session.user
