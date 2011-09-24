@@ -3,6 +3,6 @@
 for app in admin common coreref services
 do
 	cd $app
-	grails test-app
+	grails $@
 	cd ..
 done
