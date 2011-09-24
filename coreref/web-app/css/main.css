@@ -7,9 +7,36 @@ body {
 }
 .footer {
 	position: relative;
-	border-top: 1px solid #EEE;
+	border-top: 1px solid #eee;
 	margin-top: 100px;
 	padding-top: 10px;
 	color: #ccc;
 	text-align: center;
+}
+.right {
+	float: right;
+}
+.btn.new {
+	font-weight: bold;
+}
+.header {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 8px;
+}
+.header h1 {
+	margin-bottom: 4px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.project {
+	height: 22px;
+	padding: 8px 0 4px 0;
+	border-bottom: 1px dashed #ddd;
+}
+.project .label {
+	margin-top: -3px;
+}
+.project a:hover {
+	text-decoration: none;
 }

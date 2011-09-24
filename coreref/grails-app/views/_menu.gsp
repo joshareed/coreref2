@@ -6,9 +6,11 @@
 			</h3>
 			<sec:ifLoggedIn>
 			<ul>
+				<%--
 				<li class="${params.controller == 'home' ? 'active' : ''}">
 					<g:link uri="/">Home</g:link>
 				</li>
+				--%>
 			</ul>
 			</sec:ifLoggedIn>
 			<ul class="secondary-nav">
