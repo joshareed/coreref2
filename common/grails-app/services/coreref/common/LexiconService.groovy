@@ -4,7 +4,7 @@ import grails.util.GrailsUtil
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class LexiconService {
-	static transactional = true
+	static transactional = false
 
 	def parsed = false
 	def entries = [:]
