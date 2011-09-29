@@ -40,9 +40,12 @@ class User {
 	}
 	void removeRole(role) { roles.remove(role) }
 	boolean hasRole(role) { (roles.find { it == role } != null) }
-	boolean isAdmin() { hasRole(ROLE_ADMIN) }
-	boolean isMember(project) { hasRole("${ROLE_MEMBER}${project}") }
-	boolean isEditor(project) { hasRole("${ROLE_EDITOR}${project}") }
+	boolean isAdmin() { hasRole('ADMIN') }
+
+	// project-related roles
+	boolean isMember(project) { hasRole("MEMBER_${project}") || isOwner(project) }
+	boolean isEditor(project) { hasRole("EDITOR_${project}") || isOwner(project) }
+	boolean isOwner(project) { id == project.ownerId }
 
 	def getErrors() {
 		def errors = [:]
@@ -59,6 +62,10 @@ class User {
 
 	def getProjects() {
 		Project.findAllInstances(ownerId: id)
+	}
+
+	def getMemberProjects() {
+		roles.findAll { it.startsWith('MEMBER_') }.collect { Project.findInstance(projectId: (it - 'MEMBER_')) }
 	}
 
 	String toString() {
