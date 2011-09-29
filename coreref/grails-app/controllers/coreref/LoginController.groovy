@@ -1,13 +1,21 @@
 package coreref
 
+import coreref.common.User
+
 class LoginController {
     def securityService
 
     def index = { }
 
 	def auth = {
-		session.user = securityService.authenticate(params.email, params.password)
+		def user = securityService.authenticate(params.email, params.password)
+		session.user = user
 		if (session.user) {
+			// update the last login
+			session['user-last-login'] = (user?.lastLogin ?: new Date())
+			user.lastLogin = new Date()
+			User.mongoCollection.update(user.mongoObject, user)
+
 			if (session['login-forward-uri']) {
 				redirect url: session['login-forward-uri']
 			} else {

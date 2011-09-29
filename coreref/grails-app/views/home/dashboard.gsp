@@ -7,6 +7,7 @@
 		<div class="row">
 			<section class="span11 activity">
 				<div class="header">
+					<span style="float: right; padding-top: 15px; font-style: italic"><prettytime:display date="${session['user-last-login']}"/></span>
 					<h1>Recent Activity</h1>
 				</div>
 				<span class="label warning">TODO</span> Activity Feed

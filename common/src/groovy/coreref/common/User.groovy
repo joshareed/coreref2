@@ -8,6 +8,7 @@ class User {
 	String password
 	List roles
 	boolean enabled
+	Date lastLogin
 
 	User(Map map = [:]) {
 		id = map._id ?: map.id
@@ -17,6 +18,7 @@ class User {
 		password = map.password
 		roles = DomainUtils.coerceList(map.roles)
 		enabled = DomainUtils.coerceBoolean(map.enabled)
+		lastLogin = map.lastLogin
 	}
 
 	Map save(Map map = [:]) {
@@ -26,6 +28,7 @@ class User {
 		map.password = password
 		map.roles = roles
 		map.enabled = enabled
+		map.lastLogin = lastLogin
 		map
 	}
 
