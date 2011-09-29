@@ -121,7 +121,7 @@ class MongoService {
 		clazz.metaClass.static.getInstance << { String id ->
 			def instance = getMongoObject(id)
 			if (instance) {
-				clazz.newInstance(instance)
+				return clazz.newInstance(instance)
 			} else {
 				return null
 			}
@@ -129,6 +129,17 @@ class MongoService {
 		clazz.metaClass.static.list << { -> getMongoCollection().find() }
 		clazz.metaClass.static.listInstances << { ->
 			getMongoCollection().find().collect { clazz.newInstance(it) }
+		}
+		clazz.metaClass.static.find << { LinkedHashMap query ->
+			getMongoCollection().findOne(query as BasicDBObject)
+		}
+		clazz.metaClass.static.findInstance << { LinkedHashMap query ->
+			def found = getMongoCollection().findOne(query as BasicDBObject)
+			if (found) {
+				return clazz.newInstance(found)
+			} else {
+				return null
+			}
 		}
 		clazz.metaClass.static.findAll << { LinkedHashMap query ->
 			getMongoCollection().find(query as BasicDBObject)
