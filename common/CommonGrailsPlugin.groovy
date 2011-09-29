@@ -13,7 +13,7 @@ class CommonGrailsPlugin {
 	// TODO Fill in these fields
 	def author = "Josh Reed"
 	def authorEmail = "jareed@andrill.org"
-	def title = "CoreRef Common Model"
+	def title = "CoreRef Common"
 	def description = '''\\
 Contains all of the common models and functionality for CoreRef
 '''
@@ -38,8 +38,9 @@ Contains all of the common models and functionality for CoreRef
 		if (applicationContext.containsBean('mongoService')) {
 			def mongoService = applicationContext.getBean('mongoService')
 			mongoService.map(coreref.common.User)
-			mongoService.map(coreref.common.Application)
 			mongoService.map(coreref.common.Project)
+			mongoService.map(coreref.common.Application)
+			mongoService.map(coreref.common.Activity)
 		}
 
 		// configure the security service
