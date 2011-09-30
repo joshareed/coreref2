@@ -15,23 +15,23 @@ class ActivityService {
 
 	def userFeed(user, int limit = 25) {
 		assert null != user
-		Activity.findAll(userId: id(user)).sort(timestamp: -1).limit(limit).collect { it }
+		Activity.findAll(userId: id(user)).sort(timestamp: -1).limit(limit).collect { new Activity(it) }
 	}
 
 	def projectFeed(project, int limit = 25) {
 		assert null != project
-		Activity.findAll(projectId: id(project)).sort(timestamp: -1).limit(limit).collect { it }
+		Activity.findAll(projectId: id(project)).sort(timestamp: -1).limit(limit).collect { new Activity(it) }
 	}
 
 	def homeFeed(user, int limit = 25) {
 		assert null != user
 		def projects = user.projects.collect { id(it) }
 		projects.addAll(user.memberProjects.collect { id(it) })
-		Activity.findAll(projectId: ['$in': projects.unique()]).sort(timestamp: -1).limit(limit).collect { it }
+		Activity.findAll(projectId: ['$in': projects.unique()]).sort(timestamp: -1).limit(limit).collect { new Activity(it) }
 	}
 
-    def log(user, action, project, String text = null, Date timestamp = new Date()) {
-		Activity.mongoCollection.add(userId: id(user), action: action, projectId: id(project), text: text, timestamp: timestamp)
+    def log(user, action, project, String data = null, Date timestamp = new Date()) {
+		Activity.mongoCollection.add(userId: id(user), action: action, projectId: id(project), data: data, timestamp: timestamp)
 	}
 
 	def logProjectCreated(user, project) {
