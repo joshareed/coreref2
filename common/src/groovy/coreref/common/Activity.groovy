@@ -43,3 +43,7 @@ class Activity {
 		index: ['user', 'project', 'timestamp']
 	]
 }
+
+class ActivityType {
+	static final String PROJECT_CREATED = 'created'
+}

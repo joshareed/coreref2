@@ -27,12 +27,26 @@ class ActivityServiceTests extends GrailsUnitTestCase {
     void testLog() {
 		assert 0 == Activity.mongoCollection.count()
 		service.log('user', 'action', 'project', 'text')
-		assert 1 == Activity.mongoCollection.count()
-		assert service.userFeed('user')
-		assert !service.userFeed('not user')
-		assert service.projectFeed('project')
-		assert !service.projectFeed('not project')
+		def a = Activity.mongoCollection.findOne()
+		assert a
+		assert 'user' == a.userId
+		assert 'action' == a.action
+		assert 'project' == a.projectId
+		assert 'text' == a.text
+		assert null != a.timestamp
     }
+
+	void testLogCreateProject() {
+		assert 0 == Activity.mongoCollection.count()
+		service.logProjectCreated('user', 'project')
+		def a = Activity.mongoCollection.findOne()
+		assert a
+		assert 'user' == a.userId
+		assert 'created' == a.action
+		assert 'project' == a.projectId
+		assert null == a.text
+		assert null != a.timestamp
+	}
 
 	void testId() {
 		assert null == service.id(null)
