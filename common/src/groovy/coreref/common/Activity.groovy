@@ -5,14 +5,14 @@ class Activity {
 	String action
 	String projectId
 	Date timestamp
-	String text
+	String data
 
 	Activity(Map map = [:]) {
 		userId = map.userId
 		action = map.action
 		projectId = map.projectId
 		timestamp = (map.timestamp ?: new Date())
-		text = map.text
+		data = map.data
 	}
 
 	Map save(Map map = [:]) {
@@ -20,7 +20,7 @@ class Activity {
 		map.action = action
 		map.projectId = projectId
 		map.timestamp = timestamp
-		map.text = text
+		map.data = data
 		map
 	}
 
@@ -46,4 +46,5 @@ class Activity {
 
 class ActivityType {
 	static final String PROJECT_CREATED = 'created'
+	static final String PROJECT_UPDATED = 'updated'
 }

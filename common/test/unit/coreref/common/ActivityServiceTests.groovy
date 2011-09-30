@@ -32,7 +32,7 @@ class ActivityServiceTests extends GrailsUnitTestCase {
 		assert 'user' == a.userId
 		assert 'action' == a.action
 		assert 'project' == a.projectId
-		assert 'text' == a.text
+		assert 'text' == a.data
 		assert null != a.timestamp
     }
 
@@ -44,7 +44,7 @@ class ActivityServiceTests extends GrailsUnitTestCase {
 		assert 'user' == a.userId
 		assert 'created' == a.action
 		assert 'project' == a.projectId
-		assert null == a.text
+		assert null == a.data
 		assert null != a.timestamp
 	}
 
