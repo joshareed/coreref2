@@ -3,6 +3,8 @@ package coreref
 import coreref.common.Project
 
 class ProjectController {
+	static defaultAction = 'overview'
+
 	def lexiconService
 
 	private getProjects() { Project.mongoCollection }
