@@ -8,6 +8,7 @@ class ProjectController {
 	static defaultAction = 'list'
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	def activityService
 	def lexiconService
 
 	private getProjects() { Project.mongoCollection }
@@ -48,6 +49,7 @@ class ProjectController {
 		def errors = project.errors
 		if (!errors) {
 			projects.add(project)
+			activityService.logProjectCreated(session.user, Project.findInstance(projectId: project.projectId))
 			flash.message = "Project ${project.projectId} created"
 			redirect action: 'list'
 		} else {
@@ -67,7 +69,9 @@ class ProjectController {
 			def update = new Project(params)
 			def errors = update.errors
 			if (!errors) {
+				def diff = project - update.save()
 				projects.update(project, update)
+				activityService.logProjectUpdated(session.user, new Project(project), diff)
 				flash.message = "Project '${update.projectId}' updated"
 				redirect action: 'show', id: project._id
 			} else {

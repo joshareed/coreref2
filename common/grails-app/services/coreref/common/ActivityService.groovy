@@ -37,4 +37,12 @@ class ActivityService {
 	def logProjectCreated(user, project) {
 		log(user, ActivityType.PROJECT_CREATED, project)
 	}
+
+	def logProjectUpdated(user, project, diff) {
+		def text
+		if (diff) {
+			text = diff.collect { it.key }.join('|')
+		}
+		log(user, ActivityType.PROJECT_UPDATED, project, text)
+	}
 }
