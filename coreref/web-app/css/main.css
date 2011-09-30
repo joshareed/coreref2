@@ -24,7 +24,7 @@ body {
 	margin-bottom: 8px;
 }
 .header h1 {
-	margin-bottom: 4px;
+	margin-bottom: 0;
 	font-size: 18px;
 	font-weight: bold;
 }
@@ -39,4 +39,15 @@ body {
 }
 .project a:hover {
 	text-decoration: none;
+}
+
+.feed .activity {
+	padding: 5px;
+	border-bottom: 1px solid #eee;
+}
+.feed .activity.full .headline {
+	font-weight: bold;
+}
+.feed .activity.full .body {
+	padding: 5px 0 0 0;
 }

@@ -1,6 +1,7 @@
 package coreref
 
 class HomeController {
+	def activityService
 
     def index = {
 		if (session.user) {
@@ -11,6 +12,6 @@ class HomeController {
 	}
 
 	def dashboard = {
-		[user: session.user]
+		[user: session.user, feed: activityService.homeFeed(session.user)]
 	}
 }
