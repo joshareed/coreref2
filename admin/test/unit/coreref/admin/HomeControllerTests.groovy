@@ -13,6 +13,8 @@ class HomeControllerTests extends ControllerUnitTestCase {
 		mongoService.map(Application)
 		mongoService.map(User)
 		mongoService.map(Project)
+		mongoService.map(Activity)
+		controller.activityService = new ActivityService()
     }
 
     protected void tearDown() {
@@ -21,9 +23,7 @@ class HomeControllerTests extends ControllerUnitTestCase {
 
     void testIndex() {
 		def map = controller.index()
-		assert 3 == map.size()
-		assert map.containsKey('applications')
-		assert map.containsKey('users')
-		assert map.containsKey('projects')
+		assert 1 == map.size()
+		assert map.containsKey('feed')
     }
 }
