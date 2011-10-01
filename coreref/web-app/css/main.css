@@ -48,6 +48,12 @@ body {
 	margin-top: 6px;
 	padding: 4px;
 }
+.projects .empty {
+	margin: 25px 15px;
+	color: #555;
+	font-style: italic;
+	text-align: center;
+}
 .project {
 	height: 22px;
 	padding: 8px 0 4px 10px;
@@ -59,13 +65,26 @@ body {
 .project a:hover {
 	text-decoration: none;
 }
-
+.feed .empty {
+	margin: 15px;
+	padding: 15px;
+	text-align: center;
+	font-style: italic;
+	color: #555;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	background-color: #f3f3f3;
+}
 .feed .activity {
 	padding: 5px;
 	border-bottom: 1px solid #eee;
 }
 .feed .activity.full .headline {
 	font-weight: bold;
+	font-size: 110%;
+	margin-bottom: 3px;
 }
 .feed .activity.full .body {
 	padding: 5px 0 0 0;
