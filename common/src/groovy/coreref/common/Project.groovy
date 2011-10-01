@@ -39,7 +39,7 @@ class Project {
 		}
 	}
 
-	Map save(Map map = [:]) {
+	Map toMap(Map map = [:]) {
 		map.projectId = projectId
 		map.ownerId = ownerId
 		map.name = name

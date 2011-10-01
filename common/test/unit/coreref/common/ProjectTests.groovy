@@ -51,7 +51,7 @@ class ProjectTests extends GrailsUnitTestCase {
 
 	void testSave() {
 		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', 'metadata.opt': true)
-		assert [projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', priv: 1, metadata: [opt:true]] == proj.save()
+		assert [projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', priv: 1, metadata: [opt:true]] == proj.toMap()
 	}
 
 	void testToString() {

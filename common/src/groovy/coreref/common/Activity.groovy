@@ -15,7 +15,7 @@ class Activity {
 		data = map.data
 	}
 
-	Map save(Map map = [:]) {
+	Map toMap(Map map = [:]) {
 		map.userId = userId
 		map.action = action
 		map.projectId = projectId

@@ -15,7 +15,7 @@ class Application {
 		site = map.site
 	}
 
-	Map save(Map map = [:]) {
+	Map toMap(Map map = [:]) {
 		map.appId = appId
 		map.enabled = enabled
 		map.contact = contact

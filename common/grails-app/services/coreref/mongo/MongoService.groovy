@@ -29,9 +29,9 @@ class MongoService {
 			find << { LinkedHashMap query -> delegate.findOne(query as BasicDBObject) }
 			find << { LinkedHashMap query, LinkedHashMap filter -> delegate.findOne(query as BasicDBObject, filter as BasicDBObject) }
 			add << { LinkedHashMap doc -> delegate.insert(doc as BasicDBObject) }
-			add << { Object obj -> delegate.insert(obj.save() as BasicDBObject) }
+			add << { Object obj -> delegate.insert(obj.toMap() as BasicDBObject) }
 			update << { BasicDBObject doc, LinkedHashMap op -> delegate.update(doc, op as BasicDBObject) }
-			update << { BasicDBObject doc, Object obj -> delegate.update(doc, obj.save() as BasicDBObject) }
+			update << { BasicDBObject doc, Object obj -> delegate.update(doc, obj.toMap() as BasicDBObject) }
 			methodMissing { String name, args ->
 				if (name.startsWith('findBy')) {
 					def p =	 name - 'findBy'

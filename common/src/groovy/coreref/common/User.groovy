@@ -21,7 +21,7 @@ class User {
 		lastLogin = map.lastLogin
 	}
 
-	Map save(Map map = [:]) {
+	Map toMap(Map map = [:]) {
 		map.firstName = firstName
 		map.lastName = lastName
 		map.email = email

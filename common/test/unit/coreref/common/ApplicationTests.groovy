@@ -31,7 +31,7 @@ class ApplicationTests extends GrailsUnitTestCase {
 
 	void testSave() {
 		def app1 = new Application(id: 'id', appId: 'appId', contact: 'contact', enabled: true, site: 'site')
-		assert [appId: 'appId', contact: 'contact', enabled: true, site: 'site'] == app1.save()
+		assert [appId: 'appId', contact: 'contact', enabled: true, site: 'site'] == app1.toMap()
 	}
 
 	void testToString() {

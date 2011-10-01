@@ -69,7 +69,7 @@ class ProjectController {
 			def update = new Project(params)
 			def errors = update.errors
 			if (!errors) {
-				def diff = project - update.save()
+				def diff = project - update.toMap()
 				projects.update(project, update)
 				activityService.logProjectUpdated(session.user, new Project(project), diff)
 				flash.message = "Project '${update.projectId}' updated"
