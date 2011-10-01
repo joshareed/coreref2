@@ -38,7 +38,7 @@ class MongoService {
 					p = p[0].toLowerCase() + p[1..-1]
 					def query = [:]
 					query[p] = args[0]
-					return delegate.find(query as BasicDBObject).find { true }
+					return delegate.findOne(query as BasicDBObject)
 				} else if (name.startsWith('findAllBy')) {
 					def p =	 name - 'findAllBy'
 					p = p[0].toLowerCase() + p[1..-1]
@@ -106,14 +106,14 @@ class MongoService {
 				if (c && delegate.id) {
 					return c.get(delegate.id)
 				}
-				return null;
+				return null
 			}
 		}
 		clazz.metaClass.static.getMongoService = { -> return _mongoService }
 		clazz.metaClass.static.getMongoCollection = { -> return _mongoService.getCollection(delegate?.mongo?.collection) }
 		clazz.metaClass.static.getMongoObject = { String id ->
 			try {
-				return getMongoCollection().find([_id: new ObjectId(id)] as BasicDBObject).find { true }
+				return getMongoCollection().findOne([_id: new ObjectId(id)] as BasicDBObject)
 			} catch (e) {
 				return null
 			}
