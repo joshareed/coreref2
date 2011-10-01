@@ -8,23 +8,23 @@ class ActivityServiceTests extends GrailsUnitTestCase {
 
 	def u1, u2, p
 
-    protected void setUp() {
-        super.setUp()
+	protected void setUp() {
+		super.setUp()
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Activity)
 		mongoService.map(User)
 		mongoService.map(Project)
 		service = new ActivityService()
-    }
+	}
 
-    protected void tearDown() {
-        super.tearDown()
+	protected void tearDown() {
+		super.tearDown()
 		Activity.mongoCollection.drop()
 		User.mongoCollection.drop()
 		Project.mongoCollection.drop()
-    }
+	}
 
-    void testLog() {
+	void testLog() {
 		assert 0 == Activity.mongoCollection.count()
 		service.log('user', 'action', 'project', 'text')
 		def a = Activity.mongoCollection.findOne()
@@ -34,7 +34,7 @@ class ActivityServiceTests extends GrailsUnitTestCase {
 		assert 'project' == a.projectId
 		assert 'text' == a.data
 		assert null != a.timestamp
-    }
+	}
 
 	void testLogCreateProject() {
 		assert 0 == Activity.mongoCollection.count()
