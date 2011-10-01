@@ -1,22 +1,32 @@
 package coreref.common
 
 class Project {
+	static final int PUBLIC = 1
+	static final int PRIVATE = 2
+	static final int STEALTH = 3
+
 	String id
 	String projectId
 	String ownerId
 	String name
-	String description
+	String desc
+	int priv
 	Map metadata
 
 	Project(Map map = [:]) {
 		id = map._id ?: map.id
 		projectId = map.projectId
+		ownerId = map.ownerId
 		if (map.containsKey('owner')) {
 			ownerId = map?.owner?.id
 		}
-		ownerId = map.ownerId
 		name = map.name
-		description = map.description
+		desc = map.desc
+		if (map.containsKey('priv')) {
+			priv = map.priv
+		} else {
+			priv = PUBLIC
+		}
 		if (map.metadata) {
 			metadata = map.metadata
 		} else {
@@ -33,7 +43,8 @@ class Project {
 		map.projectId = projectId
 		map.ownerId = ownerId
 		map.name = name
-		map.description = description
+		map.desc = desc
+		map.priv = priv
 		map.metadata = metadata ?: [:]
 		map
 	}
@@ -65,6 +76,6 @@ class Project {
 
 	static mongo = [
 		collection: '_projects',
-		index: ['projectId', 'ownerId']
+		index: ['projectId', 'ownerId', 'priv']
 	]
 }

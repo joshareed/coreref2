@@ -17,42 +17,42 @@ class ProjectTests extends GrailsUnitTestCase {
 	}
 
 	void testCreateNoMetadata() {
-		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', description: 'The description')
+		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description')
 		assert null == proj.id
 		assert 'test-proj' == proj.projectId
 		assert 'owner' == proj.ownerId
 		assert 'Test Project' == proj.name
-		assert 'The description' == proj.description
+		assert 'The description' == proj.desc
 		assert [:] == proj.metadata
 	}
 
 	void testCreateWithMetadataMap() {
-		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', description: 'The description', metadata: [opt: true])
+		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', metadata: [opt: true])
 		assert null == proj.id
 		assert 'test-proj' == proj.projectId
 		assert 'owner' == proj.ownerId
 		assert 'Test Project' == proj.name
-		assert 'The description' == proj.description
+		assert 'The description' == proj.desc
 		assert [opt: true] == proj.metadata
 	}
 
 	void testCreateWithMetadataKeys() {
-		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', description: 'The description', 'metadata.opt': true)
+		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', 'metadata.opt': true)
 		assert null == proj.id
 		assert 'test-proj' == proj.projectId
 		assert 'owner' == proj.ownerId
 		assert 'Test Project' == proj.name
-		assert 'The description' == proj.description
+		assert 'The description' == proj.desc
 		assert [opt: true] == proj.metadata
 	}
 
 	void testSave() {
-		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', description: 'The description', 'metadata.opt': true)
-		assert [projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', description: 'The description', metadata: [opt:true]] == proj.save()
+		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', 'metadata.opt': true)
+		assert [projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', metadata: [opt:true]] == proj.save()
 	}
 
 	void testToString() {
-		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', description: 'The description', 'metadata.opt': true)
+		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', 'metadata.opt': true)
 		assert 'Test Project (test-proj)' == proj.toString()
 	}
 
