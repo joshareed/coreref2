@@ -5,19 +5,20 @@ import grails.test.*
 class ApplicationTests extends GrailsUnitTestCase {
 	def mongoService
 
-    protected void setUp() {
-        super.setUp()
+	protected void setUp() {
+		super.setUp()
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Application)
-    }
+	}
 
-    protected void tearDown() {
-        super.tearDown()
-    }
+	protected void tearDown() {
+		super.tearDown()
+		Application.mongoCollection.drop()
+	}
 
-    void testRandomUUID() {
+	void testRandomUUID() {
 		assert null != Application.randomId()
-    }
+	}
 
 	void testCreate() {
 		def app1 = new Application(id: 'id', appId: 'appId', contact: 'contact', enabled: true, site: 'site')
