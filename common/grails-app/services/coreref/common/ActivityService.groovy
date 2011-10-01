@@ -30,6 +30,10 @@ class ActivityService {
 		Activity.findAll(projectId: ['$in': projects.unique()]).sort(timestamp: -1).limit(limit).collect { new Activity(it) }
 	}
 
+	def adminFeed(int limit = 50) {
+		Activity.mongoCollection.find().sort(timestamp: -1).limit(limit).collect { new Activity(it) }
+	}
+
     def log(user, action, project, String data = null, Date timestamp = new Date()) {
 		Activity.mongoCollection.add(userId: id(user), action: action, projectId: id(project), data: data, timestamp: timestamp)
 	}

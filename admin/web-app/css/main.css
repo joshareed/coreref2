@@ -50,3 +50,22 @@ tbody tr.highlighted td .buttons {
 	color: #808080;
 	border: none;
 }
+.header {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 8px;
+}
+.header h1 {
+	margin-bottom: 0;
+	font-size: 18px;
+	font-weight: bold;
+}
+.feed .activity {
+	padding: 5px;
+	border-bottom: 1px solid #eee;
+}
+.feed .activity.full .headline {
+	font-weight: bold;
+}
+.feed .activity.full .body {
+	padding: 5px 0 0 0;
+}

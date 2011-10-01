@@ -5,13 +5,9 @@ import coreref.security.Secured
 
 @Secured('ADMIN')
 class HomeController {
-	def mongoService
+	def activityService
 
     def index = {
-		[
-			applications: Application.mongoCollection.count(),
-			users: User.mongoCollection.count(),
-			projects: Project.mongoCollection.count()
-		]
+		[ feed: activityService.adminFeed() ]
 	}
 }

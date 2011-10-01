@@ -4,11 +4,14 @@
 		<meta name="layout" content="main" />
 	</head>
 	<body>
-		<h1>Stats</h1>
-		<ul>
-			<li>Applications - <g:link controller="application">${applications}</g:link></li>
-			<li>Users - <g:link controller="user">${users}</g:link></li>
-			<li>Projects - <g:link controller="project">${projects}</g:link></li>
-		</ul>
+		<section class="span11 feed">
+			<div class="header">
+				<h1>Recent Activity</h1>
+			</div>
+			<g:each in="${feed}" var="a">
+				<a:brief src="${a}"/>
+			</g:each>
+		</section>
+		<br style="clear: both"/>
 	</body>
 </html>
