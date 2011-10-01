@@ -5,6 +5,7 @@ class Project {
 	String projectId
 	String ownerId
 	String name
+	String description
 	Map metadata
 
 	Project(Map map = [:]) {
@@ -15,6 +16,7 @@ class Project {
 		}
 		ownerId = map.ownerId
 		name = map.name
+		description = map.description
 		if (map.metadata) {
 			metadata = map.metadata
 		} else {
@@ -31,6 +33,7 @@ class Project {
 		map.projectId = projectId
 		map.ownerId = ownerId
 		map.name = name
+		map.description = description
 		map.metadata = metadata ?: [:]
 		map
 	}
