@@ -16,22 +16,41 @@ body {
 .right {
 	float: right;
 }
-.btn.new {
-	font-weight: bold;
-}
 .header {
 	border-bottom: 1px solid #ccc;
-	margin-bottom: 8px;
+	padding: 0 8px 0 8px;
+	margin-bottom: 0px;
+	background: #ffffff;
+	background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5));
+	background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+	background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+	background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
 }
 .header h1 {
 	margin-bottom: 0;
 	font-size: 18px;
-	font-weight: bold;
 }
-
+.projects {
+	float: right;
+	width: 275px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+.projects ul.unstyled {
+	margin-bottom: 6px;
+}
+.projects .btn.new {
+	margin-top: 6px;
+	padding: 4px;
+}
 .project {
 	height: 22px;
-	padding: 8px 0 4px 0;
+	padding: 8px 0 4px 10px;
 	border-bottom: 1px dashed #ddd;
 }
 .project .label {

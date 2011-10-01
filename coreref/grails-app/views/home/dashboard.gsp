@@ -6,17 +6,14 @@
 	<body>
 		<div class="row">
 			<section class="span11 feed">
-				<div class="header">
-					<h1>Recent Activity</h1>
-				</div>
 				<g:each in="${feed}" var="a">
 					<a:full src="${a}"/>
 				</g:each>
 			</section>
-			<section class="span5 projects">
+			<section class="projects">
 				<g:set var="projects" value="${user.projects}" />
 				<div class="header">
-					<g:link controller="project" action="create" class="btn small new right">New Project</g:link>
+					<g:link controller="project" action="create" class="btn primary small new right">New Project</g:link>
 					<h1>Projects (${projects.size()})</h1>
 				</div>
 				<ul class="unstyled">
