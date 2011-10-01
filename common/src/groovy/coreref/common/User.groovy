@@ -61,11 +61,15 @@ class User {
 	}
 
 	def getProjects() {
-		Project.findAllInstances(ownerId: id)
+		Project.findAllInstances(ownerId: id).sort { it.projectId }
 	}
 
 	def getMemberProjects() {
-		roles.findAll { it.startsWith('MEMBER_') }.collect { Project.findInstance(projectId: (it - 'MEMBER_')) }
+		roles.findAll {
+			it.startsWith('MEMBER_')
+		}.collect {
+			Project.findInstance(projectId: (it - 'MEMBER_'))
+		}.sort { it.projectId }
 	}
 
 	String toString() {
