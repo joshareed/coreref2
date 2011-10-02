@@ -14,7 +14,7 @@ class HomeControllerTests extends ControllerUnitTestCase {
 	}
 
 	void testIndexNoUser() {
-		assert null == controller.index()
+		assert [:] == controller.index()
 	}
 
 	void testIndexWithUser() {

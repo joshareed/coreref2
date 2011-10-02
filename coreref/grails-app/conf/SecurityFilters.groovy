@@ -4,7 +4,7 @@ class SecurityFilters {
 	def filters = {
 		loginCheck(controller:'login', invert: true) {
 			before = {
-				def roles = securityService.getRequiredRoles(request.forwardURI - request.contextPath) ?: ['USER']
+				def roles = securityService.getRequiredRoles(request.forwardURI - request.contextPath) ?: []
 				if (roles) {
 					def user = session.user
 					if (user) {
@@ -19,6 +19,8 @@ class SecurityFilters {
 					session['login-forward-uri'] = request.forwardURI
 					redirect controller: 'login'
 					return false
+				} else {
+					return true
 				}
 			}
 		}

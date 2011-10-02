@@ -1,5 +1,6 @@
 package coreref
 
+import coreref.security.Secured
 import coreref.common.Project
 
 class ProjectController {
@@ -37,10 +38,12 @@ class ProjectController {
 		}
 	}
 
+	@Secured('USER')
 	def create = {
 		[errors: [:]]
 	}
 
+	@Secured('USER')
 	def save = {
 		def project = new Project(params)
 		def errors = project.errors
