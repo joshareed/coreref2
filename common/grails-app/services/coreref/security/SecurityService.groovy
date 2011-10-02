@@ -6,16 +6,16 @@ import java.security.NoSuchAlgorithmException
 import coreref.common.User
 
 class SecurityService {
-    static transactional = false
+	static transactional = false
 	def mongoService
 	def grailsApplication
 
 	private def classRoleMap = [:]
 	private def actionRoleMap = [:]
 
-    String encodePassword(String password) {
+	String encodePassword(String password) {
 		return md5Hex(password)
-    }
+	}
 
 	User authenticate(String email, String password) {
 		def u = User.mongoCollection.find(email: email, password: encodePassword(password), enabled: true)
@@ -51,7 +51,6 @@ class SecurityService {
 		} else {
 			return roles
 		}
-
 	}
 
 	private initialize() {
@@ -87,7 +86,7 @@ class SecurityService {
 		return str[0].toLowerCase() + str[1..-1]
 	}
 
-    private String md5Hex(final String s) {
+	private String md5Hex(final String s) {
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("MD5")
@@ -96,5 +95,5 @@ class SecurityService {
 		} catch (NoSuchAlgorithmException e) {
 			throw new IllegalStateException("No MD5 algorithm available!")
 		}
-    }
+	}
 }
