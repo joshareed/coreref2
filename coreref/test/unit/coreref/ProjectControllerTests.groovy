@@ -109,7 +109,6 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 	}
 
 	void testSearch() {
-		assert [:] == controller.search()
-
+		assert null == controller.search()
 	}
 }
