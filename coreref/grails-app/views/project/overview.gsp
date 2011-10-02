@@ -4,9 +4,11 @@
 		<meta name="layout" content="main" />
 	</head>
 	<body>
-		<h1>${project.name}</h1>
-		<div>
-			<span class="label warning">TODO</span> Project Page
-		</div>
+		<h1>${project.projectId}: ${project.name}</h1>
+		<g:if test="${project.desc}">
+			<div class="description">
+				${project.desc}
+			</div>
+		</g:if>
 	</body>
 </html>
