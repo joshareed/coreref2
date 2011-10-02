@@ -1,12 +1,12 @@
 <%@ page import="coreref.common.Project" %>
 <%@ page import="coreref.common.User" %>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <title>Project :: New</title>
-    </head>
-    <body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="layout" content="main" />
+		<title>Project :: New</title>
+	</head>
+	<body>
 		<div class="page-header">
 			<h1>New Project</h1>
 		</div>
@@ -38,5 +38,5 @@
 				<g:link action="list" class="btn">Cancel</g:link>
 			</div>
 		</g:form>
-    </body>
+	</body>
 </html>
