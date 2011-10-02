@@ -3,7 +3,7 @@ package coreref
 class HomeController {
 	def activityService
 
-    def index = {
+	def index = {
 		if (session.user) {
 			flash.message = flash.message
 			flash.error = flash.error
