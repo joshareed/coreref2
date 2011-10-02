@@ -3,9 +3,9 @@ package coreref
 import coreref.common.User
 
 class LoginController {
-    def securityService
+	def securityService
 
-    def index = { }
+	def index = { }
 
 	def auth = {
 		def user = securityService.authenticate(params.email, params.password)
