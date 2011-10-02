@@ -1,5 +1,5 @@
 <g:set var="p" value="${activity.project}" />
-${p.name}
-<g:if test="${p?.description}">
-<p>${p?.description}</p>
+<div style="padding-bottom: 3px">${p.name}:</div>
+<g:if test="${p?.desc}">
+<blockquote style="font-style: italic">${p?.desc}</blockquote>
 </g:if>
