@@ -61,19 +61,19 @@
 		<div class="container">
 			<g:if test="${flash.message}">
 				<div class="alert-message info">
-	        		<a class="close" href="#">&times;</a>
-	        		<p>${flash.message}</p>
-	      		</div>
+					<a class="close" href="#">&times;</a>
+					<p>${flash.message}</p>
+				</div>
 			</g:if>
 			<g:elseif test="${flash.error}">
-	      		<div class="alert-message error">
-	        		<a class="close" href="#">&times;</a>
-	        		<p>${flash.error}</p>
-	      		</div>
+				<div class="alert-message error">
+					<a class="close" href="#">&times;</a>
+					<p>${flash.error}</p>
+				</div>
 			</g:elseif>
 			<g:layoutBody />
 			<div class="footer">
-				<g:render template="/git"/>
+				<g:meta name="app.version"/> &mdash; <g:render template="/git"/>
 			</div>
 		</div>
 	</body>
