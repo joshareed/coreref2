@@ -62,6 +62,8 @@ class Project {
 		errors
 	}
 
+	boolean isPublic() { priv == PUBLIC }
+
 	String toString() {
 		"${name} (${projectId})"
 	}

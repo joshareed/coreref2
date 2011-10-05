@@ -60,13 +60,13 @@
 					<ul class="inputs-list">
 						<li>
 							<label>
-								<input type="radio" name="priv" value="1" <g:if test="${!project?.priv || project?.priv == 1}">checked="checked"</g:if> />
+								<input type="radio" name="priv" value="1" <g:if test="${project.isPublic()}">checked="checked"</g:if> />
 								<span>Public &mdash; anyone can see and join the project</span>
 							</label>
 						</li>
 						<li>
 							<label>
-								<input type="radio" name="priv" value="2" <g:if test="${project?.priv == 2}">checked="checked"</g:if> />
+								<input type="radio" name="priv" value="2" <g:if test="${!project.isPublic()}">checked="checked"</g:if> />
 								<span>Private &mdash; only users you approve can see and join the project</span>
 							</label>
 						</li>

@@ -28,7 +28,7 @@ class ProjectController {
 		}
 
 		// check visibility
-		if (project.priv == 1 || (session.user && session.user.canView(project))) {
+		if (project.isPublic() || (session.user && session.user.canView(project))) {
 			return closure.call(project)
 		}
 

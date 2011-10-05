@@ -44,7 +44,7 @@ class User {
 
 	// project-related roles
 	boolean canView(project) {
-		project.priv == 1 || isOwner(project) || isEditor(project) || isMember(project)
+		project.isPublic() || isOwner(project) || isEditor(project) || isMember(project)
 	}
 	boolean isMember(project) { hasRole("MEMBER_${project}") }
 	boolean isEditor(project) { hasRole("EDITOR_${project}") }
