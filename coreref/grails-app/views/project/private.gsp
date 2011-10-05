@@ -3,17 +3,17 @@
 		<title>Project :: ${project.projectId}</title>
 		<meta name="layout" content="main" />
 		<style type="text/css" media="screen">
-			.well {
-				margin-top: 30px;
+			.private {
+				margin-top: 50px;
+				font-style: italic;
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
 		<g:render template="header" model="[project: project]"/>
-
-		<div class="well">
-		Overview
+		<div class="alert-message warning private">
+			<p>This project is limited to members only.	 Click the join button above to request access.</p>
 		</div>
-
 	</body>
 </html>
