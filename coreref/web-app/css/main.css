@@ -1,5 +1,5 @@
 body {
-	padding-top: 50px;
+	padding-top: 70px;
 }
 .footer {
 	position: relative;
@@ -19,16 +19,26 @@ body {
 	background: #ffffff;
 	background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5));
-	background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
-	background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
-	background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
-	background: linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+	background: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -ms-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5', GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+}
+.btn.slim {
+	margin-top: 6px;
+	padding: 4px;
+	font-size: 11px;
 }
 .header h1 {
 	margin-bottom: 0;
 	font-size: 18px;
 }
+.empty {
+	font-style: italic;
+}
+
+/* dashboard page */
 .projects {
 	float: right;
 	width: 275px;
@@ -50,15 +60,15 @@ body {
 	font-style: italic;
 	text-align: center;
 }
-.project {
+li.project {
 	height: 22px;
 	padding: 8px 0 4px 10px;
 	border-bottom: 1px dashed #ddd;
 }
-.project .label {
+li.project .label {
 	margin-top: -3px;
 }
-.project a:hover {
+li.project a:hover {
 	text-decoration: none;
 }
 .feed .empty {
@@ -84,4 +94,13 @@ body {
 }
 .feed .activity.full .body {
 	margin: 5px 0 0 15px;
+}
+
+/* project pages */
+div.project {
+	border: 1px solid #ccc;
+	border-radius: 5px 5px 0 0;
+}
+.description {
+	padding: 10px;
 }

@@ -33,7 +33,7 @@
 				<g:set var="projects" value="${user.projects}" />
 				<g:set var="memberProjects" value="${user.memberProjects}" />
 				<div class="header">
-					<g:link controller="project" action="create" class="btn primary small new right">New Project</g:link>
+					<g:link controller="project" action="create" class="btn primary slim right">New Project</g:link>
 					<h1>Projects (${projects.size()})</h1>
 				</div>
 				<ul class="unstyled">
