@@ -26,14 +26,14 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 	void testOverviewNoId() {
 		controller.overview()
 		assert [uri: '/'] == controller.redirectArgs
-		assert "No project id specified" == controller.flash.message
+		assert "No project id specified" == controller.flash.error
 	}
 
 	void testOverviewInvalidId() {
 		controller.params.id = 'does-not-exist'
 		controller.overview()
 		assert [uri: '/'] == controller.redirectArgs
-		assert "No project with id 'does-not-exist'" == controller.flash.message
+		assert "No project with id 'does-not-exist'" == controller.flash.error
 	}
 
 	void testOverviewWithProjectId() {
