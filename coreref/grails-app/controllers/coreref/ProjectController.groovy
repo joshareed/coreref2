@@ -12,7 +12,7 @@ class ProjectController {
 	private def withProject = { Map map, closure ->
 		def id = map.id
 		if (!id) {
-			flash.message = "No project id specified"
+			flash.error = "No project id specified"
 			redirect uri: '/'
 			return
 		}
@@ -22,20 +22,36 @@ class ProjectController {
 			project = Project.getInstance(id)
 		}
 		if (!project) {
-			flash.message = "No project with id '${id}'"
+			flash.error = "No project with id '${id}'"
 			redirect uri: '/'
 			return
 		}
 
-		// TODO: check visibility
+		// check visibility
+		if (project.priv == 1 || (session.user && session.user.canView(project))) {
+			return closure.call(project)
+		}
 
-		return closure.call(project)
+		// not public and not logged in, so prompt a login
+		if (!session.user) {
+			flash.message = 'You must be logged in to see this project'
+			session['login-forward-uri'] = request.forwardURI
+			redirect controller: 'login'
+			return
+		} else {
+			render view: 'private', model: [project: project]
+		}
 	}
 
 	def overview = {
 		withProject(params) { project ->
 			[project: project]
 		}
+	}
+
+	@Secured('USER')
+	def admin = {
+
 	}
 
 	@Secured('USER')
