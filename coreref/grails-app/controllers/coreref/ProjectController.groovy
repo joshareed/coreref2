@@ -54,7 +54,6 @@ class ProjectController {
 	def join = {
 		withProject(params) { project ->
 			flash.message = projectService.join(project, session.user)
-			session.user = User.get(session.user.id)
 			redirect controller: 'project', action: 'overview', id: project.projectId
 		}
 	}
@@ -63,7 +62,6 @@ class ProjectController {
 	def leave = {
 		withProject(params) { project ->
 			flash.message = projectService.leave(project, session.user)
-			session.user = User.get(session.user.id)
 			redirect controller: 'project', action: 'overview', id: project.projectId
 		}
 	}
