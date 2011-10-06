@@ -9,11 +9,13 @@ class ProjectTests extends GrailsUnitTestCase {
 		super.setUp()
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Project)
+		mongoService.map(User)
 	}
 
 	protected void tearDown() {
 		super.tearDown()
 		Project.mongoCollection.drop()
+		User.mongoCollection.drop()
 	}
 
 	void testCreateNoMetadata() {
@@ -47,6 +49,24 @@ class ProjectTests extends GrailsUnitTestCase {
 		assert 'The description' == proj.desc
 		assert Project.STEALTH == proj.priv
 		assert [opt: true] == proj.metadata
+	}
+
+	void testCreateWithOwner() {
+		def user = new User(id: 'user')
+		def proj = new Project(owner: user)
+		assert 'user' == proj.ownerId
+	}
+
+	void testGetSetOwner() {
+		User.mongoCollection.add(firstName: 'Test', lastName: 'User', email: 'test@test.com')
+		def user = User.findInstance(email: 'test@test.com')
+
+		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project')
+		assert 'owner' == proj.ownerId
+
+		proj.owner = user
+		assert user.id == proj.ownerId
+		assert user.id == proj.owner.id
 	}
 
 	void testToMap() {
