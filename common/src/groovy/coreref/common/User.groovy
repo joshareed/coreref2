@@ -33,21 +33,28 @@ class User {
 	}
 
 	// role helpers
-	void addRole(role) {
+	void addRole(r) {
+		def role = r.toString()
 		if (!roles.find { it == role }) {
 			roles.add(role)
 		}
 	}
-	void removeRole(role) { roles.remove(role) }
-	boolean hasRole(role) { (roles.find { it == role } != null) }
+	void removeRole(r) {
+		def role = r.toString()
+		roles.remove(role)
+	}
+	boolean hasRole(r) {
+		def role = r.toString()
+		(roles.find { it == role } != null)
+	}
 	boolean isAdmin() { hasRole('ADMIN') }
 
 	// project-related roles
 	boolean canView(project) {
 		project.isPublic() || isOwner(project) || isEditor(project) || isMember(project)
 	}
-	boolean isMember(project) { hasRole("MEMBER_${project.id}".toString()) }
-	boolean isEditor(project) { hasRole("EDITOR_${project.id}".toString()) }
+	boolean isMember(project) { hasRole("MEMBER_${project.id}") }
+	boolean isEditor(project) { hasRole("EDITOR_${project.id}") }
 	boolean isOwner(project) { id == project.ownerId }
 
 	def getErrors() {
@@ -68,10 +75,11 @@ class User {
 	}
 
 	def getMemberProjects() {
-		roles.findAll {
-			it.startsWith('MEMBER_')
-		}.collect {
-			Project.findInstance(projectId: (it - 'MEMBER_'))
+		def ids = roles.findAll { it.startsWith('MEMBER_') }.collect { it - 'MEMBER_' }
+		ids.inject([]) { list, id ->
+			def p = Project.getInstance(id)
+			if (p) { list << p }
+			list
 		}.sort { it.projectId }
 	}
 
