@@ -8,6 +8,7 @@ class ProjectController {
 
 	def activityService
 	def lexiconService
+	def projectService
 
 	private def withProject = { Map map, closure ->
 		def id = map.id
@@ -46,6 +47,24 @@ class ProjectController {
 	def overview = {
 		withProject(params) { project ->
 			[project: project]
+		}
+	}
+
+	@Secured('USER')
+	def join = {
+		withProject(params) { project ->
+			flash.message = projectService.join(project, session.user)
+			session.user = User.get(session.user.id)
+			redirect controller: 'project', action: 'overview', id: project.projectId
+		}
+	}
+
+	@Secured('USER')
+	def leave = {
+		withProject(params) { project ->
+			flash.message = projectService.leave(project, session.user)
+			session.user = User.get(session.user.id)
+			redirect controller: 'project', action: 'overview', id: project.projectId
 		}
 	}
 
