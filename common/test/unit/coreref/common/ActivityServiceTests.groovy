@@ -90,7 +90,7 @@ class ActivityServiceTests extends GrailsUnitTestCase {
 		assert 1 == service.homeFeed(u1).size()
 		assert 0 == service.homeFeed(u2).size()
 
-		u2.roles << 'MEMBER_test-project'
+		u2.addRole("MEMBER_${p.id}")
 		assert 1 == service.homeFeed(u2).size()
 	}
 }
