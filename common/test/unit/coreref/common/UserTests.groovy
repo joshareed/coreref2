@@ -102,7 +102,8 @@ class UserTests extends GrailsUnitTestCase {
 		assert !user.projects
 
 		Project.mongoCollection.add(projectId: 'test', ownerId: 'user')
-		assert 1 == user.projects.size()
+		Project.mongoCollection.add(projectId: 'test2', ownerId: 'user')
+		assert 2 == user.projects.size()
 	}
 
 	void testGetMemberProjects() {
