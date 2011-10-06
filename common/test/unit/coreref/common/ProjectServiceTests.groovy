@@ -79,4 +79,68 @@ class ProjectServiceTests extends GrailsUnitTestCase {
 		assert !user.isMember(project)
 		assert 1 == ProjectInvite.mongoCollection.count()
 	}
+
+	void testLeaveNotAMember() {
+		assert 'Not a member' == projectService.leave(project, user)
+	}
+
+	void testLeave() {
+		user.addRole("MEMBER_${project.id}")
+		assert user.isMember(project)
+
+		assert 'Left the project' == projectService.leave(project, user)
+		assert !user.isMember(project)
+	}
+
+	void testLeaveRemovesAllRoles() {
+		user.addRole("MEMBER_${project.id}")
+		assert user.isMember(project)
+
+		user.addRole("EDITOR_${project.id}")
+		assert user.isEditor(project)
+
+		assert 'Left the project' == projectService.leave(project, user)
+		assert !user.isMember(project)
+		assert !user.isEditor(project)
+	}
+
+	void testKick() {
+		user.addRole("MEMBER_${project.id}")
+		assert user.isMember(project)
+
+		assert 'Left the project' == projectService.kick(project, user)
+		assert !user.isMember(project)
+	}
+
+	void testProcessInvites() {
+		assert !user.isMember(project)
+
+		ProjectInvite.mongoCollection.add(email: user.email, projectId: project.id, invited: true)
+		projectService.processInvites(user)
+
+		assert user.isMember(project)
+	}
+
+	void testProcessInvitesNotInvited() {
+		assert !user.isMember(project)
+
+		ProjectInvite.mongoCollection.add(email: user.email, projectId: project.id)
+		projectService.processInvites(user)
+
+		assert !user.isMember(project)
+	}
+
+	void testInvite() {
+		assert !user.isMember(project)
+
+		ProjectInvite.mongoCollection.add(email: 'foo@bar.com', projectId: project.id, invited: false)
+		assert 1 == ProjectInvite.mongoCollection.count()
+
+		projectService.invite(project, ['test@test.com', 'foo@bar.com', 'bar@baz.com'])
+		user = User.getInstance(user.id)
+		assert user.isMember(project)
+		assert 2 == ProjectInvite.mongoCollection.count()
+		assert ProjectInvite.find(email: 'foo@bar.com', projectId: project.id, invited: true)
+		assert ProjectInvite.find(email: 'bar@baz.com', projectId: project.id, invited: true)
+	}
 }

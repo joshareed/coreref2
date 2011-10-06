@@ -38,7 +38,7 @@ class ProjectService {
 	}
 
 	def leave(project, user) {
-		if (!user.isMember()) {
+		if (!user.isMember(project)) {
 			return 'Not a member'
 		}
 
@@ -57,7 +57,9 @@ class ProjectService {
 			def user = User.findInstance(email: email)
 			if (user) {
 				// user already exists, so join them
-				join(project, user)
+				user.addRole("MEMBER_${project.id}".toString())
+				save(user)
+				cleanupInvites(project, user)
 			} else {
 				def invite = ProjectInvite.find(email: email, projectId: project.id)
 				if (invite) {
@@ -65,12 +67,10 @@ class ProjectService {
 						// should never happen since only way to create a request is if there is a user
 						invite.invited = true
 						ProjectInvite.mongoCollection.save(invite)
-					} else {
-						// already invited so skip
 					}
 				} else {
 					// add a new invite
-					ProjectInvite.mongoCollection.insert(email: email, projectId: project.id, invited: true)
+					ProjectInvite.mongoCollection.add(email: email, projectId: project.id, invited: true)
 				}
 			}
 		}
@@ -81,8 +81,8 @@ class ProjectService {
 	}
 
 	def processInvites(user) {
-		ProjectInvite.mongoCollection.findAll(email: user.email).each { invite ->
-			def project = Project.get(invite.projectId)
+		ProjectInvite.mongoCollection.findAll(email: user.email, invited: true).each { invite ->
+			def project = Project.getInstance(invite.projectId)
 			if (project) {
 				join(project, user)
 			}
