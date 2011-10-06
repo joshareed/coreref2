@@ -6,6 +6,10 @@ class DomainUtils {
 		val == null ? defaultVal : (val == true || val == 'true' || val == 'on')
 	}
 
+	static int coerceInt(val, defaultVal = 1) {
+		val == null ? defaultVal : val as int
+	}
+
 	static List coerceList(val, defaultVal = []) {
 		if (val == null) {
 			return defaultVal

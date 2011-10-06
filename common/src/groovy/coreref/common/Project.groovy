@@ -23,7 +23,7 @@ class Project {
 		name = map.name
 		desc = map.desc
 		if (map.containsKey('priv')) {
-			priv = map.priv
+			priv = DomainUtils.coerceInt(map.priv)
 		} else {
 			priv = PUBLIC
 		}
