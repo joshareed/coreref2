@@ -7,7 +7,7 @@
 			</g:if>
 			<g:else>
 				<g:if test="${user.isMember(project)}">
-					<g:link class="btn slim primary right" controller="project" action="leave" id="${project.projectId}">Leave</g:link>
+					<g:link class="btn slim right" controller="project" action="leave" id="${project.projectId}">Leave</g:link>
 				</g:if>
 				<g:else>
 					<g:link class="btn slim primary right" controller="project" action="join" id="${project.projectId}">Join</g:link>
