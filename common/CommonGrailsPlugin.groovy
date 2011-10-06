@@ -39,6 +39,7 @@ Contains all of the common models and functionality for CoreRef
 			def mongoService = applicationContext.getBean('mongoService')
 			mongoService.map(coreref.common.User)
 			mongoService.map(coreref.common.Project)
+			mongoService.map(coreref.common.ProjectInvite)
 			mongoService.map(coreref.common.Application)
 			mongoService.map(coreref.common.Activity)
 		}
