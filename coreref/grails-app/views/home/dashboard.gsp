@@ -34,7 +34,7 @@
 				<g:set var="memberProjects" value="${user.memberProjects}" />
 				<div class="header">
 					<g:link controller="project" action="create" class="btn primary slim right">New Project</g:link>
-					<h1>Projects (${projects.size()})</h1>
+					<h1>Projects (${projects.size() + memberProjects.size()})</h1>
 				</div>
 				<ul class="unstyled">
 					<g:each in="${projects}" var="p">
