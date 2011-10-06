@@ -46,8 +46,8 @@ class User {
 	boolean canView(project) {
 		project.isPublic() || isOwner(project) || isEditor(project) || isMember(project)
 	}
-	boolean isMember(project) { hasRole("MEMBER_${project}") }
-	boolean isEditor(project) { hasRole("EDITOR_${project}") }
+	boolean isMember(project) { hasRole("MEMBER_${project.id}".toString()) }
+	boolean isEditor(project) { hasRole("EDITOR_${project.id}".toString()) }
 	boolean isOwner(project) { id == project.ownerId }
 
 	def getErrors() {
