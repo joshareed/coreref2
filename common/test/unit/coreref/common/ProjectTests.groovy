@@ -49,7 +49,7 @@ class ProjectTests extends GrailsUnitTestCase {
 		assert [opt: true] == proj.metadata
 	}
 
-	void testSave() {
+	void testToMap() {
 		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', 'metadata.opt': true)
 		assert [projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', priv: 1, metadata: [opt:true]] == proj.toMap()
 	}
@@ -59,7 +59,7 @@ class ProjectTests extends GrailsUnitTestCase {
 		assert 'Test Project (test-proj)' == proj.toString()
 	}
 
-	void testErrors() {
+	void testGetErrors() {
 		assert [ownerId: 'Required field', projectId: 'Required field', name: 'Required field'] == new Project().errors
 		assert [projectId: 'Required field', name: 'Required field'] == new Project(ownerId: 'owner').errors
 		assert [name: 'Required field'] == new Project(ownerId: 'owner', projectId: 'projectId').errors
@@ -68,5 +68,10 @@ class ProjectTests extends GrailsUnitTestCase {
 		Project.mongoCollection.add(projectId: 'test')
 
 		assert "'test' already in use" == new Project(ownerId: 'owner', projectId: 'test', name: 'name').errors.projectId
+	}
+
+	void testIsPublic() {
+		assert !new Project(priv: 2).isPublic()
+		assert new Project().isPublic()
 	}
 }
