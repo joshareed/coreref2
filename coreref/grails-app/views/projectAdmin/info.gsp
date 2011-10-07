@@ -11,13 +11,13 @@
 		</script>
 	</head>
 	<body>
-		<g:render template="admin/header" model="[project: project]"/>
+		<g:render template="header" model="[project: project]"/>
 		<div class="row">
 			<div class="span4">
-				<g:render template="admin/menu" model="[project: project]"/>
+				<g:render template="menu" model="[project: project]"/>
 			</div>
 			<div class="span12 admin-content">
-				<g:form action="adminUpdate" class="form-stacked">
+				<g:form action="update" class="form-stacked">
 					<g:hiddenField name="ownerId" value="${session?.user?.id}"/>
 					<g:hiddenField name="id" value="${project?.id}"/>
 					<div class="clearfix <g:if test="${errors?.projectId}">error</g:if>">

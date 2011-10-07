@@ -6,10 +6,10 @@
 		<title>Admin :: ${project.projectId}</title>
 	</head>
 	<body>
-		<g:render template="admin/header" model="[project: project]"/>
+		<g:render template="header" model="[project: project]"/>
 		<div class="row">
 			<div class="span4">
-				<g:render template="admin/menu" model="[project: project]"/>
+				<g:render template="menu" model="[project: project]"/>
 			</div>
 			<div class="span12">
 				Invite/Approve/Kick/Ignore Members
