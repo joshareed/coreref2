@@ -68,7 +68,46 @@ class ProjectController {
 
 	@Secured('USER')
 	def admin = {
+		withProject(params) { project ->
+			if (session.user.isOwner(project)) {
+				switch(params.subaction) {
+				case 'info':
+					render view: 'admin/info', model: [project: project]
+					break
+				case 'members':
+					render view: 'admin/members', model: [project: project]
+					break
+				default:
+					redirect action: 'admin', id: project.projectId, params: [subaction: 'info']
+				}
+			} else {
+				flash.error = 'Not the project admin'
+				redirect controller: 'project', action: 'overview', id: project.projectId
+			}
+		}
+	}
 
+	@Secured('USER')
+	def adminUpdate = {
+		withProject(params) { project ->
+			if (session.user.isOwner(project)) {
+				def update = new Project(params)
+				def errors = update.errors
+				if (!errors) {
+					def diff = project.toMap() - update.toMap()
+					Project.mongoCollection.update(project.mongoObject, update)
+					activityService.logProjectUpdated(session.user, project, diff)
+					flash.message = "Project updated"
+					redirect action: 'admin', id: project.projectId, params: [subaction: 'info']
+				} else {
+					flash.message = 'Project has errors'
+					render view: 'admin/info', model: [project: update, errors: errors]
+				}
+			} else {
+				flash.error = 'Not the project admin'
+				redirect controller: 'project', action: 'overview', id: project.projectId
+			}
+		}
 	}
 
 	@Secured('USER')

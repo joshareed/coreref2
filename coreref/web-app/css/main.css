@@ -4,7 +4,6 @@ body {
 .footer {
 	position: relative;
 	border-top: 1px solid #eee;
-	margin-top: 100px;
 	padding-top: 10px;
 	color: #ccc;
 	text-align: center;
@@ -97,10 +96,97 @@ li.project a:hover {
 }
 
 /* project pages */
-div.project {
+.project-header {
 	border: 1px solid #ccc;
 	border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	padding: 0 8px 0 8px;
+	margin-bottom: 0px;
+	background: #ffffff;
+	background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5));
+	background: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -ms-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5', GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+}
+.project-header h1 {
+	margin-bottom: 0;
+	font-size: 18px;
 }
 .description {
 	padding: 10px;
+	border: 1px solid #ccc;
+	border-top: 0;
+}
+
+/* project admin pages */
+.admin-menu {
+	margin-top: 15px;
+	list-style: none;
+	margin-left: 0;
+	padding: 15px 0;
+	border-right: 1px solid #ccc;
+}
+.admin-header {
+	padding: 0 8px;
+	background: #ffffff;
+	background: -moz-linear-gradient(top, #e5e5e5 0%, #c5c5c5 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e5e5), color-stop(100%,#c5c5c5));
+	background: -webkit-linear-gradient(top, #e5e5e5 0%, #c5c5c5 100%);
+	background: -o-linear-gradient(top, #e5e5e5 0%, #c5c5c5 100%);
+	background: -ms-linear-gradient(top, #e5e5e5 0%, #c5c5c5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#c5c5c5', GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, #e5e5e5 0%, #c5c5c5 100%);
+	border: 1px solid #b5b5b5;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+.admin-content {
+	margin-top: 25px;
+}
+.admin-header h1 {
+	font-size: 18px;
+	margin-bottom: 0;
+}
+
+.admin-menu li {
+	font-size: 14px;
+	margin: 10px 0;
+}
+.admin-menu li:hover {
+	background-color: #eee;
+	border-radius: 5px 0 0 5px;
+	-webkit-border-radius: 5px 0 0 5px;
+	-moz-border-radius: 5px 0 0 5px;
+}
+.admin-menu li.active {
+	margin-right: -1px;
+	border: 1px solid #ccc;
+	border-radius: 5px 0 0 5px;
+	-webkit-border-radius: 5px 0 0 5px;
+	-moz-border-radius: 5px 0 0 5px;
+	background: #ffffff;
+	background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5));
+	background: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	background: -ms-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5', GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+}
+.admin-menu li a {
+	display: inline-block;
+	width: 199px;
+	padding: 10px;
+}
+.admin-menu li.active a {
+	color: black;
+	font-weight: bold;
+}
+.admin-menu li a:hover {
+	text-decoration: none;
 }
