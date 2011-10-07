@@ -1,5 +1,4 @@
 <%@ page import="coreref.common.Project" %>
-<%@ page import="coreref.common.User" %>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,8 +16,8 @@
 				<div class="input">
 					<g:textField name="projectId" value="${project?.projectId}" class="span7" />
 					<span class="help-inline">
-						<g:if test="${errors.projectId}">
-							${errors.projectId}
+						<g:if test="${errors?.projectId}">
+							${errors?.projectId}
 						</g:if>
 						<g:else>
 							must be unique, e.g. and1-1b
@@ -31,8 +30,8 @@
 				<div class="input">
 					<g:textField class="span7" name="name" value="${project?.name}" />
 					<span class="help-inline">
-						<g:if test="${errors.projectId}">
-							${errors.projectId}
+						<g:if test="${errors?.name}">
+							${errors?.name}
 						</g:if>
 						<g:else>
 							the name of the project
@@ -45,8 +44,8 @@
 				<div class="input">
 					<textarea name="desc" class="span7">${project?.desc}</textarea>
 					<span class="help-inline">
-						<g:if test="${errors.desc}">
-							${errors.desc}
+						<g:if test="${errors?.desc}">
+							${errors?.desc}
 						</g:if>
 						<g:else>
 							(optional)
