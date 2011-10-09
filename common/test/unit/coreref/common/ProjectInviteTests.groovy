@@ -27,6 +27,6 @@ class ProjectInviteTests extends GrailsUnitTestCase {
 
 	void testToMap() {
 		def invite = new ProjectInvite('test@example.com', 'test', true)
-		assert [email: 'test@example.com', projectId: 'test', invited: true] == invite.toMap()
+		assert [email: 'test@example.com', projectId: 'test', invited: true, blocked: false] == invite.toMap()
 	}
 }
