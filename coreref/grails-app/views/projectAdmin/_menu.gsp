@@ -1,5 +1,5 @@
 <ul class="admin-menu">
-	<li class="${params.action == 'info' ? 'active' : ''}">
+	<li class="${params.action == 'info' || !params.action ? 'active' : ''}">
 		<g:link controller="projectAdmin" action="info" id="${project.projectId}">Info</g:link>
 	</li>
 	<li class="${params.action == 'members' ? 'active' : ''}">
