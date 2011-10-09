@@ -108,8 +108,12 @@ class ProjectServiceTests extends GrailsUnitTestCase {
 		user.addRole("MEMBER_${project.id}")
 		assert user.isMember(project)
 
-		assert 'Left the project' == projectService.kick(project, user)
+		assert projectService.kick(project, user)
 		assert !user.isMember(project)
+
+		def invite = ProjectInvite.find(email: user.email, projectId: project.id)
+		assert invite
+		assert invite.blocked
 	}
 
 	void testProcessInvites() {

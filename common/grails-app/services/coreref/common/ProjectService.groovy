@@ -78,6 +78,7 @@ class ProjectService {
 
 	def kick(project, user) {
 		leave(project, user)
+		ProjectInvite.mongoCollection.add(email: user.email, projectId: project.id, invited: false, blocked: true)
 	}
 
 	def processInvites(user) {
