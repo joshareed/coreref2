@@ -4,14 +4,14 @@ class Activity {
 	String userId
 	String action
 	String projectId
-	Date timestamp
+	Date ts
 	String data
 
 	Activity(Map map = [:]) {
 		userId = map.userId
 		action = map.action
 		projectId = map.projectId
-		timestamp = (map.timestamp ?: new Date())
+		ts = (map.ts ?: new Date())
 		data = map.data
 	}
 
@@ -19,7 +19,7 @@ class Activity {
 		map.userId = userId
 		map.action = action
 		map.projectId = projectId
-		map.timestamp = timestamp
+		map.ts = ts
 		map.data = data
 		map
 	}
@@ -40,7 +40,7 @@ class Activity {
 
 	static mongo = [
 		collection: '_activity',
-		index: ['user', 'project', 'timestamp']
+		index: ['user', 'project', 'ts']
 	]
 }
 
