@@ -76,6 +76,10 @@ class Project {
 		ownerId = owner.id
 	}
 
+	def getMembers() {
+		User.findAllInstances(roles: "MEMBER_${id}".toString()).sort { it.firstName }
+	}
+
 	static mongo = [
 		collection: '_projects',
 		index: ['projectId', 'ownerId', 'priv']
