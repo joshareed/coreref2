@@ -1,8 +1,12 @@
 body {
 	padding-top: 70px;
 }
+.content {
+	min-height: 750px;
+}
 .footer {
 	position: relative;
+	bottom: 0px;
 	border-top: 1px solid #eee;
 	padding-top: 10px;
 	color: #ccc;

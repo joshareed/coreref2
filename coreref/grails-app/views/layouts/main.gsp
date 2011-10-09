@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<g:render template="/menu"/>
-		<div class="container">
+		<div class="container content">
 			<g:if test="${flash.message}">
 				<div class="alert-message info">
 					<a class="close" href="#">&times;</a>
@@ -32,6 +32,8 @@
 				</div>
 			</g:elseif>
 			<g:layoutBody />
+		</div>
+		<div class="container">
 			<div class="footer">
 				<g:meta name="app.version"/> &mdash; <g:render template="/git"/>
 			</div>
