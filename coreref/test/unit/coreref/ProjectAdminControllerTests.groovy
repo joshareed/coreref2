@@ -130,4 +130,56 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 
 		assert 'Approved User' == controller.response.contentAsString
 	}
+
+	void testIgnoreNoEmail() {
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.ignore()
+
+		assert 'No user with that email' == controller.flash.error
+		assert [action: 'members', id: 'test'] == controller.redirectArgs
+	}
+
+	void testIgnoreNoEmailAjax() {
+		controller.request.addHeader "X-Requested-With", "XMLHttpRequest"
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.ignore()
+
+		assert 404 == controller.response.status
+	}
+
+	void testIgnoreWithEmail() {
+		controller.projectService = [
+			block: { project, user ->
+				assert 'test' == project?.projectId
+				assert 'User' == user
+			}
+		]
+
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.params.email = 'User'
+		controller.ignore()
+
+		assert 'Ignored User' == controller.flash.message
+		assert [action: 'members', id: 'test'] == controller.redirectArgs
+	}
+
+	void testIgnoreWithEmailAjax() {
+		controller.request.addHeader "X-Requested-With", "XMLHttpRequest"
+		controller.projectService = [
+			block: { project, user ->
+				assert 'test' == project?.projectId
+				assert 'User' == user
+			}
+		]
+
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.params.email = 'User'
+		controller.ignore()
+
+		assert 'Ignored User' == controller.response.contentAsString
+	}
 }

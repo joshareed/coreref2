@@ -123,7 +123,7 @@ class ProjectAdminController {
 				}
 			} else {
 				if (email) {
-					projectService.block(project, user)
+					projectService.block(project, email)
 					flash.message = "Ignored ${email}"
 				} else {
 					flash.error = 'No user with that email'
