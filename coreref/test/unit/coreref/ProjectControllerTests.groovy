@@ -107,6 +107,38 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		assert 1 == p.priv
 	}
 
+	void testJoin() {
+		def called = [:]
+		controller.projectService = [
+			join: { project, user -> called = [project: project, user: user] }
+		]
+
+		controller.session.user = 'User'
+		controller.params.id = 'test'
+		controller.join()
+
+		assert called
+		assert 'test' == called.project.projectId
+		assert 'User' == called.user
+		assert [controller: 'project', action: 'overview', id: 'test'] == controller.redirectArgs
+	}
+
+	void testLeave() {
+		def called = [:]
+		controller.projectService = [
+			leave: { project, user -> called = [project: project, user: user] }
+		]
+
+		controller.session.user = 'User'
+		controller.params.id = 'test'
+		controller.leave()
+
+		assert called
+		assert 'test' == called.project.projectId
+		assert 'User' == called.user
+		assert [controller: 'project', action: 'overview', id: 'test'] == controller.redirectArgs
+	}
+
 	void testCreate() {
 		assert [errors: [:]] == controller.create()
 	}
