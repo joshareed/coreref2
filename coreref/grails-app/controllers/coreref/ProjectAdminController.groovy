@@ -67,8 +67,10 @@ class ProjectAdminController {
 			def errors = update.errors
 			if (!errors) {
 				def diff = project.toMap() - update.toMap()
-				Project.mongoCollection.update(project.mongoObject, update)
-				activityService.logProjectUpdated(session.user, project, diff)
+				if (diff) {
+					Project.mongoCollection.update(project.mongoObject, update)
+					activityService.logProjectUpdated(session.user, update, diff)
+				}
 				flash.message = "Project updated"
 				redirect action: 'info', id: project.projectId
 			} else {
