@@ -36,6 +36,50 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		assert "No project with id 'does-not-exist'" == controller.flash.error
 	}
 
+	void testOverviewNotPublicAndNotLoggedIn() {
+		def project = Project.findInstance(projectId: 'test')
+		project.priv = 2
+		Project.mongoCollection.update(project.mongoObject, project)
+
+		assert !project.isPublic()
+		controller.params.id = 'test'
+		controller.overview()
+		assert [controller: 'login'] == controller.redirectArgs
+	}
+
+	void testOverviewNotPublicRenderPrivate() {
+		def project = Project.findInstance(projectId: 'test')
+		project.priv = 2
+		Project.mongoCollection.update(project.mongoObject, project)
+
+		assert !project.isPublic()
+		controller.params.id = 'test'
+		controller.session.user = [
+			canView: { p -> false }
+		]
+		controller.overview()
+		assert 'private' == controller.renderArgs.view
+	}
+
+	void testOverviewNotPublicButCanView() {
+		def project = Project.findInstance(projectId: 'test')
+		project.priv = 2
+		Project.mongoCollection.update(project.mongoObject, project)
+
+		assert !project.isPublic()
+		controller.params.id = 'test'
+		controller.session.user = [
+			canView: { p -> true }
+		]
+		def map = controller.overview()
+		def p = map.project
+		assert p
+		assert p instanceof Project
+		assert 'test' == p.projectId
+		assert 'Test Project' == p.name
+		assert 'The description' == p.desc
+	}
+
 	void testOverviewWithProjectId() {
 		controller.params.id = 'test'
 		def map = controller.overview()
