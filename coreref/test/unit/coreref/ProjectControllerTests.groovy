@@ -11,7 +11,6 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Project)
-		mongoService.map(Activity)
 
 		Project.mongoCollection.add(projectId: 'test', name: 'Test Project', desc: 'The description', priv: 1)
 	}
@@ -20,7 +19,6 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		super.tearDown()
 
 		Project.mongoCollection.drop()
-		Activity.mongoCollection.drop()
 	}
 
 	void testOverviewNoId() {
@@ -164,14 +162,20 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 	}
 
 	void testSave() {
-		controller.params.putAll(ownerId: 'user', projectId: 'test2', name: 'Test Project')
-		controller.activityService = new ActivityService()
+		def called = [:]
+		controller.activityService = [
+			logProjectCreated: { user, project -> called = [project: project, user: user] }
+		]
 
 		assert 1 == Project.mongoCollection.count()
-		assert 0 == Activity.mongoCollection.count()
+		controller.session.user = 'User'
+		controller.params.putAll(ownerId: 'user', projectId: 'test2', name: 'Test Project')
 		def map = controller.save()
 		assert 2 == Project.mongoCollection.count()
-		assert 1 == Activity.mongoCollection.count()
+
+		assert called
+		assert 'test2' == called?.project?.projectId
+		assert 'User' == called?.user
 
 		assert 'Project test2 created' == controller.flash.message
 
