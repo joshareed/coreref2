@@ -78,4 +78,56 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		assert 'test' == p.project.projectId
 		assert ['pending'] == p.pending
 	}
+
+	void testApproveNoEmail() {
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.approve()
+
+		assert 'No user with that email' == controller.flash.error
+		assert [action: 'members', id: 'test'] == controller.redirectArgs
+	}
+
+	void testApproveNoEmailAjax() {
+		controller.request.addHeader "X-Requested-With", "XMLHttpRequest"
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.approve()
+
+		assert 404 == controller.response.status
+	}
+
+	void testApproveWithEmail() {
+		controller.metaClass.getUser = { params -> 'User' }
+		controller.projectService = [
+			approve: { project, user ->
+				assert 'test' == project?.projectId
+				assert 'User' == user
+			}
+		]
+
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.approve()
+
+		assert 'Approved User' == controller.flash.message
+		assert [action: 'members', id: 'test'] == controller.redirectArgs
+	}
+
+	void testApproveWithEmailAjax() {
+		controller.request.addHeader "X-Requested-With", "XMLHttpRequest"
+		controller.metaClass.getUser = { params -> 'User' }
+		controller.projectService = [
+			approve: { project, user ->
+				assert 'test' == project?.projectId
+				assert 'User' == user
+			}
+		]
+
+		controller.session.user = [ isOwner: { p -> true } ]
+		controller.params.id = 'test'
+		controller.approve()
+
+		assert 'Approved User' == controller.response.contentAsString
+	}
 }
