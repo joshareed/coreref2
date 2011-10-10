@@ -23,8 +23,10 @@
 				margin: 10px 0px;
 			}
 			.admin-content .btn.slim {
-				margin: 0;
 				margin-top: -2px;
+			}
+			.admin-content .btn.slim.danger {
+				margin-left: 4px;
 			}
 			.hover.btn.slim {
 				display: none;
@@ -39,8 +41,53 @@
 			}
 		</style>
 		<script type="text/javascript" charset="utf-8">
+			function approve(email, ref) {
+				$.post(
+					'${createLink(controller: "projectAdmin", action: "approve", id: project.projectId)}',
+					{'email': email}
+				).success(function(data) {
+					ref.fadeOut();
+				}).error(function(data) {
+					alert(data);
+				});
+			}
+
+			function ignore(email, ref) {
+				$.post(
+					'${createLink(controller: "projectAdmin", action: "ignore", id: project.projectId)}',
+					{'email': email}
+				).success(function(data) {
+					ref.fadeOut();
+				}).error(function(data) {
+					alert(data);
+				});
+			}
+
+			function kick(email, ref) {
+				$.post(
+					'${createLink(controller: "projectAdmin", action: "kick", id: project.projectId)}',
+					{'email': email}
+				).success(function(data) {
+					ref.fadeOut();
+				}).error(function(data) {
+					alert(data);
+				});
+			}
+
 			$(function() {
 				$('.admin-menu').css('height', $('.admin-content').height() + 'px');
+				$('[data-approve]').click(function() {
+					approve($(this).attr('data-approve'), $(this).parent().parent());
+					return false;
+				});
+				$('[data-ignore]').click(function() {
+					ignore($(this).attr('data-ignore'), $(this).parent().parent());
+					return false;
+				});
+				$('[data-kick]').click(function() {
+					kick($(this).attr('data-kick'), $(this).parent().parent());
+					return false;
+				});
 			});
 		</script>
 	</head>
@@ -59,7 +106,7 @@
 								<tr>
 									<th>Email</th>
 									<th>Status</th>
-									<th style="width: 100px">&nbsp;</th>
+									<th style="width: 120px">&nbsp;</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -76,11 +123,11 @@
 									</td>
 									<td>
 										<g:if test="${p.invited}">
-											<a href="#revoke" class="hover btn slim danger right">Revoke</a>
+											<a href="#revoke" data-ignore="${p.email}" class="hover btn slim danger right">Revoke</a>
 										</g:if>
 										<g:else>
-											<a href="#approve" class="btn slim right">Approve</a>
-											<a href="#ignore" class="btn slim danger right">Ignore</a>
+											<a href="#ignore" data-ignore="${p.email}" class="btn slim danger right">Ignore</a>
+											<a href="#approve" data-approve="${p.email}" class="btn slim right">Approve</a>
 										</g:else>
 									</td>
 								</tr>
@@ -116,7 +163,7 @@
 								<td>${u.lastName}</td>
 								<td>${u.email}</td>
 								<td>
-									<a href="#kick" class="hover btn slim danger right">Kick</a>
+									<a href="#kick" data-kick="${u.email}" class="hover btn slim danger right">Kick</a>
 								</td>
 							</tr>
 							</g:each>

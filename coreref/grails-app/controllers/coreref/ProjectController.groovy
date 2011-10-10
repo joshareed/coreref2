@@ -17,7 +17,6 @@ class ProjectController {
 			redirect uri: '/'
 			return
 		}
-
 		def project = Project.findInstance(projectId: id)
 		if (!project) {
 			project = Project.getInstance(id)
@@ -28,25 +27,28 @@ class ProjectController {
 			return
 		}
 
-		// check visibility
-		if (project.isPublic() || (session.user && session.user.canView(project))) {
-			return closure.call(project)
-		}
-
-		// not public and not logged in, so prompt a login
-		if (!session.user) {
+		// not public and not logged in
+		if (!project.isPublic() && !session.user) {
 			flash.message = 'You must be logged in to see this project'
 			session['login-forward-uri'] = request.forwardURI
 			redirect controller: 'login'
 			return
+		}
+
+		if (closure.maximumNumberOfParameters == 1) {
+			return closure.call(project)
 		} else {
-			render view: 'private', model: [project: project]
+			return closure.call(project, session.user ? session.user.canView(project) : true)
 		}
 	}
 
 	def overview = {
-		withProject(params) { project ->
-			[project: project]
+		withProject(params) { project, canView ->
+			if (canView) {
+				[project: project]
+			} else {
+				render view: 'private', model: [project: project]
+			}
 		}
 	}
 

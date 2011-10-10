@@ -3,6 +3,10 @@ package coreref.common
 class ProjectService {
 	static transactional = false
 
+	def pending(project) {
+		ProjectInvite.findAllInstances(projectId: project.id, blocked: false)
+	}
+
 	def join(project, user) {
 		// check if already a member
 		if (user.isMember(project)) {
@@ -12,7 +16,7 @@ class ProjectService {
 
 		// add if public
 		if (project.isPublic()) {
-			user.addRole("MEMBER_${project.id}".toString())
+			user.addRole("MEMBER_${project.id}")
 			save(user)
 			cleanupInvites(project, user)
 			return 'Joined project'
@@ -22,7 +26,7 @@ class ProjectService {
 		def invite = ProjectInvite.find(email: user.email, projectId: project.id)
 		if (invite) {
 			if (invite.invited) {
-				user.addRole("MEMBER_${project.id}".toString())
+				user.addRole("MEMBER_${project.id}")
 				save(user)
 				cleanupInvites(project, user)
 				return 'Joined project'
@@ -57,7 +61,7 @@ class ProjectService {
 			def user = User.findInstance(email: email)
 			if (user) {
 				// user already exists, so join them
-				user.addRole("MEMBER_${project.id}".toString())
+				user.addRole("MEMBER_${project.id}")
 				save(user)
 				cleanupInvites(project, user)
 			} else {
@@ -70,15 +74,26 @@ class ProjectService {
 					}
 				} else {
 					// add a new invite
-					ProjectInvite.mongoCollection.add(email: email, projectId: project.id, invited: true)
+					ProjectInvite.mongoCollection.add(email: email, projectId: project.id, invited: true, blocked: false)
 				}
 			}
 		}
 	}
 
+	def approve(project, user) {
+		user.addRole("MEMBER_${project.id}")
+		save(user)
+		cleanupInvites(project, user)
+	}
+
 	def kick(project, user) {
 		leave(project, user)
-		ProjectInvite.mongoCollection.add(email: user.email, projectId: project.id, invited: false, blocked: true)
+		block(project, user.email)
+	}
+
+	def block(project, email) {
+		ProjectInvite.mongoCollection.remove(email: email, projectId: project.id)
+		ProjectInvite.mongoCollection.add(email: email, projectId: project.id, invited: false, blocked: true)
 	}
 
 	def processInvites(user) {
@@ -95,8 +110,6 @@ class ProjectService {
 	}
 
 	private void cleanupInvites(project, user) {
-		ProjectInvite.findAll(projectId: project.id, email: user.email).each {
-			ProjectInvite.mongoCollection.remove(it)
-		}
+		ProjectInvite.mongoCollection.remove(projectId: project.id, email: user.email)
 	}
 }

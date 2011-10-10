@@ -57,7 +57,7 @@ class ProjectAdminController {
 
 	def members = {
 		withProject(params) { project ->
-			[project: project, pending: ProjectInvite.findAllInstances(projectId: project.id, blocked: false)]
+			[project: project, pending: projectService.pending(project)]
 		}
 	}
 
@@ -84,10 +84,78 @@ class ProjectAdminController {
 			if (emails) {
 				projectService.invite(project, emails)
 				flash.message = 'Invites sent'
-				redirect action: 'members', id: project.projectId
+			}
+			redirect action: 'members', id: project.projectId
+		}
+	}
+
+	def approve = {
+		withProject(params) { project ->
+			def user = getUser(params)
+			if (request.xhr) {
+				if (user) {
+					projectService.approve(project, user)
+					render "Approved ${user}"
+				} else {
+					response.sendError(404, 'No user with that email')
+				}
 			} else {
+				if (user) {
+					projectService.approve(project, user)
+					flash.message = "Approved ${user}"
+				} else {
+					flash.error = 'No user with that email'
+				}
 				redirect action: 'members', id: project.projectId
 			}
 		}
+	}
+
+	def ignore = {
+		withProject(params) { project ->
+			def email = params.email
+			if (request.xhr) {
+				if (email) {
+					projectService.block(project, email)
+					render "Ignored ${email}"
+				} else {
+					response.sendError(404, 'No user with that email')
+				}
+			} else {
+				if (email) {
+					projectService.block(project, user)
+					flash.message = "Ignored ${email}"
+				} else {
+					flash.error = 'No user with that email'
+				}
+				redirect action: 'members', id: project.projectId
+			}
+		}
+	}
+
+	def kick = {
+		withProject(params) { project ->
+			def user = getUser(params)
+			if (request.xhr) {
+				if (user) {
+					projectService.kick(project, user)
+					render "Kicked ${user}"
+				} else {
+					response.sendError(404, 'No user with that email')
+				}
+			} else {
+				if (user) {
+					projectService.kick(project, user)
+					flash.message = "Kicked ${user}"
+				} else {
+					flash.error = 'No user with that email'
+				}
+				redirect action: 'members', id: project.projectId
+			}
+		}
+	}
+
+	private getUser(params) {
+		params.email ? User.findInstance(email: params.email) : null
 	}
 }

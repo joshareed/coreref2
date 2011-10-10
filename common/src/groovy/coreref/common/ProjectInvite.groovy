@@ -1,12 +1,14 @@
 package coreref.common
 
 class ProjectInvite {
+	String id
 	String projectId
 	String email
 	boolean invited = false
 	boolean blocked = false
 
 	ProjectInvite(Map map) {
+		id = map._id ?: map.id
 		projectId = map.projectId
 		email = map.email
 		invited = DomainUtils.coerceBoolean(map.invited)
