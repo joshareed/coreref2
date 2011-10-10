@@ -106,34 +106,32 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 	}
 
 	void testJoin() {
-		def called = [:]
 		controller.projectService = [
-			join: { project, user -> called = [project: project, user: user] }
+			join: { project, user ->
+				assert 'test' == project.projectId
+				assert 'User' == user
+			}
 		]
 
 		controller.session.user = 'User'
 		controller.params.id = 'test'
 		controller.join()
 
-		assert called
-		assert 'test' == called.project.projectId
-		assert 'User' == called.user
 		assert [controller: 'project', action: 'overview', id: 'test'] == controller.redirectArgs
 	}
 
 	void testLeave() {
-		def called = [:]
 		controller.projectService = [
-			leave: { project, user -> called = [project: project, user: user] }
+			leave: { project, user ->
+				assert 'test' == project.projectId
+				assert 'User' == user
+			}
 		]
 
 		controller.session.user = 'User'
 		controller.params.id = 'test'
 		controller.leave()
 
-		assert called
-		assert 'test' == called.project.projectId
-		assert 'User' == called.user
 		assert [controller: 'project', action: 'overview', id: 'test'] == controller.redirectArgs
 	}
 
@@ -162,9 +160,11 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 	}
 
 	void testSave() {
-		def called = [:]
 		controller.activityService = [
-			logProjectCreated: { user, project -> called = [project: project, user: user] }
+			logProjectCreated: { user, project ->
+				assert 'test2' == project?.projectId
+				assert 'User' == user
+			}
 		]
 
 		assert 1 == Project.mongoCollection.count()
@@ -172,10 +172,6 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		controller.params.putAll(ownerId: 'user', projectId: 'test2', name: 'Test Project')
 		def map = controller.save()
 		assert 2 == Project.mongoCollection.count()
-
-		assert called
-		assert 'test2' == called?.project?.projectId
-		assert 'User' == called?.user
 
 		assert 'Project test2 created' == controller.flash.message
 
