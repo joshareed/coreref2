@@ -18,12 +18,7 @@ class SecurityService {
 	}
 
 	User authenticate(String email, String password) {
-		def u = User.mongoCollection.find(email: email, password: encodePassword(password), enabled: true)
-		if (u) {
-			return new User(u)
-		} else {
-			return null
-		}
+		User.findInstance(email: email, password: encodePassword(password), enabled: true)
 	}
 
 	def getRequiredRoles(String url) {
