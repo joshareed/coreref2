@@ -69,6 +69,18 @@ class ProjectTests extends GrailsUnitTestCase {
 		assert user.id == proj.owner.id
 	}
 
+	void testGetMembers() {
+		Project.mongoCollection.add(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project')
+
+		def proj = Project.findInstance(projectId: 'test-proj')
+		assert proj
+
+		User.mongoCollection.add(firstName: 'Test', lastName: 'User', email: 'test@test.com', roles: ['MEMBER_' + proj.id])
+		def members = proj.members
+		assert 1 == members.size()
+		assert members[0] instanceof User
+	}
+
 	void testToMap() {
 		def proj = new Project(projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', 'metadata.opt': true)
 		assert [projectId: 'test-proj', ownerId: 'owner', name: 'Test Project', desc: 'The description', priv: 1, metadata: [opt:true]] == proj.toMap()
