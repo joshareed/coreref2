@@ -7,8 +7,8 @@ class MongoServiceTests extends GrailsUnitTestCase {
 	def mongoService
 	def obj
 
-    protected void setUp() {
-        super.setUp()
+	protected void setUp() {
+		super.setUp()
 		mongoService = new MongoService()
 		mongoService.map(TestObject)
 
@@ -18,13 +18,13 @@ class MongoServiceTests extends GrailsUnitTestCase {
 		def i = col.findOne([name: 'Test'] as BasicDBObject)
 		assert i
 		obj = new TestObject(i)
-    }
+	}
 
-    protected void tearDown() {
-        super.tearDown()
+	protected void tearDown() {
+		super.tearDown()
 
 		mongoService.getCollection('_test_object').drop()
-    }
+	}
 
 	void testGetCollection() {
 		def coll = mongoService.getCollection('_test_object')
@@ -53,6 +53,8 @@ class MongoServiceTests extends GrailsUnitTestCase {
 		assert null != TestObject.getInstance(obj.id)
 		assert null == TestObject.getMongoObject('someid')
 		assert null == TestObject.getInstance('someid')
+		assert 1 == TestObject.list().size()
+		assert TestObject.listInstances()[0] instanceof TestObject
 	}
 
 	void testMappAddsInstanceMethods() {
@@ -95,6 +97,21 @@ class MongoServiceTests extends GrailsUnitTestCase {
 		// findAllBy
 		assert 2 == col.findAllByName('Test').size()
 
+		// findAll
+		assert null != TestObject.mongoCollection.findAll(name: 'Test')
+		def all = TestObject.mongoCollection.findAll([name: 'Test'], [name: true]).collect { it }
+		assert 2 == all.size()
+		assert 2 == all[0].size()
+		assert all[0].containsKey('_id')
+		assert 'Test' == all[0].name
+
+		// update
+		assert 0 == col.count(name: 'Josh')
+		def instance = TestObject.findInstance(name: 'Test')
+		instance.name = 'Josh'
+		col.update(instance.mongoObject, instance.toMap())
+		assert 1 == col.count(name: 'Josh')
+
 		// method missing
 		try {
 			col.doesNotExist()
@@ -119,7 +136,7 @@ class TestObject {
 		name = map.name
 	}
 
-	Map save(map = [:]) {
+	Map toMap(map = [:]) {
 		map.name = name
 		map
 	}
