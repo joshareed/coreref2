@@ -1,7 +1,5 @@
 package coreref.mongo
 
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-
 import com.mongodb.*
 import org.bson.types.ObjectId
 
@@ -9,10 +7,12 @@ import org.bson.types.ObjectId
  * A simple service for accessing a MongoDB instance.
  */
 class MongoService {
+	def grailsApplication
+
 	private def _mongo
 	boolean transactional = false
 
-	static {
+	MongoService() {
 		// some convenience methods
 		DBCollection.metaClass {
 			count << { LinkedHashMap query -> delegate.count(query as BasicDBObject) }
@@ -35,13 +35,13 @@ class MongoService {
 			remove << { LinkedHashMap query -> delegate.remove(query as BasicDBObject) }
 			methodMissing { String name, args ->
 				if (name.startsWith('findBy')) {
-					def p =	 name - 'findBy'
+					def p = name - 'findBy'
 					p = p[0].toLowerCase() + p[1..-1]
 					def query = [:]
 					query[p] = args[0]
 					return delegate.findOne(query as BasicDBObject)
 				} else if (name.startsWith('findAllBy')) {
-					def p =	 name - 'findAllBy'
+					def p = name - 'findAllBy'
 					p = p[0].toLowerCase() + p[1..-1]
 					def query = [:]
 					query[p] = args[0]
@@ -70,7 +70,7 @@ class MongoService {
 	def getMongo() {
 		if (!_mongo) {
 			// create our Mongo instance if needed
-			def host = ApplicationHolder?.application?.config?.mongo?.host ?: 'localhost'
+			def host = grailsApplication?.config?.mongo?.host ?: 'localhost'
 			def servers = host.split(',').collect { new ServerAddress(it) }
 			_mongo = new Mongo(servers)
 		}
@@ -84,7 +84,7 @@ class MongoService {
 		if (!name) { return null }
 
 		// get our database and collection
-		def db = mongo.getDB(ApplicationHolder?.application?.config?.mongo?.db ?: 'coreref')
+		def db = mongo.getDB(grailsApplication?.config?.mongo?.db ?: 'coreref')
 		if (db.collectionExists(name)) {
 			return db.getCollection(name)
 		} else {
@@ -150,7 +150,7 @@ class MongoService {
 		}
 
 		// map the class to the database
-		def db = mongo.getDB(ApplicationHolder?.application?.config?.mongo?.db ?: 'coreref')
+		def db = mongo.getDB(grailsApplication?.config?.mongo?.db ?: 'coreref')
 		def settings = clazz.mongo
 		if (db && settings && settings.collection) {
 			def name = settings.collection

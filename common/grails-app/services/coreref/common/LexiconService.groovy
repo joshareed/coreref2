@@ -1,9 +1,9 @@
 package coreref.common
 
 import grails.util.GrailsUtil
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class LexiconService {
+	def grailsApplication
 	static transactional = false
 
 	def parsed = false
@@ -35,7 +35,7 @@ class LexiconService {
 		if (!parsed) {
 			parsed = true
 
-			def config = ConfigurationHolder.config
+			def config = grailsApplication?.config
 			if (config) {
 				GroovyClassLoader classLoader = new GroovyClassLoader(getClass().classLoader)
 				config.merge(new ConfigSlurper(GrailsUtil.environment).parse(classLoader.loadClass('DefaultLexiconConfig')))
