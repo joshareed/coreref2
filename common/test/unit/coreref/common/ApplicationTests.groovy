@@ -1,18 +1,16 @@
 package coreref.common
 
-import grails.test.*
-
-class ApplicationTests extends GrailsUnitTestCase {
+class ApplicationTests {
 	def mongoService
 
-	protected void setUp() {
-		super.setUp()
+	@Before
+	public void setUp() {
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Application)
 	}
 
-	protected void tearDown() {
-		super.tearDown()
+	@After
+	public void tearDown() {
 		Application.mongoCollection.drop()
 	}
 
