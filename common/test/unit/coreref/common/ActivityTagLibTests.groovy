@@ -2,41 +2,37 @@ package coreref.common
 
 import grails.test.*
 
-class ActivityTagLibTests extends TagLibUnitTestCase {
-    protected void setUp() {
-        super.setUp()
-    }
-
-    protected void tearDown() {
-        super.tearDown()
-    }
+@TestFor(ActivityTagLib)
+class ActivityTagLibTests {
 
     void testBrief() {
 		def a = [
-			user: [id: 'userId', firstName: 'Josh', lastName: 'Reed'],
+			user: new User(id: 'userId', firstName: 'Josh', lastName: 'Reed'),
 			action: 'created',
-			project: [id: 'projectId', name: 'Test Project']
+			project: new Project(id: 'id', projectId: 'projectId'),
+			ts: new Date()
 		]
-		tagLib.brief(src: a)
-		assert '/activity/brief' == tagLib.renderArgs.template
-		assert 'common' == tagLib.renderArgs.plugin
-		assert a == tagLib.renderArgs.model.activity
-		assert 'created' == tagLib.renderArgs.model.action
-		assert null == tagLib.renderArgs.model.content
-
+		def out = tagLib.brief(src: a)
+		assert out.contains("""<div class="activity brief">""")
+		assert out.contains("""<a href="/user?id=userId">Josh Reed</a>""")
+		assert out.contains("""<span class="action">created</span>""")
+		assert out.contains("""<a href="/project?id=projectId">projectId</a>""")
     }
 
 	void testFull() {
 		def a = [
-			user: [id: 'userId', firstName: 'Josh', lastName: 'Reed'],
+			user: new User(id: 'userId', firstName: 'Josh', lastName: 'Reed'),
 			action: 'created',
-			project: [id: 'projectId', name: 'Test Project']
+			project: new Project(id: 'id', projectId: 'projectId', name: 'Test Project', desc: 'Some Desc'),
+			ts: new Date()
 		]
-		tagLib.full(src: a)
-		assert '/activity/full' == tagLib.renderArgs.template
-		assert 'common' == tagLib.renderArgs.plugin
-		assert a == tagLib.renderArgs.model.activity
-		assert 'created' == tagLib.renderArgs.model.action
-		assert null != tagLib.renderArgs.model.content
+		def out = tagLib.full(src: a)
+		assert out.contains("""<div class="activity full">""")
+		assert out.contains("""<a href="/user?id=userId">Josh Reed</a>""")
+		assert out.contains("""<span class="action">created</span>""")
+		assert out.contains("""<a href="/project?id=projectId">projectId</a>""")
+		assert out.contains("""<div class="body">""")
+		assert out.contains("""<div class="subject">Test Project:</div>""")
+		assert out.contains("""<blockquote>Some Desc</blockquote>""")
 	}
 }
