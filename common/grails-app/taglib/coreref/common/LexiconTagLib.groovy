@@ -27,8 +27,13 @@ class LexiconTagLib {
 			if (template && !template.startsWith('/')) {
 				template = '/lexicon/' + template
 			}
+
 			if (template) {
-				out << render(plugin: plugin, template: template, model: [src: src, key: key, value: value, entry: entry])
+				try {
+					out << render(plugin: plugin, template: template, model: [src: src, key: key, value: value, entry: entry])
+				} catch (e) {
+					out << value
+				}
 			} else {
 				out << value
 			}
