@@ -1,44 +1,41 @@
 package coreref
 
-import grails.test.*
-
 import coreref.common.*
 
-class ProjectAdminControllerTests extends ControllerUnitTestCase {
+@TestFor(ProjectAdminController)
+class ProjectAdminControllerTests {
 	def mongoService
 
-	protected void setUp() {
-		super.setUp()
-
+	@Before
+	public void setUp() {
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Project)
 
 		Project.mongoCollection.add(projectId: 'test', ownerId: 'user', name: 'Test Project', desc: 'The description', priv: 1)
 	}
 
-	protected void tearDown() {
-		super.tearDown()
-
+	@After
+	public void tearDown() {
 		Project.mongoCollection.drop()
 	}
 
 	void testInfoNoId() {
 		controller.info()
-		assert [uri: '/'] == controller.redirectArgs
+		assert '/' == response.redirectedUrl
 		assert "No project id specified" == controller.flash.error
 	}
 
 	void testInfoInvalidId() {
 		controller.params.id = 'does-not-exist'
 		controller.info()
-		assert [uri: '/'] == controller.redirectArgs
+		assert '/' == response.redirectedUrl
 		assert "No project with id 'does-not-exist'" == controller.flash.error
 	}
 
 	void testInfoNotLoggedIn() {
 		controller.params.id = 'test'
 		controller.info()
-		assert [controller: 'login'] == controller.redirectArgs
+		assert '/login' == response.redirectedUrl
 	}
 
 	void testInfoNotOwner() {
@@ -47,7 +44,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.info()
 
 		assert 'Not the project admin' == controller.flash.error
-		assert [controller: 'project', action: 'overview', id: 'test'] == controller.redirectArgs
+		assert '/project/overview/test' == response.redirectedUrl
 	}
 
 	void testInfo() {
@@ -85,7 +82,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.approve()
 
 		assert 'No user with that email' == controller.flash.error
-		assert [action: 'members', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/members/test' == response.redirectedUrl
 	}
 
 	void testApproveNoEmailAjax() {
@@ -111,7 +108,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.approve()
 
 		assert 'Approved User' == controller.flash.message
-		assert [action: 'members', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/members/test' == response.redirectedUrl
 	}
 
 	void testApproveWithEmailAjax() {
@@ -137,7 +134,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.ignore()
 
 		assert 'No user with that email' == controller.flash.error
-		assert [action: 'members', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/members/test' == response.redirectedUrl
 	}
 
 	void testIgnoreNoEmailAjax() {
@@ -163,7 +160,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.ignore()
 
 		assert 'Ignored User' == controller.flash.message
-		assert [action: 'members', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/members/test' == response.redirectedUrl
 	}
 
 	void testIgnoreWithEmailAjax() {
@@ -189,7 +186,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.kick()
 
 		assert 'No user with that email' == controller.flash.error
-		assert [action: 'members', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/members/test' == response.redirectedUrl
 	}
 
 	void testKickNoEmailAjax() {
@@ -215,7 +212,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.kick()
 
 		assert 'Kicked User' == controller.flash.message
-		assert [action: 'members', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/members/test' == response.redirectedUrl
 	}
 
 	void testKickWithEmailAjax() {
@@ -248,20 +245,20 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 		controller.params.invites = 'one@example.com, "Test User" <two@example.com>		three@example.com'
 		controller.invite()
 
-		assert [action: 'members', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/members/test' == response.redirectedUrl
 	}
 
 	void testUpdateWithErrors() {
 		controller.session.user = [ isOwner: { p -> true } ]
 		controller.params.id = 'test'
 
-		def map = controller.update()
+		controller.update()
 		assert 1 == Project.mongoCollection.count()
 
-		assert map.project
-		assert map.project instanceof Project
+		assert model.project
+		assert model.project instanceof Project
 
-		def e = map.errors
+		def e = model.errors
 		assert e
 		assert 3 == e.size()
 		assert 'Required field' == e.ownerId
@@ -270,7 +267,7 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 
 		assert 'Project has errors' == controller.flash.message
 
-		assert 'info' == controller.renderArgs.view
+		assert '/projectAdmin/info' == view
 	}
 
 	void testUpdate() {
@@ -291,6 +288,6 @@ class ProjectAdminControllerTests extends ControllerUnitTestCase {
 
 		assert 'Project updated' == controller.flash.message
 
-		assert [action: 'info', id: 'test'] == controller.redirectArgs
+		assert '/projectAdmin/info/test' == response.redirectedUrl
 	}
 }

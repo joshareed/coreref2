@@ -1,22 +1,20 @@
 package coreref
 
-import grails.test.*
 import coreref.common.*
 
-class LoginControllerTests extends ControllerUnitTestCase {
+@TestFor(LoginController)
+class LoginControllerTests {
 	def mongoService
 
-	protected void setUp() {
-		super.setUp()
-
+	@Before
+	public void setUp() {
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(User)
 		User.mongoCollection.add(email: 'test@test.com', password: '')
 	}
 
-	protected void tearDown() {
-		super.tearDown()
-
+	@After
+	public void tearDown() {
 		User.mongoCollection.drop()
 	}
 
@@ -31,8 +29,8 @@ class LoginControllerTests extends ControllerUnitTestCase {
 		controller.auth()
 
 		assert 'Invalid user or password' == controller.flash.error
-		assert 'index' == controller.renderArgs.view
-		assert [user: [email: 'test@test.com']] == controller.renderArgs.model
+		assert '/login/index' == view
+		assert [user: [email: 'test@test.com']] == model
 	}
 
 	void testAuth() {
@@ -41,7 +39,7 @@ class LoginControllerTests extends ControllerUnitTestCase {
 		controller.params.putAll(email: 'test@test.com', password: '')
 		controller.auth()
 
-		assert [uri: '/'] == controller.redirectArgs
+		assert '/' == response.redirectedUrl
 		assert controller.session.user
 		assert null != controller.session.user.lastLogin
 		assert null != controller.session['user-last-login']
@@ -54,7 +52,7 @@ class LoginControllerTests extends ControllerUnitTestCase {
 		controller.session['login-forward-uri'] = '/forward'
 		controller.auth()
 
-		assert [url: '/forward'] == controller.redirectArgs
+		assert '/forward' == response.redirectedUrl
 		assert controller.session.user
 		assert null != controller.session.user.lastLogin
 		assert null != controller.session['user-last-login']
@@ -64,6 +62,6 @@ class LoginControllerTests extends ControllerUnitTestCase {
 		controller.session.user = 'Some User'
 		controller.logout()
 		assert null == controller.session.user
-		assert [uri: '/'] == controller.redirectArgs
+		assert '/' == response.redirectedUrl
 	}
 }

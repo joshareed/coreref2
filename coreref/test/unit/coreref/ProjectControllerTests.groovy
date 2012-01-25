@@ -1,36 +1,34 @@
 package coreref
 
-import grails.test.*
 import coreref.common.*
 
-class ProjectControllerTests extends ControllerUnitTestCase {
+@TestFor(ProjectController)
+class ProjectControllerTests {
 	def mongoService
 
-	protected void setUp() {
-		super.setUp()
-
+	@Before
+	public void setUp() {
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Project)
 
 		Project.mongoCollection.add(projectId: 'test', name: 'Test Project', desc: 'The description', priv: 1)
 	}
 
-	protected void tearDown() {
-		super.tearDown()
-
+	@After
+	public void tearDown() {
 		Project.mongoCollection.drop()
 	}
 
 	void testOverviewNoId() {
 		controller.overview()
-		assert [uri: '/'] == controller.redirectArgs
+		assert '/' == response.redirectedUrl
 		assert "No project id specified" == controller.flash.error
 	}
 
 	void testOverviewInvalidId() {
 		controller.params.id = 'does-not-exist'
 		controller.overview()
-		assert [uri: '/'] == controller.redirectArgs
+		assert '/' == response.redirectedUrl
 		assert "No project with id 'does-not-exist'" == controller.flash.error
 	}
 
@@ -42,7 +40,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		assert !project.isPublic()
 		controller.params.id = 'test'
 		controller.overview()
-		assert [controller: 'login'] == controller.redirectArgs
+		assert '/login' == response.redirectedUrl
 	}
 
 	void testOverviewNotPublicRenderPrivate() {
@@ -56,7 +54,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 			canView: { p -> false }
 		]
 		controller.overview()
-		assert 'private' == controller.renderArgs.view
+		assert '/project/private' == view
 	}
 
 	void testOverviewNotPublicButCanView() {
@@ -81,6 +79,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 	void testOverviewWithProjectId() {
 		controller.params.id = 'test'
 		def map = controller.overview()
+
 		def p = map.project
 		assert p
 		assert p instanceof Project
@@ -96,6 +95,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 
 		controller.params.id = project.id
 		def map = controller.overview()
+
 		def p = map.project
 		assert p
 		assert p instanceof Project
@@ -117,7 +117,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		controller.params.id = 'test'
 		controller.join()
 
-		assert [controller: 'project', action: 'overview', id: 'test'] == controller.redirectArgs
+		assert '/project/overview/test' == response.redirectedUrl
 	}
 
 	void testLeave() {
@@ -132,7 +132,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		controller.params.id = 'test'
 		controller.leave()
 
-		assert [controller: 'project', action: 'overview', id: 'test'] == controller.redirectArgs
+		assert '/project/overview/test' == response.redirectedUrl
 	}
 
 	void testCreate() {
@@ -141,13 +141,13 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 
 	void testSaveInvalid() {
 		assert 1 == Project.mongoCollection.count()
-		def map = controller.save()
+		controller.save()
 		assert 1 == Project.mongoCollection.count()
 
-		assert map.project
-		assert map.project instanceof Project
+		assert model.project
+		assert model.project instanceof Project
 
-		def e = map.errors
+		def e = model.errors
 		assert e
 		assert 3 == e.size()
 		assert 'Required field' == e.ownerId
@@ -156,7 +156,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 
 		assert 'Project has errors' == controller.flash.message
 
-		assert 'create' == controller.renderArgs.view
+		assert '/project/create' == view
 	}
 
 	void testSave() {
@@ -170,7 +170,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		assert 1 == Project.mongoCollection.count()
 		controller.session.user = 'User'
 		controller.params.putAll(ownerId: 'user', projectId: 'test2', name: 'Test Project')
-		def map = controller.save()
+		controller.save()
 		assert 2 == Project.mongoCollection.count()
 
 		assert 'Project test2 created' == controller.flash.message
@@ -181,7 +181,7 @@ class ProjectControllerTests extends ControllerUnitTestCase {
 		assert 'test2' == p.projectId
 		assert 'Test Project' == p.name
 
-		assert [controller: 'project', action: 'overview', id: 'test2'] == controller.redirectArgs
+		assert '/project/overview/test2' == response.redirectedUrl
 	}
 
 	void testSearch() {

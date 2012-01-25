@@ -6,13 +6,9 @@ import org.codehaus.groovy.grails.plugins.web.filters.FilterConfig
 class SecurityFiltersTests extends GroovyTestCase {
 	def filter
 
-	protected void setUp() {
-		super.setUp()
+	@Before
+	public void setUp() {
 		filter = new SecurityFilters()
-	}
-
-	protected void tearDown() {
-		super.tearDown()
 	}
 
 	void testRedirectToLoginNoUser() {
@@ -110,5 +106,4 @@ class SecurityFiltersTests extends GroovyTestCase {
 	private List<FilterConfig> findConfigs() {
 		return new DefaultGrailsFiltersClass(SecurityFilters).getConfigs(filter)
 	}
-
 }

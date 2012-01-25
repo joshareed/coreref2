@@ -1,17 +1,9 @@
 package coreref
 
-import grails.test.*
 import coreref.common.*
 
-class HomeControllerTests extends ControllerUnitTestCase {
-
-	protected void setUp() {
-		super.setUp()
-	}
-
-	protected void tearDown() {
-		super.tearDown()
-	}
+@TestFor(HomeController)
+class HomeControllerTests {
 
 	void testIndexNoUser() {
 		assert [:] == controller.index()
@@ -20,7 +12,7 @@ class HomeControllerTests extends ControllerUnitTestCase {
 	void testIndexWithUser() {
 		controller.session.user = 'Some User'
 		controller.index()
-		assert [action: 'dashboard'] == controller.redirectArgs
+		assert '/home/dashboard' == response.redirectedUrl
 	}
 
 	void testDashboard() {
