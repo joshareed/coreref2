@@ -1,14 +1,13 @@
 package coreref.mongo
 
-import grails.test.*
 import com.mongodb.*
 
-class MongoServiceTests extends GrailsUnitTestCase {
+class MongoServiceTests {
 	def mongoService
 	def obj
 
-	protected void setUp() {
-		super.setUp()
+	@Before
+	public void setUp() {
 		mongoService = new MongoService()
 		mongoService.map(TestObject)
 
@@ -20,9 +19,8 @@ class MongoServiceTests extends GrailsUnitTestCase {
 		obj = new TestObject(i)
 	}
 
-	protected void tearDown() {
-		super.tearDown()
-
+	@After
+	public void tearDown() {
 		mongoService.getCollection('_test_object').drop()
 	}
 

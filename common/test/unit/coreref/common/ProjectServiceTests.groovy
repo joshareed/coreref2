@@ -1,17 +1,15 @@
 package coreref.common
 
-import grails.test.*
-
-class ProjectServiceTests extends GrailsUnitTestCase {
+@TestFor(ProjectService)
+class ProjectServiceTests {
 	def mongoService
 	def projectService
 
 	def project
 	def user
 
-	protected void setUp() {
-		super.setUp()
-
+	@Before
+	public void setUp() {
 		// setup the service
 		projectService = new ProjectService()
 
@@ -31,9 +29,8 @@ class ProjectServiceTests extends GrailsUnitTestCase {
 		assert user
 	}
 
-	protected void tearDown() {
-		super.tearDown()
-
+	@After
+	public void tearDown() {
 		User.mongoCollection.drop()
 		Project.mongoCollection.drop()
 		ProjectInvite.mongoCollection.drop()

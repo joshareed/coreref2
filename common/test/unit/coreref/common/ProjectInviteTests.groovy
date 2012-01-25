@@ -1,15 +1,6 @@
 package coreref.common
 
-import grails.test.*
-
-class ProjectInviteTests extends GrailsUnitTestCase {
-	protected void setUp() {
-		super.setUp()
-	}
-
-	protected void tearDown() {
-		super.tearDown()
-	}
+class ProjectInviteTests {
 
 	void testCreateMap() {
 		def invite = new ProjectInvite(email: 'test@example.com', projectId: 'test', invited: true)
