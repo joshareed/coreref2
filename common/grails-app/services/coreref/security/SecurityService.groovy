@@ -49,7 +49,7 @@ class SecurityService {
 	}
 
 	private initialize() {
-		initialize(grailsApplication?.controllerClasses ?: [])
+		initialize(grailsApplication.controllerClasses)
 	}
 
 	private initialize(controllers) {
@@ -58,7 +58,7 @@ class SecurityService {
 			def name = uncap(controller.name)
 			def controllerAnnotation = controller.clazz.getAnnotation(Secured)
 			if (controllerAnnotation) {
-				classRoleMap[name] = (controllerAnnotation.value() as Set)
+				classRoleMap[name] = (controllerAnnotation.value() as HashSet)
 			}
 
 			// parse field and method annotations
@@ -66,13 +66,13 @@ class SecurityService {
 			controller.clazz.declaredFields.each { field ->
 				def annotation = field.getAnnotation(Secured)
 				if (annotation) {
-					map[field.name] = (annotation.value() as Set)
+					map[field.name] = (annotation.value() as HashSet)
 				}
 			}
 			controller.clazz.declaredMethods.each { method ->
 				def annotation = method.getAnnotation(Secured)
 				if (annotation) {
-					map[method.name] = (annotation.value() as Set)
+					map[method.name] = (annotation.value() as HashSet)
 				}
 			}
 			if (map) {
