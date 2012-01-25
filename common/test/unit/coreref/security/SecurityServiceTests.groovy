@@ -1,29 +1,24 @@
 package coreref.security
 
-import grails.test.*
-
 import coreref.mongo.MongoService
 import coreref.common.User
 import com.mongodb.*
 
-class SecurityServiceTests extends GrailsUnitTestCase {
-	def service
+@TestFor(SecurityService)
+class SecurityServiceTests {
 	def mongoService
 
-	protected void setUp() {
-		super.setUp()
-
+	@Before
+	public void setUp() {
 		mongoService = new MongoService()
 		mongoService.map(User)
 		assert User.mongoCollection
 
-		service = new SecurityService()
 		service.mongoService = mongoService
 	}
 
-	protected void tearDown() {
-		super.tearDown()
-
+	@After
+	public void tearDown() {
 		User.mongoCollection.drop()
 	}
 
@@ -51,10 +46,7 @@ class SecurityServiceTests extends GrailsUnitTestCase {
 	}
 
 	void testRequiredRoles() {
-		service.grailsApplication = [
-			controllerClasses: [[name: 'Test', clazz: TestController]]
-		]
-		service.initialize()
+		service.initialize([[name: 'Test', clazz: TestController]])
 
 		assert ['USER'] == service.getRequiredRoles('/test') as List
 		assert ['EDITOR'] == service.getRequiredRoles('/test/method') as List

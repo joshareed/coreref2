@@ -49,7 +49,11 @@ class SecurityService {
 	}
 
 	private initialize() {
-		grailsApplication.controllerClasses.each { controller ->
+		initialize(grailsApplication?.controllerClasses ?: [])
+	}
+
+	private initialize(controllers) {
+		controllers.each { controller ->
 			// parse controller annotation
 			def name = uncap(controller.name)
 			def controllerAnnotation = controller.clazz.getAnnotation(Secured)

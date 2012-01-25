@@ -12,6 +12,7 @@ class ActivityTagLib {
 	}
 
 	def brief = { attrs ->
+		println "Attrs: ${attrs}"
 		def a = attrs.src
 		if (a) {
 			out << render(template: "/activity/brief", plugin: 'common', model: [activity: a, action: a.action])

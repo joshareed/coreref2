@@ -1,36 +1,24 @@
 package coreref.common
 
-import grails.test.*
+@TestFor(LexiconTagLib)
+class LexiconTagLibTests {
+	def lexiconService
 
-class LexiconTagLibTests extends TagLibUnitTestCase {
-	protected void setUp() {
-		super.setUp()
-		tagLib.lexiconService = new LexiconService()
-		tagLib.lexiconService.register('test', 'The Label')
-		tagLib.lexiconService.register('test2', 'The Label', null, null, 'template', 'plugin')
-	}
+	@Before
+	public void setUp() {
+		lexiconService = new LexiconService()
+		lexiconService.register('test', 'The Label')
 
-	protected void tearDown() {
-		super.tearDown()
+		// wire our dependency into the taglib
+		def taglib = applicationContext.getBean(LexiconTagLib)
+		taglib.lexiconService = lexiconService
 	}
 
 	void testLabel() {
-		tagLib.label(key: 'test')
-		assert 'The Label' == tagLib.out.toString()
+		assert 'The Label' == applyTemplate('<l:label key="test"/>')
 	}
 
 	void testValueNoTemplate() {
-		tagLib.value(key: 'test', src: [foo: 'bar'], value: 'The Value')
-		assert 'The Value' == tagLib.out.toString()
-	}
-
-	void testValueTemplate() {
-		tagLib.value(key: 'test2', src: [foo: 'bar'], value: 'The Value')
-		assert '/lexicon/template' == tagLib.renderArgs.template
-		assert 'plugin' == tagLib.renderArgs.plugin
-		assert [foo: 'bar'] == tagLib.renderArgs.model.src
-		assert 'The Value' == tagLib.renderArgs.model.value
-		assert 'test2' == tagLib.renderArgs.model.key
-		assert null != tagLib.renderArgs.model.entry
+		assert 'The Value' == applyTemplate("""<l:value key="test" src="${[foo: 'bar']}" value="The Value"/>""")
 	}
 }

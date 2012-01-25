@@ -2,7 +2,6 @@ package coreref.common
 
 class LexiconTagLib {
 	static namespace = 'l'
-
 	def lexiconService
 
 	def label = { attrs ->

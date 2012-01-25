@@ -32,7 +32,7 @@ class LexiconService {
 	}
 
 	private parseConfig() {
-		if (!parsed) {
+		if (!parsed && grailsApplication) {
 			parsed = true
 
 			def config = grailsApplication?.config
