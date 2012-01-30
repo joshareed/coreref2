@@ -4,7 +4,6 @@
 		<meta name="layout" content="main" />
 	</head>
 	<body>
-		<span class="label important">TODO</span>
 		<h1>Welcome to CoreRef!</h1>
 		<p>
 			CoreRef is a collaborative platform for scientific drilling projects, large and small. It provides

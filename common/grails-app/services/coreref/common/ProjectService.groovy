@@ -105,6 +105,31 @@ class ProjectService {
 		}
 	}
 
+	def index(project) {
+		def keywords = []
+		['projectId', 'name', 'desc'].each { prop ->
+			def split = project?."$prop"?.toLowerCase()?.split(' ')
+			if (split) {
+				keywords.addAll(split)
+			}
+		}
+		keywords = keywords.unique()
+		Project.mongoCollection.update(project.mongoObject, ['$set': [_index: keywords]])
+	}
+
+	def search(q) {
+		def keywords = []
+		def split = q?.toLowerCase()?.split(' ')
+		if (split) {
+			keywords.addAll(split)
+			Project.mongoCollection.findAll(_index: ['$in': keywords]).collect { p ->
+				new Project(p)
+			}
+		} else {
+			[]
+		}
+	}
+
 	private void save(user) {
 		User.mongoCollection.update(user.mongoObject, user)
 	}

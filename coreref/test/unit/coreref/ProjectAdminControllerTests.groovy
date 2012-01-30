@@ -11,6 +11,11 @@ class ProjectAdminControllerTests {
 		mongoService = new coreref.mongo.MongoService()
 		mongoService.map(Project)
 
+		controller.projectService = [
+			index: { project -> },
+			search: { q -> [] }
+		]
+
 		Project.mongoCollection.add(projectId: 'test', ownerId: 'user', name: 'Test Project', desc: 'The description', priv: 1)
 	}
 

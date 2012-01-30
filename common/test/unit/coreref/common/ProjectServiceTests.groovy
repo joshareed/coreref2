@@ -20,7 +20,7 @@ class ProjectServiceTests {
 		mongoService.map(ProjectInvite)
 
 		// create a project
-		Project.mongoCollection.add(projectId: 'test', name: 'Test Project', priv: 2)
+		Project.mongoCollection.add(projectId: 'test', name: 'Test Project', desc: 'Description', priv: 2)
 		project = Project.findInstance(projectId: 'test')
 		assert project
 
@@ -143,5 +143,24 @@ class ProjectServiceTests {
 		assert 2 == ProjectInvite.mongoCollection.count()
 		assert ProjectInvite.find(email: 'foo@bar.com', projectId: project.id, invited: true)
 		assert ProjectInvite.find(email: 'bar@baz.com', projectId: project.id, invited: true)
+	}
+
+	void testIndex() {
+		projectService.index(project)
+
+		def p = project.mongoObject
+		assert 'Test Project' == p.name
+		assert 'test' == p.projectId
+		assert 'Description' == p.desc
+		assert ['test', 'project', 'description'] == p._index
+	}
+
+	void testSearch() {
+		assert [] == projectService.search('test project')
+
+		projectService.index(project)
+		assert 1 == projectService.search('test project').size()
+		assert 0 == projectService.search('foo bar').size()
+		assert 1 == projectService.search('foo description').size()
 	}
 }

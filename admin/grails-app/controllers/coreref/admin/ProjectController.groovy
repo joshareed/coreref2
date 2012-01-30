@@ -10,6 +10,7 @@ class ProjectController {
 
 	def activityService
 	def lexiconService
+	def projectService
 
 	private getProjects() { Project.mongoCollection }
 	private def withProject = { Map map, closure ->
@@ -49,6 +50,7 @@ class ProjectController {
 		def errors = project.errors
 		if (!errors) {
 			projects.add(project)
+			projectService.index(project)
 			activityService.logProjectCreated(session.user, Project.findInstance(projectId: project.projectId))
 			flash.message = "Project ${project.projectId} created"
 			redirect action: 'list'
@@ -71,6 +73,7 @@ class ProjectController {
 			if (!errors) {
 				def diff = project - update.toMap()
 				projects.update(project, update)
+				projectService.index(project)
 				activityService.logProjectUpdated(session.user, new Project(project), diff)
 				flash.message = "Project '${update.projectId}' updated"
 				redirect action: 'show', id: project._id

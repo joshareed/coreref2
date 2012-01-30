@@ -10,10 +10,5 @@
 	</head>
 	<body>
 		<g:render template="header" model="[project: project]"/>
-
-		<div class="well">
-		Overview
-		</div>
-
 	</body>
 </html>

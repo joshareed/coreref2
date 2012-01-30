@@ -79,6 +79,7 @@ class ProjectController {
 		def errors = project.errors
 		if (!errors) {
 			Project.mongoCollection.add(project)
+			projectService.index(project)
 			activityService.logProjectCreated(session.user, Project.findInstance(projectId: project.projectId))
 			flash.message = "Project ${project.projectId} created"
 			redirect controller: 'project', action: 'overview', id: project.projectId
@@ -89,6 +90,7 @@ class ProjectController {
 	}
 
 	def search = {
-
+		def results = params.q ? projectService.search(params.q) : []
+		[q: params?.q, results: results]
 	}
 }

@@ -69,6 +69,7 @@ class ProjectAdminController {
 				def diff = project.toMap() - update.toMap()
 				if (diff) {
 					Project.mongoCollection.update(project.mongoObject, update)
+					projectService.index(update)
 					activityService.logProjectUpdated(session.user, update, diff)
 				}
 				flash.message = "Project updated"

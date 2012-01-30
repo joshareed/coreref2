@@ -158,9 +158,10 @@ class MongoService {
 				def collection = db.createCollection(name, [:] as BasicDBObject)
 				if (settings.index) {
 					settings.index.each { f ->
-						collection.ensureIndex([(f): true] as BasicDBObject)
+						collection.ensureIndex(f)
 					}
 				}
+				collection.ensureIndex('_index')
 			}
 		}
 	}
