@@ -19,7 +19,7 @@ class SecurityFilters {
 					}
 
 					// redirect to the login page
-					session['login-forward-uri'] = request.forwardURI
+					session['login-forward-uri'] = request.forwardURI - request.contextPath
 					redirect controller: 'login'
 					return false
 				}

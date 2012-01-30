@@ -22,13 +22,13 @@
 				</div>
 			</div>
 			<div class="modal-body">
-				<div class="clearfix <g:if test="${errors?.email}">error</g:if>">
+				<div class="clearfix">
 					<label for="email">Email</label>
 					<div class="input">
 						<g:textField name="email" value="${user?.email}" />
 					</div>
 				</div>
-				<div class="clearfix <g:if test="${errors?.password}">error</g:if>">
+				<div class="clearfix">
 					<label for="password">Password</label>
 					<div class="input">
 						<g:passwordField name="password" value="" />
