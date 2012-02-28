@@ -10,6 +10,8 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
+grails.config.locations = [ "classpath:secret.properties" ]
+
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -99,4 +101,20 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
+}
+
+// mail settings
+grails {
+	mail {
+		host = "smtp.gmail.com"
+		port = 465
+		username = "jareed@coreref.org"
+		password = "" // configure via secret.properties file
+		props = [
+			"mail.smtp.auth": "true",
+			"mail.smtp.socketFactory.port": "465",
+			"mail.smtp.socketFactory.class": "javax.net.ssl.SSLSocketFactory",
+			"mail.smtp.socketFactory.fallback": "false"
+		]
+	}
 }

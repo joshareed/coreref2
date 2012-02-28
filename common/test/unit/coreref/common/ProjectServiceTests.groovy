@@ -72,7 +72,12 @@ class ProjectServiceTests {
 	}
 
 	void testJoinRequest() {
+		boolean sent = false
+		projectService.mailService = [
+			sendMail: { Closure c -> sent = true }
+		]
 		'Your join request was sent to the project admin' == projectService.join(project, user)
+		assert sent
 		assert !user.isMember(project)
 		assert 1 == ProjectInvite.mongoCollection.count()
 	}
@@ -137,7 +142,12 @@ class ProjectServiceTests {
 		ProjectInvite.mongoCollection.add(email: 'foo@bar.com', projectId: project.id, invited: false)
 		assert 1 == ProjectInvite.mongoCollection.count()
 
+		boolean sent = false
+		projectService.mailService = [
+			sendMail: { Closure c -> sent = true }
+		]
 		projectService.invite(project, ['test@test.com', 'foo@bar.com', 'bar@baz.com'])
+		assert sent
 		user = User.getInstance(user.id)
 		assert user.isMember(project)
 		assert 2 == ProjectInvite.mongoCollection.count()

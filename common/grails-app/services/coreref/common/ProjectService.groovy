@@ -2,6 +2,7 @@ package coreref.common
 
 class ProjectService {
 	static transactional = false
+	def mailService
 
 	def pending(project) {
 		ProjectInvite.findAllInstances(projectId: project.id, blocked: false)
@@ -37,7 +38,7 @@ class ProjectService {
 
 		// request access
 		invite = new ProjectInvite(email: user.email, projectId: project.id)
-		ProjectInvite.mongoCollection.add(invite)
+		sendInvite(invite)
 		return 'Your join request was sent to the project admin'
 	}
 
@@ -74,7 +75,8 @@ class ProjectService {
 					}
 				} else {
 					// add a new invite
-					ProjectInvite.mongoCollection.add(email: email, projectId: project.id, invited: true, blocked: false)
+					invite = new ProjectInvite(email: email, projectId: project.id, invited: true, blocked: false)
+					sendInvite(invite)
 				}
 			}
 		}
@@ -127,6 +129,17 @@ class ProjectService {
 			}
 		} else {
 			[]
+		}
+	}
+
+	private sendInvite(invite) {
+		ProjectInvite.mongoCollection.add(invite)
+
+		// email user
+		mailService.sendMail {
+			to invite.email
+			subject "You've been invited to a project on CoreRef"
+			body(view: '/email/invite', model: [invite: invite, project: Project.getInstance(invite.projectId)])
 		}
 	}
 
