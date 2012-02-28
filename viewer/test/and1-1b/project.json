@@ -10,8 +10,8 @@
 		"terminal-depth": 1284.85
 	},
 	"streams": [
-		{ "name": "Split Core Images", "type": "http://coreref.org/types/image/split-core", "url": "http://coreref.org/services/and1-1b/stream/split-core" },
-		{ "name": "Whole Core Images", "type": "http://coreref.org/types/image/whole-core", "url": "http://coreref.org/services/and1-1b/stream/whole-core" },
-		{ "name": "Core Description", "type": "http://coreref.org/types/data/lithology", "url": "http://coreref.org/services/and1-1b/stream/lith" }
+		{ "name": "Split Core Images", "type": "http://coreref.org/types/image/split-core", "url": "split-core1.json" },
+		{ "name": "Whole Core Images", "type": "http://coreref.org/types/image/whole-core", "url": "whole-core1.json" },
+		{ "name": "Visual Core Description", "type": "http://coreref.org/types/data/lithology", "url": "lith1.json" }
 	]
 }
