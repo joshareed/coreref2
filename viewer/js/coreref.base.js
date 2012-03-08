@@ -1,7 +1,29 @@
 // requires: jquery
 
 // setup the coreref namespace
-var coreref = coreref || {};
+var coreref = coreref || {
+	buildURL: function(root, url) {
+		"use strict";
+		if (!root || !url) { return url; }
+		var foo = url.toLowerCase();
+		if (foo.indexOf("http:") === 0 || foo.indexOf("https:") === 0 || foo.indexOf("file:") === 0 ||
+			foo.indexOf("/") === 0 || foo.indexOf(root) === 0) {
+			return url;
+		} else {
+			return root + url;
+		}
+	},
+	extractRoot: function(root, url) {
+		"use strict";
+		if (root || !url) { return root; }
+		var i = url.lastIndexOf("/");
+		if (i >= 0) {
+			return url.substring(0, i + 1);
+		} else {
+			return "";
+		}
+	}
+};
 
 // coreref.Stream provide a sorted stream of data
 coreref.Stream = function(options) {
@@ -25,7 +47,7 @@ coreref.Stream = function(options) {
 			$this.add(json.data[i]);
 		}
 		if (json.paging && json.paging.next) {
-			jQuery.getJSON($this.root + json.paging.next, function(foo) {
+			jQuery.getJSON(coreref.buildURL($this.root, json.paging.next), function(foo) {
 				handleData(foo);
 			});
 		} else {
@@ -59,7 +81,7 @@ coreref.Stream = function(options) {
 	this.init = function(options) {
 		this.name = options.name || "";
 		this.type = options.type || "";
-		this.root = options.root || "";
+		this.root = coreref.extractRoot(options.root || "", options.url || "");
 
 		if (options.data) {
 			for (var i = 0; i < options.data.length; i++) {
@@ -67,7 +89,7 @@ coreref.Stream = function(options) {
 			}
 			fireReady();
 		} else if (options.url) {
-			jQuery.getJSON($this.root + options.url, function(json) {
+			jQuery.getJSON(coreref.buildURL($this.root, options.url || ""), function(json) {
 				handleData(json);
 			});
 		}
@@ -142,9 +164,9 @@ coreref.Project = function(options) {
 
 	// initialize the project
 	if (options) {
-		this.root = options.root || "";
+		this.root = coreref.extractRoot(options.root || '', options.url || '');
 		if (options.url) {
-			jQuery.getJSON(this.root + options.url, function(json) {
+			jQuery.getJSON(coreref.buildURL(this.root, options.url), function(json) {
 				$this.init(json);
 			});
 		} else {
