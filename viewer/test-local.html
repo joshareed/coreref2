@@ -3,25 +3,11 @@
 	<title>Testing</title>
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/coreref.base.js"></script>
+	<script type="text/javascript" src="js/coreref.viewer.js"></script>
 	<script type="text/javascript" charset="utf-8">
 		var project = new coreref.Project();
-		project.ready(function(project) {
-			document.write(project.id + ': ' + project.name + '<br/>');
-			document.write('<p>' + project.description + '</p>');
-			document.write('<ul>');
-			for (var i = 0; i < project.streams.length; i++) {
-				var stream = project.streams[i];
-				document.write('<li>' + stream.name + '[' + stream.type + ']');
-				var all = stream.all();
-				document.write('<ul>');
-				for (var j = 0; j < all.length; j++) {
-					var item = all[j];
-					document.write('<li>' +  item.top + '-' + item.base + ': ' + item.url + '</li>');
-				}
-				document.write('</ul>');
-				document.write('</li>');
-			}
-			document.write('</ul>');
+		var viewer = new coreref.Viewer({
+			project: project
 		});
 	</script>
 
