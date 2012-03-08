@@ -5,6 +5,7 @@ var coreref = coreref || {};
 
 // coreref.Stream provide a sorted stream of data
 coreref.Stream = function(options) {
+	"use strict";
 	// private variables
 	var $this = this,
 		$data = [],
@@ -13,14 +14,14 @@ coreref.Stream = function(options) {
 
 	function fireReady() {
 		$ready = true;
-		for (var i in $readyQueue) {
+		for (var i = 0; i < $readyQueue.length; i++) {
 			$readyQueue[i]($this);
 		}
 	}
 
 	// handle json data
 	function handleData(json) {
-		for (var i in json.data) {
+		for (var i = 0; i < json.data.length; i++) {
 			$this.add(json.data[i]);
 		}
 		if (json.paging && json.paging.next) {
@@ -33,35 +34,35 @@ coreref.Stream = function(options) {
 	}
 
 	// public fields
-	this.root;
-	this.name;
-	this.type;
+	this.root = "";
+	this.name = "";
+	this.type = "";
 
 	// public methods
 	this.all = function() {
 		return $data;
-	}
+	};
 	this.add = function(item) {
 		var insert = 0;
 		while (insert < $data.length && item.top >= $data[insert].top) {
 			insert++;
 		}
 		$data.splice(insert, 0, item);
-	}
+	};
 	this.ready = function(func) {
 		if ($ready) {
 			func.call(this);
 		} else {
 			$readyQueue.push(func);
 		}
-	}
+	};
 	this.init = function(options) {
-		this.name = options.name;
-		this.type = options.type;
+		this.name = options.name || "";
+		this.type = options.type || "";
 		this.root = options.root || "";
 
 		if (options.data) {
-			for (var i in options.data) {
+			for (var i = 0; i < options.data.length; i++) {
 				this.add(options.data[i]);
 			}
 			fireReady();
@@ -70,15 +71,16 @@ coreref.Stream = function(options) {
 				handleData(json);
 			});
 		}
-	}
+	};
 
 	// initialization code
 	if (options) {
 		this.init(options);
 	}
-}
+};
 
 coreref.Project = function(options) {
+	"use strict";
 	// private vairables
 	var $this = this, 
 		$init = false,
@@ -88,19 +90,19 @@ coreref.Project = function(options) {
 	function handleStreamReady(stream) {
 		$readyCount--;
 		if ($readyCount <= 0) {
-			for (var i in $readyQueue) {
+			for (var i = 0; i < $readyQueue.length; i++) {
 				$readyQueue[i]($this);
 			}
 		}
 	}
 
 	// public fields
-	this.root;
-	this.id;
-	this.name;
-	this.description;
-	this.metadata;
-	this.streams;
+	this.root = "";
+	this.id = "";
+	this.name = "";
+	this.description = "";
+	this.metadata = "";
+	this.streams = [];
 
 	this.init = function(options) {
 		$init = true;
@@ -112,7 +114,7 @@ coreref.Project = function(options) {
 		// initialize our streams
 		this.streams = [];
 		if (options.streams) {
-			for (var i in options.streams) {
+			for (var i = 0; i < options.streams.length; i++) {
 				var s = options.streams[i];
 				if (s instanceof coreref.Stream) {
 					this.streams.push(s);
@@ -129,14 +131,14 @@ coreref.Project = function(options) {
 				}
 			}
 		}
-	}
+	};
 	this.ready = function(func) {
 		if ($init && $readyCount <= 0) {
 			func(this);
 		} else {
 			$readyQueue.push(func);
 		}
-	}
+	};
 
 	// initialize the project
 	if (options) {
@@ -149,4 +151,4 @@ coreref.Project = function(options) {
 			this.init(options);
 		}
 	}
-}
+};
