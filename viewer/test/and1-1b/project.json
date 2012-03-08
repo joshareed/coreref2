@@ -10,8 +10,6 @@
 		"terminal-depth": 1284.85
 	},
 	"streams": [
-		{ "name": "Split Core Images", "type": "http://coreref.org/types/image/split-core", "url": "split-core1.json" },
-		{ "name": "Whole Core Images", "type": "http://coreref.org/types/image/whole-core", "url": "whole-core1.json" },
-		{ "name": "Visual Core Description", "type": "http://coreref.org/types/data/lithology", "url": "lith1.json" }
+		{ "name": "Split Core Images", "type": "http://coreref.org/types/image/split-core", "url": "split-core1.json" }
 	]
 }

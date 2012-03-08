@@ -6,107 +6,117 @@ var coreref = coreref || {};
 // coreref.Stream provide a sorted stream of data
 coreref.Stream = function(options) {
 	// private variables
-	var _this = this;
-	var _data = [];
-	var _ready = false;
-	var _readyQueue = [];
+	var $this = this,
+		$data = [],
+		$ready = false,
+		$readyQueue = [];
+
+	function fireReady() {
+		$ready = true;
+		for (var i in $readyQueue) {
+			$readyQueue[i]($this);
+		}
+	}
 
 	// handle json data
-	var handleData = function(json) {
-		for (var i = 0; i < json.data.length; i++) {
-			_this.add(json.data[i]);
+	function handleData(json) {
+		for (var i in json.data) {
+			$this.add(json.data[i]);
 		}
 		if (json.paging && json.paging.next) {
-			jQuery.getJSON(root + json.paging.next, function(foo) {
+			jQuery.getJSON($this.root + json.paging.next, function(foo) {
 				handleData(foo);
 			});
 		} else {
-			_ready = true;
-			for (var i = 0; i < _readyQueue.length; i++) {
-				_readyQueue[i](_this);
-			}
+			fireReady();
 		}
 	}
 
 	// public fields
-	this.name = options.name;
-	this.type = options.type;
+	this.root;
+	this.name;
+	this.type;
 
 	// public methods
 	this.all = function() {
-		return _data;
+		return $data;
 	}
 	this.add = function(item) {
 		var insert = 0;
-		while (insert < _data.length && item.top >= _data[insert].top) {
+		while (insert < $data.length && item.top >= $data[insert].top) {
 			insert++;
 		}
-		_data.splice(insert, 0, item);
+		$data.splice(insert, 0, item);
 	}
 	this.ready = function(func) {
-		if (_ready) {
+		if ($ready) {
 			func.call(this);
 		} else {
-			_readyQueue.push(func);
+			$readyQueue.push(func);
+		}
+	}
+	this.init = function(options) {
+		this.name = options.name;
+		this.type = options.type;
+		this.root = options.root || "";
+
+		if (options.data) {
+			for (var i in options.data) {
+				this.add(options.data[i]);
+			}
+			fireReady();
+		} else if (options.url) {
+			jQuery.getJSON($this.root + options.url, function(json) {
+				handleData(json);
+			});
 		}
 	}
 
 	// initialization code
-	if (options.data) {
-		for (var i = 0; i < options.data.length; i++) {
-			this.add(options.data[i]);
-		}
-		_ready = true;
-	} else if (options.url) {
-		var root = options.root || '';
-		jQuery.getJSON(root + options.url, function(json) {
-			handleData(json);
-		});
+	if (options) {
+		this.init(options);
 	}
 }
 
 coreref.Project = function(options) {
 	// private vairables
-	var _this;
-	var _init = false;
-	var _readyCount = 0;
-	var _readyQueue = [];
+	var $this = this, 
+		$init = false,
+		$readyCount = 0,
+		$readyQueue = [];
 
-	var handleStreamReady = function(stream) {
-		_readyCount--;
-		if (_readyCount <= 0) {
-			for (var i = 0; i < _readyQueue.length; i++) {
-				_readyQueue[i](_this);
+	function handleStreamReady(stream) {
+		$readyCount--;
+		if ($readyCount <= 0) {
+			for (var i in $readyQueue) {
+				$readyQueue[i]($this);
 			}
 		}
 	}
 
 	// public fields
+	this.root;
 	this.id;
 	this.name;
 	this.description;
 	this.metadata;
 	this.streams;
-	this.root;
 
 	this.init = function(options) {
-		if (!options) { return; }
-		_init = true;
-		_this = this;
+		$init = true;
 		this.id = options.id || "";
 		this.name = options.name || "";
 		this.description = options.description || "";
 		this.metadata = options.metadata || {};
-		this.root = options.root || '';
 
 		// initialize our streams
 		this.streams = [];
 		if (options.streams) {
-			for (var i = 0; i < options.streams.length; i++) {
+			for (var i in options.streams) {
 				var s = options.streams[i];
 				if (s instanceof coreref.Stream) {
 					this.streams.push(s);
-					_readyCount++;
+					$readyCount++;
 					s.ready(handleStreamReady);
 				} else {
 					if (this.root) {
@@ -114,20 +124,29 @@ coreref.Project = function(options) {
 					}
 					var stream = new coreref.Stream(s);
 					this.streams.push(stream);
-					_readyCount++;
+					$readyCount++;
 					stream.ready(handleStreamReady);
 				}
 			}
 		}
 	}
 	this.ready = function(func) {
-		if (_init && _readyCount <= 0) {
+		if ($init && $readyCount <= 0) {
 			func(this);
 		} else {
-			_readyQueue.push(func);
+			$readyQueue.push(func);
 		}
 	}
 
 	// initialize the project
-	this.init(options);
+	if (options) {
+		this.root = options.root || "";
+		if (options.url) {
+			jQuery.getJSON(this.root + options.url, function(json) {
+				$this.init(json);
+			});
+		} else {
+			this.init(options);
+		}
+	}
 }
