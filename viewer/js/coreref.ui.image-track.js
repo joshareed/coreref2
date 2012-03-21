@@ -8,6 +8,13 @@ coreref.ui.ImageTrack = function(options) {
 		_drag,
 		_offset = 0;
 
+	this.lookAt = function(phys) {
+		_offset = -phys * options.scale;
+		if ($container) {
+			$container.css('left', _offset + 'px');
+		}
+	};
+
 	this.fetch = function() {
 		var left = 0 - $container.position().left;
 		var right = left + $track.width();
@@ -65,7 +72,10 @@ coreref.ui.ImageTrack = function(options) {
 
 		if (options.track) {
 			$track = $(options.track);
-			$container = $('<div></div>').addClass('container').css('position', 'absolute').appendTo($track);
+			$container = $('<div></div>').addClass('container').css({
+				position: 'absolute',
+				left: _offset + 'px'
+			}).appendTo($track);
 			$track.bind('dragstart', function(event) {
 				_drag = event;
 			}).bind('drag', function(event) {
