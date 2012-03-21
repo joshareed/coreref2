@@ -2,13 +2,41 @@
 <head>
 	<title>Testing</title>
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.event.drag-2.0.min.js"></script>
 	<script type="text/javascript" src="js/coreref.base.js"></script>
-	<script type="text/javascript" src="js/coreref.viewer.js"></script>
+	<script type="text/javascript" src="js/coreref.ui.js"></script>
+	<script type="text/javascript" src="js/coreref.ui.image-track.js"></script>
 	<script type="text/javascript" charset="utf-8">
-		var viewer = new coreref.Viewer({ project: 'http://localhost:8081/services/projects/iodp/1201D' });
+		var project = new coreref.Project({ url: 'test/and1-1b/project.json' });
+		var images = new coreref.ui.ImageTrack({
+			project: project,
+			stream: 'Split Core Images',
+			track: '#images',
+			scale: 250
+		});
 	</script>
+	<style type="text/css" media="screen">
+		#images {
+			border: 4px solid #C00;
+			border-radius: 5px;
+			overflow: hidden;
+			position: relative;
+			min-height: 50px;
+		}
+
+		#images .img {
+			display: inline-block;
+			position: absolute;
+			background-color: #fff;
+		}
+		#images .img.loading {
+			border: none;
+			background-color: #aaa;
+		}
+	</style>
 </head>
 <body>
 
+	<div id="images" class="track"></div>
 </body>
 </html>

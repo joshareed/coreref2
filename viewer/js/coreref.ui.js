@@ -1,0 +1,1 @@
+coreref.ui = coreref.ui || { };
