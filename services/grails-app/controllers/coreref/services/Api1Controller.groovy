@@ -63,5 +63,7 @@ class Api1Controller {
 		response.contentType = 'image/jpeg'
 		response.outputStream << out.newInputStream()
 		response.outputStream.flush()
+		out.delete()
+		temp.delete()
 	}
 }
